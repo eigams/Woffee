@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TipR : NSObject
+@interface VenueTip : NSObject
+
+@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, strong) NSNumber *createdAt;
+@property (nonatomic, copy) NSString *text;
 
 @end

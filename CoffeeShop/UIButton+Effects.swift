@@ -22,22 +22,34 @@ extension UIButton {
         let middleHelperButton = self.createHelperButton()
         let smallHelperButton = self.createHelperButton()
         
-        var largeHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 5)
-        let completion = { largeHelperButton.hidden = true }
-        let holder = CompletionBlockHolder()
+        var largeHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 10)
+        var completion = { largeHelperButton.removeFromSuperview() }
+        var holder = CompletionBlockHolder()
         holder.block = completion
         
-        largeHelperFadeOutAnimation.setValue(holder, forKey: "completion")
+        largeHelperFadeOutAnimation.setValue(holder, forKey: "completionLarge")
         largeHelperButton.layer.addAnimation(largeHelperFadeOutAnimation, forKey: "opacity")
         
         largeHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
-        largeHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.8), duration: 1.3, repeatCount: 5), forKey: nil)
+        largeHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.8), duration: 1.3, repeatCount: 10), forKey: nil)
 
-        middleHelperButton.layer.addAnimation(createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: FLT_MAX), forKey: nil)
-        middleHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: FLT_MAX), forKey: nil)
+        let middleHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
+        completion = { middleHelperButton.removeFromSuperview() }
+        holder.block = completion
 
-        smallHelperButton.layer.addAnimation(createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: FLT_MAX), forKey: nil)
-        smallHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.3), duration: 1.3, repeatCount: FLT_MAX), forKey: nil)
+        middleHelperFadeOutAnimation.setValue(holder, forKey: "completionMiddle")
+        middleHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
+        middleHelperButton.layer.addAnimation(middleHelperFadeOutAnimation, forKey: nil)
+        middleHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20), forKey: nil)
+
+        let smallHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
+        completion = { largeHelperButton.removeFromSuperview() }
+        holder.block = completion
+        
+        smallHelperFadeOutAnimation.setValue(holder, forKey: "completionSmall")
+        smallHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
+        smallHelperButton.layer.addAnimation(smallHelperFadeOutAnimation, forKey: nil)
+        smallHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.3), duration: 1.3, repeatCount: 20), forKey: nil)
     }
     
     private func createHelperButton() -> UIButton {
@@ -46,7 +58,7 @@ extension UIButton {
         let buttonHeight:CGFloat = 44.0
         
         let button = UIButton(frame: CGRectMake(self.frame.origin.x, self.frame.origin.y, buttonWidth, buttonHeight))
-        button.backgroundColor = UIColor.blackColor()
+        button.backgroundColor = self.backgroundColor
         button.layer.cornerRadius = 22.0
         button.userInteractionEnabled = false
         
@@ -92,7 +104,21 @@ extension UIButton {
     }
     
     override public func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
-        let completion = anim.valueForKey("completion") as! CompletionBlockHolder
-        completion.block()
+        
+        if nil == anim {
+            return
+        }
+        
+        var completion = anim.valueForKey("completionLarge") as? CompletionBlockHolder
+        if nil == completion {
+            completion = anim.valueForKey("completionMiddle") as? CompletionBlockHolder
+        }
+        else {
+            if nil == completion {
+                completion = anim.valueForKey("completionSmall") as? CompletionBlockHolder
+            }
+        }
+        
+        completion?.block()
     }
 }

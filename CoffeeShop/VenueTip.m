@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Stefan Burettea. All rights reserved.
 //
 
-#import "TipR.h"
+#import "VenueTip.h"
 
-@implementation TipR
+@implementation VenueTip
 
 @end

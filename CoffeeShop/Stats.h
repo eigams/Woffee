@@ -10,4 +10,8 @@
 
 @interface Stats : NSObject
 
+@property (nonatomic, strong) NSNumber *checkins;
+@property (nonatomic, strong) NSNumber *tips;
+@property (nonatomic, strong) NSNumber *users;
+
 @end

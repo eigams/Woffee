@@ -10,4 +10,8 @@
 
 @implementation Stats
 
+@synthesize checkins;
+@synthesize tips;
+@synthesize users;
+
 @end

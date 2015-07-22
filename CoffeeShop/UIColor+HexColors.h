@@ -1,13 +1,16 @@
 //
-//  UIColor+UIColor_HexColors.h
-//  CoffeeShop
+//  UIColor+HexColors.h
+//  KiwiHarness
 //
-//  Created by Stefan Buretea on 4/22/15.
-//  Copyright (c) 2015 Stefan Burettea. All rights reserved.
+//  Created by Tim on 07/09/2012.
+//  Copyright (c) 2012 Charismatic Megafauna Ltd. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (UIColor_HexColors)
+@interface UIColor (HexColors)
+
++(UIColor *)colorWithHexString:(NSString *)hexString;
++(NSString *)hexValuesFromUIColor:(UIColor *)color;
 
 @end

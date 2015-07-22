@@ -8,14 +8,10 @@
 
 import UIKit
 
-class WCPulsatingButton: UIButton {
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
+extension UIButton {
+    
+    func addPulseEffect() {
+        
     }
-    */
-
+    
 }

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Groups : NSObject
+@interface Group : NSObject
+
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) NSArray *items;
 
 @end

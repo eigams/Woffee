@@ -10,4 +10,14 @@
 
 @interface VenueCell : UITableViewCell
 
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *streetAddress;
+@property (weak, nonatomic) IBOutlet UILabel *cityPostCodeAddress;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *previewImage;
+@property (weak, nonatomic) IBOutlet UILabel *openingHoursLabel;
+
+
 @end

@@ -7,11 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import <RestKit/RestKit.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     // Override point for customization after application launch.
     return YES;
 }

@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Stefan Burettea. All rights reserved.
 //
 
-#import "Groups.h"
+#import "Group.h"
 
-@implementation Groups
+@implementation Group
+
 
 @end
