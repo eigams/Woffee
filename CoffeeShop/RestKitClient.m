@@ -14,10 +14,17 @@
 #import "GroupItems.h"
 #import "Venue.h"
 
+@interface RestKitConfigurator : NSObject
 
-@implementation RestKitClient
++ (void)generalConfiguration;
++ (void)venueTipsResponsesConfiguration;
++ (void)venuePhotosResponsesConfiguration;
 
-+ (void)configureRestKit {
+@end
+
+@implementation RestKitConfigurator
+
++ (void)generalConfiguration {
     
     NSURL *baseURL = [NSURL URLWithString:@"https://api.foursquare.com/v2"];
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
@@ -30,7 +37,7 @@
                                                        @"id": @"identifier",
                                                        @"rating": @"rating",
                                                        @"ratingColor": @"ratingColor"}];
-
+    
     RKObjectMapping *priceMapping = [RKObjectMapping mappingForClass:[Price class]];
     [priceMapping addAttributeMappingsFromDictionary:@{@"tier" : @"tier",
                                                        @"message": @"message",
@@ -82,8 +89,7 @@
     [objectManager addResponseDescriptor:responseDescriptor];
 }
 
-+ (void)configureRestKitForVenueTipsResponses {
-    
++ (void) venueTipsResponsesConfiguration {
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     
     RKObjectMapping *tipsMapping = [RKObjectMapping mappingForClass:[VenueTip class]];
@@ -95,29 +101,42 @@
     [objectManager addResponseDescriptor:responseDescriptor];
 }
 
-+ (void)configureRestKitForVenuePhotosResponses {
++ (void)venuePhotosResponsesConfiguration {
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     
     RKObjectMapping *photoMapping = [RKObjectMapping mappingForClass:[Photo class]];
     [photoMapping addAttributeMappingsFromDictionary:@{ @"id": @"identifier",
-                                                       @"createdAt": @"createdAt",
-                                                       @"width": @"width",
-                                                       @"height": @"height",
-                                                       @"prefix": @"prefix",
-                                                       @"suffix": @"suffix",
-                                                       @"visibility": @"visibility" }];
+                                                        @"createdAt": @"createdAt",
+                                                        @"width": @"width",
+                                                        @"height": @"height",
+                                                        @"prefix": @"prefix",
+                                                        @"suffix": @"suffix",
+                                                        @"visibility": @"visibility" }];
     
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:photoMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"response.photos.items" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     [objectManager addResponseDescriptor:responseDescriptor];
 }
 
+@end
+
+@protocol IRequestBuilder <NSObject>
+
+- (NSDictionary *)requestWithLocation:(CLLocation *)location radius:(NSString *)query eXtraParam:(NSString *)param;
+
+@end
+
+@interface QueryRequestBuilder : NSObject<IRequestBuilder>
+
+@end
 
 static const char *kCLIENTID = "ZZCLOTJ2RO5TY5LVDUVVUOWW41VN2PGQXHEL1IR3U14XEZTC";
 static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSYF43N";
 
-+ (NSDictionary *)requestWithLocation:(CLLocation *)location query:(NSString *)query radius:(NSString *)radius {
+@implementation QueryRequestBuilder
+
+- (NSDictionary *)requestWithLocation:(CLLocation *)location radius:(NSString *)radius eXtraParam:(NSString *)param {
     
     NSString *latLon = [NSString stringWithFormat:@"%.8f,%.8f", location.coordinate.latitude, location.coordinate.longitude];
     NSString *clientID = [NSString stringWithUTF8String:kCLIENTID];
@@ -126,7 +145,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:latLon, @"ll",
                                  clientID, @"client_id",
                                  clientSecret, @"client_secret",
-                                 query, @"query",
+                                 param, @"query",
                                  @"20150420", @"v",
                                  radius, @"radius",
                                  @"1", @"sortByDistance",
@@ -135,9 +154,16 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     return queryParams;
 }
 
-+ (NSDictionary *)requestWithLocation:(CLLocation *)location section:(NSString *)section radius:(NSString *)radius{
+@end
+
+@interface SectionRequestBuilder : NSObject<IRequestBuilder>
+
+@end
+
+@implementation SectionRequestBuilder
+
+- (NSDictionary *)requestWithLocation:(CLLocation *)location radius:(NSString *)radius eXtraParam:(NSString *)param {
     
-//    NSString *latLon = [NSString stringWithFormat:@"51.5148,-0.1432"];//, location.coordinate.latitude, location.coordinate.longitude];
     NSString *latLon = [NSString stringWithFormat:@"%.8f,%.8f", location.coordinate.latitude, location.coordinate.longitude];
     NSString *clientID = [NSString stringWithUTF8String:kCLIENTID];
     NSString *clientSecret = [NSString stringWithUTF8String:kCLIENTSECRET];
@@ -145,7 +171,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:latLon, @"ll",
                                  clientID, @"client_id",
                                  clientSecret, @"client_secret",
-                                 section, @"section",
+                                 param, @"section",
                                  @"20150420", @"v",
                                  radius, @"radius",
                                  @"1", @"sortByDistance",
@@ -154,43 +180,69 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     return queryParams;
 }
 
-+ (void)getWifiTaggedVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion {
-    [[self class] sendRequestWithLocation:location query:@"wifi" radius:radius completion:completion];
+@end
+
+
+@implementation RestKitClient
+
++ (void)getWifiTaggedVenues:(CLLocation *)location
+                     radius:(NSString *)radius
+                 completion:(void (^)(NSArray *, NSError *))completion {
+    
+    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
-+ (void)getDefaultWifiEnabledVenues:(CLLocation *)location query:(NSString *)venueName radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion {
-    [[self class] sendRequestWithLocation:location query:venueName radius:radius completion:completion];
++ (void)getDefaultWifiEnabledVenues:(CLLocation *)location
+                              query:(NSString *)venueName
+                             radius:(NSString *)radius
+                         completion:(void (^)(NSArray *, NSError *))completion {
+    
+    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
-+ (void)getStarbucksVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion {
++ (void)getStarbucksVenues:(CLLocation *)location
+                    radius:(NSString *)radius
+                completion:(void (^)(NSArray *, NSError *))completion {
     
-    [[self class] sendRequestWithLocation:location query:@"starbucks" radius:radius completion:completion];
+    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
-+ (void)getFoodVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion {
++ (void)getFoodVenues:(CLLocation *)location
+               radius:(NSString *)radius
+           completion:(void (^)(NSArray *, NSError *))completion {
     
-    [[self class] sendRequestWithLocation:location section:@"food" radius:radius completion:completion];
+    id<IRequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
+    [[self class] getVenues:location radius:radius requestBuilder:sectionRequest completion:completion];
 }
 
-+ (void)getCoffeeVenues:(CLLocation *)location radius:radius completion:(void (^)(NSArray *, NSError *))completion {
-    
-    [[self class] sendRequestWithLocation:location section:@"coffee" radius:radius completion:completion];
++ (void)getCoffeeVenues:(CLLocation *)location
+                 radius:(NSString *)radius
+             completion:(void (^)(NSArray *, NSError *))completion {
+
+    id<IRequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
+
+    [[self class] getVenues:location radius:radius requestBuilder:sectionRequest completion:completion];
 }
 
-+ (NSDictionary *)requestForVenueTips:(NSString *)venueIdentifier {
++ (void)getVenues:(CLLocation *)location
+           radius:(NSString *)radius
+   requestBuilder:(id<IRequestBuilder>)requestBuilder
+       completion:(void (^)(NSArray *, NSError *))completion {
     
-    NSString *clientID = [NSString stringWithUTF8String:kCLIENTID];
-    NSString *clientSecret = [NSString stringWithUTF8String:kCLIENTSECRET];
+    NSDictionary *request = [requestBuilder requestWithLocation:location radius:radius eXtraParam:@"coffee"];
     
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys: clientID, @"client_id",
-                                 clientSecret, @"client_secret",
-                                 @"20150420", @"v", nil];
-    
-    return queryParams;
+    [[self class] sendRequestWithLocation:location requestParams:request completion:completion];
 }
+
+
+static NSString *const VERSION = @"20151030";
+static NSString *const SORT_CRITERIA_RECENT = @"";
 
 + (void)getVenueTips:(NSArray *)venueIdentifiers completion:(void (^)(NSDictionary *, NSError *))completion {
-
+    
     if ([venueIdentifiers count] < 1) {
         NSLog(@"ERROR: no venue identifiers to look for !!!");
         
@@ -199,11 +251,11 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     
     NSDictionary *queryParams = @{ @"client_id"    : [NSString stringWithUTF8String:kCLIENTID],
                                    @"client_secret": [NSString stringWithUTF8String:kCLIENTSECRET],
-                                   @"v"            : @"20150420",
+                                   @"v"            : VERSION,
                                    @"sort"         : @"recent"
-                                 };
+                                   };
     
-    [[self class] configureRestKitForVenueTipsResponses];
+    [RestKitConfigurator venueTipsResponsesConfiguration];
     
     for (NSString *identifier in venueIdentifiers) {
         
@@ -222,30 +274,17 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                                                   }];
         
     }
-    
-}
-
-+ (NSDictionary *)requestForVenuePhotos:(NSString *)venueIdentifier {
-    
-    NSString *clientID = [NSString stringWithUTF8String:kCLIENTID];
-    NSString *clientSecret = [NSString stringWithUTF8String:kCLIENTSECRET];
-    
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys: clientID, @"client_id",
-                                 clientSecret, @"client_secret",
-                                 @"20150420", @"v", nil];
-    
-    return queryParams;
 }
 
 + (void)getVenuePhotos:(NSString *)venueIdentifier completion:(void (^)(NSArray *, NSError *))completion {
     
     NSDictionary *queryParams = @{ @"client_id"    : [NSString stringWithUTF8String:kCLIENTID],
                                    @"client_secret": [NSString stringWithUTF8String:kCLIENTSECRET],
-                                   @"v"            : @"20150420",
+                                   @"v"            : VERSION,
                                    @"sort"         : @"recent"
                                    };
     
-    [[self class] configureRestKitForVenuePhotosResponses];
+    [RestKitConfigurator venuePhotosResponsesConfiguration];
         
     NSString *urlPath = [NSString stringWithFormat:@"/v2/venues/%@/photos", venueIdentifier];
     [[RKObjectManager sharedManager] getObjectsAtPath:urlPath
@@ -263,27 +302,29 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     
 }
 
+static NSString *const VENUES_PATH = @"/v2/venues/explore";
 + (void)sendRequestWithLocation:(CLLocation *)location
-                          query:(NSString *)query
-                         radius:(NSString *)radius
+                   requestParams: (NSDictionary *)requestParams
                      completion:(void (^)(NSArray *, NSError *))completion {
+    
+    if(nil == location || nil == requestParams) {
+        return ;
+    }
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [[self class] configureRestKit];
+        [RestKitConfigurator generalConfiguration];
     });
     
-    NSDictionary *queryParams = [[self class] requestWithLocation:location query:query radius:radius];
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/v2/venues/explore"
-                                           parameters:queryParams
+    [[RKObjectManager sharedManager] getObjectsAtPath:VENUES_PATH
+                                           parameters:requestParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                   
-                                                  NSArray *result = [mappingResult array];
+                                                  NSArray *results = [mappingResult array];
                                                   
                                                   NSMutableArray *sink = [NSMutableArray array];
                                                   
-                                                  for(Group *group in result) {
+                                                  for(Group *group in results) {
                                                       
                                                       for (GroupItems *gItems in group.items) {
                                                           [sink addObject:gItems.venue];
@@ -297,41 +338,5 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                                                   completion(nil, error);
                                               }];
 }
-
-+ (void)sendRequestWithLocation:(CLLocation *)location
-                        section:(NSString *)section
-                        radius:(NSString *)radius
-                     completion:(void (^)(NSArray *, NSError *))completion {
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [[self class] configureRestKit];
-    });
-    
-    NSDictionary *queryParams = [[self class] requestWithLocation:location section:section radius:radius];
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/v2/venues/explore"
-                                           parameters:queryParams
-                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  
-                                                  NSArray *result = [mappingResult array];
-                                                  
-                                                  NSMutableArray *sink = [NSMutableArray array];
-                                                  
-                                                  for(Group *group in result) {
-                                                      
-                                                      for (GroupItems *gItems in group.items) {
-                                                          [sink addObject:gItems.venue];
-                                                      }
-                                                  }
-                                                  
-                                                  completion(sink, nil);
-                                              }
-                                              failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                  NSLog(@"%@", error);
-                                                  completion(nil, error);
-                                              }];
-}
-
 
 @end

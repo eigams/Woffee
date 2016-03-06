@@ -12,46 +12,46 @@ class CircleTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     weak var transitionContext: UIViewControllerContextTransitioning?
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.5
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         self.transitionContext = transitionContext
         
-        var containerView = transitionContext.containerView()
-        var fromShopsListViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ShopsListViewController
-        var fromShopsMapViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ShopsMapViewController
-        var button = (nil == fromShopsListViewController) ? fromShopsMapViewController?.actionButton : fromShopsListViewController?.actionButton
+        let containerView = transitionContext.containerView()
+        let fromShopsListViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ShopsListViewController
+        let fromShopsMapViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ShopsMapViewController
+        let button = (nil == fromShopsListViewController) ? fromShopsMapViewController?.actionButton : fromShopsListViewController?.actionButton
         
-        var toShopsMapViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? ShopsMapViewController
-        var toShopsListViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? ShopsListViewController
+        let toShopsMapViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? ShopsMapViewController
+        let toShopsListViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? ShopsListViewController
         
         var toViewController: UIViewController! = nil
         if let tvc = toShopsMapViewController {
             toViewController = tvc
-            containerView.addSubview(toViewController.view)
+            containerView!.addSubview(toViewController.view)
         }
         else {
             if let tvc = toShopsListViewController {
-                containerView.addSubview(tvc.view)
+                containerView!.addSubview(tvc.view)
                 toViewController = toShopsListViewController
             }
         }
         
         //4
-        var circleMaskPathInitial = UIBezierPath(ovalInRect: button!.frame)
-        var extremePoint = CGPoint(x: button!.center.x - 0, y: button!.center.y - CGRectGetHeight(toViewController.view.bounds))
-        var radius = sqrt((extremePoint.x*extremePoint.x) + (extremePoint.y*extremePoint.y))
-        var circleMaskPathFinal = UIBezierPath(ovalInRect: CGRectInset(button!.frame, -radius, -radius))
+        let circleMaskPathInitial = UIBezierPath(ovalInRect: button!.frame)
+        let extremePoint = CGPoint(x: button!.center.x - 0, y: button!.center.y - CGRectGetHeight(toViewController.view.bounds))
+        let radius = sqrt((extremePoint.x*extremePoint.x) + (extremePoint.y*extremePoint.y))
+        let circleMaskPathFinal = UIBezierPath(ovalInRect: CGRectInset(button!.frame, -radius, -radius))
         
         //5
-        var maskLayer = CAShapeLayer()
+        let maskLayer = CAShapeLayer()
         maskLayer.path = circleMaskPathFinal.CGPath
         toViewController.view.layer.mask = maskLayer
         
         //6
-        var maskLayerAnimation = CABasicAnimation(keyPath: "path")
+        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
         maskLayerAnimation.fromValue = circleMaskPathInitial.CGPath
         maskLayerAnimation.toValue = circleMaskPathFinal.CGPath
         maskLayerAnimation.duration = self.transitionDuration(transitionContext)
@@ -60,7 +60,7 @@ class CircleTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         
     }
     
-    override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         self.transitionContext?.completeTransition(!self.transitionContext!.transitionWasCancelled())
         self.transitionContext?.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view.layer.mask = nil
     }

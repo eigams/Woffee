@@ -16,7 +16,7 @@ class NavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        var panGesture = UIPanGestureRecognizer(target: self, action: "panned:")
+        let panGesture = UIPanGestureRecognizer(target: self, action: "panned:")
         self.navigationController!.view.addGestureRecognizer(panGesture)
     }
 
@@ -28,13 +28,13 @@ class NavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
             if self.navigationController?.viewControllers.count > 1 {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
-                self.navigationController?.topViewController.performSegueWithIdentifier("PushSegue", sender: nil)
+                self.navigationController?.topViewController!.performSegueWithIdentifier("PushSegue", sender: nil)
             }
             
             //2
         case .Changed:
-            var translation = gestureRecognizer.translationInView(self.navigationController!.view)
-            var completionProgress = -translation.x/CGRectGetWidth(self.navigationController!.view.bounds)
+            let translation = gestureRecognizer.translationInView(self.navigationController!.view)
+            let completionProgress = -translation.x/CGRectGetWidth(self.navigationController!.view.bounds)
             self.interactionController?.updateInteractiveTransition(completionProgress)
             
             //3

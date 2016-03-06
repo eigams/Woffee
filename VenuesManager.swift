@@ -38,6 +38,7 @@ class VenuesManager: NSObject {
     private var coffeeVenues = Set<Venue>()
     private var foodVenues = Set<Venue>()
     private var defaultWifiEnabledVenues = [Set<Venue>]()
+    private let downloadGroup: dispatch_group_t
     
     private let location: CLLocation!
     var delegate: VenuesManagerDelegate?
@@ -48,12 +49,14 @@ class VenuesManager: NSObject {
     override init() {
         
         self.location = CLLocation()
+        self.downloadGroup = dispatch_group_create()
         
         super.init()
     }
     
     init(location: CLLocation) {
         self.location = location
+        self.downloadGroup = dispatch_group_create()
         
         super.init()
     }
@@ -79,6 +82,10 @@ class VenuesManager: NSObject {
     
     private func getStarbucks(input: NSArray) -> Set<Venue> {
         
+        guard input.count > 0 else {
+            return Set<Venue>()
+        }
+        
         let starbucks = Set<Venue>()
         
         let venues = getVenues(input)
@@ -90,24 +97,29 @@ class VenuesManager: NSObject {
         
         let distance = "2000"
         
+        dispatch_group_enter(self.downloadGroup)
         RestKitClient.getWifiTaggedVenues(self.location, radius: distance, completion: { (results: [AnyObject]?, error: NSError?) -> Void in
             
-            if let err = error {
-                println("\(error)")
-                self.delegate?.didFailToFindVenueWithError(error!)
+            defer {
+                dispatch_group_leave(self.downloadGroup)
+            }
+            
+            if let error = error {
+                print("\(error)")
+                self.delegate?.didFailToFindVenueWithError(error)
                 self.delegate?.didFinishLookingForVenues()
                 
                 return
             }
             
-            if results?.count < 1 {
-                return ;
+            guard let results = results where results.count >= 1 else {
+                return
             }
             
-            var wifiTaggedVenues:[Venue] = (results as! [Venue])
+            let wifiTaggedVenues:[Venue] = (results as! [Venue])
             
-            var closeByVenues = wifiTaggedVenues.filter {
-                return $0.location.distance.intValue < Int32(distance.toInt()!)
+            let closeByVenues = wifiTaggedVenues.filter {
+                return $0.location.distance.intValue < Int32(Int(distance)!)
             }
             
             if self._venues.isEmpty {
@@ -146,11 +158,16 @@ class VenuesManager: NSObject {
         let distance = "2500"
         for venue in self.defaultWifiEnabledVenueNames {
             
-            RestKitClient.getDefaultWifiEnabledVenues(self.location, query: venue, radius: distance, completion: { (results: [AnyObject]!, error: NSError!) -> Void in
+            dispatch_group_enter(self.downloadGroup)
+            RestKitClient.getDefaultWifiEnabledVenues(self.location, query: venue, radius: distance, completion: { (results: [AnyObject]!, error: NSError?) -> Void in
                 
-                if let err = error {
-                    println("\(error)")
-                    self.delegate?.didFailToFindVenueWithError(error!)
+                defer {
+                    dispatch_group_leave(self.downloadGroup)
+                }
+                
+                if let error = error {
+                    print("\(error)")
+                    self.delegate?.didFailToFindVenueWithError(error)
                     
                     if self.finishedLookingForVenues() {
                         self.delegate?.didFinishLookingForVenues()
@@ -159,16 +176,16 @@ class VenuesManager: NSObject {
                     return
                 }
                 
-                var defaultVenues:[Venue] = (results as! [Venue])
+                let defaultVenues:[Venue] = (results as! [Venue])
                 
-                let integerDistance = Int32(distance.toInt()!)
-                var closeByVenues = defaultVenues.filter({ $0.location.distance.intValue < integerDistance })
+                let integerDistance = Int32(Int(distance)!)
+                let closeByVenues = defaultVenues.filter({ $0.location.distance.intValue < integerDistance })
                 
                 if self._venues.isEmpty {
                     self.delegate?.didStartLookingForVenues?()
                 }
                 
-                var wirelessEnabledVenues = VenuesManager.makeUniqueVenueSequence(&self._venues, breed: Set<Venue>(closeByVenues))
+                let wirelessEnabledVenues = VenuesManager.makeUniqueVenueSequence(&self._venues, breed: Set<Venue>(closeByVenues))
                 self.defaultWifiEnabledVenues.append(wirelessEnabledVenues)
                 
                 for venue in wirelessEnabledVenues {
@@ -182,9 +199,9 @@ class VenuesManager: NSObject {
         
     private func processRequestVenueResponse(results: [AnyObject]?, error: NSError?, inout container: Set<Venue>) {
         
-        if let err = error {
-            println("\(error)")
-            self.delegate?.didFailToFindVenueWithError(error!)
+        if let error = error {
+            print("\(error)")
+            self.delegate?.didFailToFindVenueWithError(error)
             self.delegate?.didFinishLookingForVenues()
             
             return
@@ -198,14 +215,14 @@ class VenuesManager: NSObject {
             self.delegate?.didStartLookingForVenues?()
         }
         
-        var sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
+        let sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
         
         objc_sync_enter(self._venues)
         container = VenuesManager.makeUniqueVenueSequence(&self._venues, breed: Set<Venue>(sink as! Array<Venue>))
         objc_sync_exit(self._venues)
         
         //3. get venues id
-        var identifiers = Array(container).map {
+        let identifiers = Array(container).map {
             (venue) -> String in
             
             return venue.identifier
@@ -216,11 +233,14 @@ class VenuesManager: NSObject {
     
     private func getCoffeeVenues() {
         
+        dispatch_group_enter(self.downloadGroup)
         RestKitClient.getCoffeeVenues(self.location, radius: "2500", completion: { (results: [AnyObject]?, error: NSError?) -> Void in
             
-            if let err = error {
-                println("\(error)")
-                self.delegate?.didFailToFindVenueWithError(error!)
+            defer { dispatch_group_leave(self.downloadGroup) }
+            
+            if let error = error {
+                print("\(error)")
+                self.delegate?.didFailToFindVenueWithError(error)
                 self.delegate?.didFinishLookingForVenues()
                 
                 return
@@ -234,15 +254,15 @@ class VenuesManager: NSObject {
                 self.delegate?.didStartLookingForVenues?()
             }
             
-            var sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
+            let sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
             
             objc_sync_enter(self._venues)
             self.coffeeVenues = VenuesManager.makeUniqueVenueSequence(&self._venues, breed: Set<Venue>(sink as! Array<Venue>))
-            println("self.coffeeVenues.size: \(self.coffeeVenues.count) - self._venues.size: \(self._venues.count)")
+            print("self.coffeeVenues.size: \(self.coffeeVenues.count) - self._venues.size: \(self._venues.count)")
             objc_sync_exit(self._venues)
             
             //3. get venues id
-            var identifiers = Array(self.coffeeVenues).map {
+            let identifiers = Array(self.coffeeVenues).map {
                 (venue) -> String in
                 
                 return venue.identifier
@@ -254,11 +274,14 @@ class VenuesManager: NSObject {
     
     private func getFoodVenues() {
         
+        dispatch_group_enter(self.downloadGroup)
         RestKitClient.getFoodVenues(self.location, radius: "2500", completion: { (results: [AnyObject]?, error: NSError?) -> Void in
             
-            if let err = error {
-                println("\(error)")
-                self.delegate?.didFailToFindVenueWithError(error!)
+            defer { dispatch_group_leave(self.downloadGroup) }
+            
+            if let error = error {
+                print("\(error)")
+                self.delegate?.didFailToFindVenueWithError(error)
                 self.delegate?.didFinishLookingForVenues()
                 
                 return
@@ -272,14 +295,14 @@ class VenuesManager: NSObject {
                 self.delegate?.didStartLookingForVenues?()
             }
             
-            var sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
+            let sink = results!.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
             
             objc_sync_enter(self._venues)
             self.foodVenues = VenuesManager.makeUniqueVenueSequence(&self._venues, breed: Set<Venue>(sink as! Array<Venue>))
             objc_sync_exit(self._venues)
 
             //3. get venues id
-            var identifiers = Array(self.foodVenues).map {
+            let identifiers = Array(self.foodVenues).map {
                 (venue) -> String in
                 
                 return venue.identifier
@@ -289,7 +312,7 @@ class VenuesManager: NSObject {
         })
     }
     
-    func venuesWithWIFI() {
+    func lookForVenuesWithWIFI() {
         
         self.delegate?.didStartLookingForVenues?()
         
@@ -304,12 +327,16 @@ class VenuesManager: NSObject {
     
     private func getVenuesTips(venuesIdentifiers: [String]?) {
         
-        if let ids = venuesIdentifiers {
-            
-            if ids.isEmpty {
-                return
-            }
-            
+        guard let ids = venuesIdentifiers where ids.isEmpty == false else {
+            return
+        }
+        
+//        if let ids = venuesIdentifiers {
+//            
+//            if ids.isEmpty {
+//                return
+//            }
+        
             var venuesContainer = self._venues
             
             if venuesIdentifiers?.count == self.coffeeVenues.count {
@@ -324,9 +351,9 @@ class VenuesManager: NSObject {
             //4. get all tips for venues id
             RestKitClient.getVenueTips(venuesIdentifiers, completion: { (result: [NSObject : AnyObject]?, error: NSError?) -> Void in
                 
-                if let err = error {
+                if let error = error {
                     
-                    self.delegate?.didFailToFindVenueWithError(error!)
+                    self.delegate?.didFailToFindVenueWithError(error)
                     if self.finishedLookingForVenues() {
                         self.delegate?.didFinishLookingForVenues()
                     }
@@ -338,7 +365,7 @@ class VenuesManager: NSObject {
                 let tips = result!.values.first as! [AnyObject]
                 var wifiTipVenueIdentifier = ""
                 
-                var tipResult = tips.filter { (tip) -> Bool in
+                let tipResult = tips.filter { (tip) -> Bool in
                     return self.isWifiTip(tip as! VenueTip)
                 }
                 
@@ -347,9 +374,9 @@ class VenuesManager: NSObject {
                 }
                 
                 if wifiTipVenueIdentifier.isEmpty {
-                    var venues = Array<Venue>(venuesContainer).filter { $0.identifier == key }
-                    var v = venues.first as Venue?
-                    var result = self.removeProcessedVenue(v!)
+                    let venues = Array<Venue>(venuesContainer).filter { $0.identifier == key }
+                    let v = venues.first as Venue?
+                    let result = self.removeProcessedVenue(v!)
                     if result.isEmpty {
                         self.delegate?.didFindWirelessVenuesGroup()
                         
@@ -359,28 +386,28 @@ class VenuesManager: NSObject {
                     }
                 }
                 else {
-                    var wifiVenue = self.venuesWithWifiTips(wifiTipVenueIdentifier)
-                    if let v = wifiVenue {
+                    let wifiVenue = self.venuesWithWifiTips(wifiTipVenueIdentifier)
+                    if let _ = wifiVenue {
                         self.getVenuePhoto(wifiVenue!, completion: nil)
                     }
                 }
             })
 
-        }
+//        }
     }
     
     private func getVenueIdentifiers(completion: ((Venue?, NSError?) -> Void)?) {
         
         //2. we process starbucks separately
-        var sink = Array<Venue>(self._venues)
-        sink = sink.filter{ (venue) in venue.name.lowercaseString.rangeOfString("starbucks") == nil }
+        let identifiers = Array<Venue>(self._venues).filter({ $0.name.lowercaseString.rangeOfString("starbucks") == nil })
+                                                    .map({ (venue) -> String in return venue.identifier })
         
         //3. get venues id
-        var identifiers = sink.map {
-            (venue) -> String in
-            
-            return venue.identifier
-        }
+//        let identifierss = sink.map ({
+//            (venue) -> String in
+//            
+//            return venue.identifier
+//        })
         
         self.getVenuesTips(identifiers)
     }
@@ -392,7 +419,7 @@ class VenuesManager: NSObject {
             if container.contains(venue) {
                 sink.remove(venue)
                 if sink.isEmpty {
-                    println("self.wifiTaggedVenues.isEmpty")
+                    print("self.wifiTaggedVenues.isEmpty")
                 }
             }
             
@@ -407,7 +434,7 @@ class VenuesManager: NSObject {
         if !self.wifiTaggedVenues.isEmpty && self.wifiTaggedVenues.contains(venue) {
             self.wifiTaggedVenues.remove(venue)
             if self.wifiTaggedVenues.isEmpty {
-                println("self.wifiTaggedVenues.isEmpty")
+                print("self.wifiTaggedVenues.isEmpty")
             }
             return self.wifiTaggedVenues
         }
@@ -415,17 +442,17 @@ class VenuesManager: NSObject {
         if !self.foodVenues.isEmpty && self.foodVenues.contains(venue) {
             self.foodVenues.remove(venue)
             if self.foodVenues.isEmpty {
-                println("self.foodVenues.isEmpty")
+                print("self.foodVenues.isEmpty")
             }
             
-            println("self.foodVenues.size \(self.foodVenues.count)")
+            print("self.foodVenues.size \(self.foodVenues.count)")
             return self.foodVenues
         }
 
         if !self.coffeeVenues.isEmpty && self.coffeeVenues.contains(venue) {
             self.coffeeVenues.remove(venue)
             if self.coffeeVenues.isEmpty {
-                println("self.coffeeVenues.isEmpty")
+                print("self.coffeeVenues.isEmpty")
             }
             return self.coffeeVenues
         }
@@ -436,7 +463,7 @@ class VenuesManager: NSObject {
             venues?.remove(venue)
             if let v = venues {
                 if v.isEmpty {
-                    println("v.isEmpty")
+                    print("v.isEmpty")
                 }
             }
             
@@ -444,12 +471,12 @@ class VenuesManager: NSObject {
         if !self.starbucksVenues.isEmpty && self.starbucksVenues.contains(venue) {
             self.starbucksVenues.remove(venue)
             if self.starbucksVenues.isEmpty {
-                println("self.starbucksVenues.isEmpty")
+                print("self.starbucksVenues.isEmpty")
             }
             return self.starbucksVenues
         }
         
-        println("venue: \(venue)")
+        print("venue: \(venue)")
         
         var sink = Set<Venue>()
         sink.insert(Venue())
@@ -459,18 +486,19 @@ class VenuesManager: NSObject {
     
     private func getVenuePhoto(venue: Venue, completion: ((Venue?, NSError?) -> Void)?) {
         
+        dispatch_group_enter(self.downloadGroup)
         RestKitClient.getVenuePhotos(venue.identifier, completion: { (results: [AnyObject]?, error: NSError?) -> Void in
             
-            if NSThread.isMainThread() {
-                println("main thread")
+            defer {
+                dispatch_group_leave(self.downloadGroup)
             }
             
-            println("getVenuePhoto")
-            var sink = self.removeProcessedVenue(venue)
+            print("getVenuePhoto")
+            let sink = self.removeProcessedVenue(venue)
             
-            if let err = error {
+            if let error = error {
                 completion?(venue, error)
-                self.delegate?.didFailToFindVenueWithError(error!)
+                self.delegate?.didFailToFindVenueWithError(error)
                 
                 if self.finishedLookingForVenues() {
                     self.delegate?.didFinishLookingForVenues()
@@ -481,18 +509,18 @@ class VenuesManager: NSObject {
             
             let photos = results as! [Photo]
             
-            for photo in photos {
-                if photo.visibility == "public" {
-                    let photoPath = "\(photo.prefix)\(photo.width)x\(photo.height)\(photo.suffix)"
-                    
-                    venue.photo = photoPath
-                    
-                    completion?(venue, nil)
-                    
-                    self.delegate?.didFindWirelessVenue(venue)
-                    
-                    break;
-                }
+            let publicPhotos = photos.filter({ (photo) -> Bool in
+                return photo.visibility == "public"
+            })
+            
+            if let publicPhoto = publicPhotos.first {
+                let photoPath = "\(publicPhoto.prefix)\(publicPhoto.width)x\(publicPhoto.height)\(publicPhoto.suffix)"
+                
+                venue.photo = photoPath
+                
+                completion?(venue, nil)
+                
+                self.delegate?.didFindWirelessVenue(venue)
             }
             
             if sink.isEmpty {
@@ -521,8 +549,8 @@ class VenuesManager: NSObject {
     
     private func venuesWithWifiTips(wifiTipVenueIdentifier: String) -> Venue? {
     
-        var sink = Array(self._venues)
-        var venues = sink.filter{ $0.identifier == wifiTipVenueIdentifier }
+        let sink = Array(self._venues)
+        let venues = sink.filter{ $0.identifier == wifiTipVenueIdentifier }
         
         return venues.first
     }
@@ -547,14 +575,19 @@ class VenuesManager: NSObject {
         
         self.delegate?.didStartLookingForVenues!()
         
+        let downloadGroup = dispatch_group_create()
+        
+        dispatch_group_enter(downloadGroup)
         //1. get all venues
         RestKitClient.getFoodVenues(self.location, radius: "2000", completion: { [unowned self] (results: [AnyObject]?, error: NSError?) -> Void in
             
-            if let err = error {
-                println("\(error)")
+            if let error = error {
+                print("\(error)")
                 completion(nil, error)
-                self.delegate?.didFailToFindVenueWithError(error!)
+                self.delegate?.didFailToFindVenueWithError(error)
                 self.delegate?.didFinishLookingForVenues()
+                
+                dispatch_group_leave(downloadGroup)
                 
                 return
             }
@@ -562,32 +595,39 @@ class VenuesManager: NSObject {
             if results!.count > 0 {
                 self._venues = Set<Venue>(results as! Array<Venue>)
             }
+
+            dispatch_group_leave(downloadGroup)
+        })
+        
+        dispatch_group_enter(downloadGroup)
+        RestKitClient.getCoffeeVenues(self.location, radius: "2000", completion: { (results: [AnyObject]?, error: NSError?) -> Void in
             
-            RestKitClient.getCoffeeVenues(self.location, radius: "2000", completion: { (results: [AnyObject]?, error: NSError?) -> Void in
+            if let error = error {
+                print("\(error)")
+                completion(nil, error)
+                self.delegate?.didFailToFindVenueWithError(error)
+                self.delegate?.didFinishLookingForVenues()
                 
-                if let err = error {
-                    println("\(error)")
-                    completion(nil, error)
-                    self.delegate?.didFailToFindVenueWithError(error!)
-                    self.delegate?.didFinishLookingForVenues()
-                    
-                    return
+                return
+            }
+            
+            if results!.count > 0 {
+                let set = Set<Venue>(results as! Array<Venue>)
+                
+                if self._venues.isEmpty {
+                    self._venues = set
                 }
-                
-                if results!.count > 0 {
-                    var set = Set<Venue>(results as! Array<Venue>)
-                    
-                    if self._venues.isEmpty {
-                        self._venues = set
-                    }
-                    else {
-                        self._venues = self._venues.union(set)
-                    }
+                else {
+                    self._venues = self._venues.union(set)
                 }
-                
-                self.getVenueIdentifiers(completion)
-            })
-            })
+            }
+            
+            dispatch_group_leave(downloadGroup)
+        })
+        
+        dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) { // 4
+            self.getVenueIdentifiers(completion)
+        }
     }
     
 }

@@ -17,39 +17,38 @@ extension UIButton {
     }
     
     func addPulsatingEffect() {
-        
         let largeHelperButton = self.createHelperButton()
         let middleHelperButton = self.createHelperButton()
         let smallHelperButton = self.createHelperButton()
         
-        var largeHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 10)
+        let largeHelperFadeOutAnimation = fadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 10)
         var completion = { largeHelperButton.removeFromSuperview() }
-        var holder = CompletionBlockHolder()
+        let holder = CompletionBlockHolder()
         holder.block = completion
         
         largeHelperFadeOutAnimation.setValue(holder, forKey: "completionLarge")
         largeHelperButton.layer.addAnimation(largeHelperFadeOutAnimation, forKey: "opacity")
         
         largeHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
-        largeHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.8), duration: 1.3, repeatCount: 10), forKey: nil)
+        largeHelperButton.layer.addAnimation(scaleAnimation(NSNumber(float: 0.8), duration: 1.3, repeatCount: 10), forKey: nil)
 
-        let middleHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
+        let middleHelperFadeOutAnimation = fadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
         completion = { middleHelperButton.removeFromSuperview() }
         holder.block = completion
 
         middleHelperFadeOutAnimation.setValue(holder, forKey: "completionMiddle")
         middleHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
         middleHelperButton.layer.addAnimation(middleHelperFadeOutAnimation, forKey: nil)
-        middleHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20), forKey: nil)
+        middleHelperButton.layer.addAnimation(scaleAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20), forKey: nil)
 
-        let smallHelperFadeOutAnimation = createFadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
+        let smallHelperFadeOutAnimation = fadeOutAnimation(NSNumber(float: 0.5), duration: 1.3, repeatCount: 20)
         completion = { largeHelperButton.removeFromSuperview() }
         holder.block = completion
         
         smallHelperFadeOutAnimation.setValue(holder, forKey: "completionSmall")
         smallHelperButton.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
         smallHelperButton.layer.addAnimation(smallHelperFadeOutAnimation, forKey: nil)
-        smallHelperButton.layer.addAnimation(createScaleAnimation(NSNumber(float: 0.3), duration: 1.3, repeatCount: 20), forKey: nil)
+        smallHelperButton.layer.addAnimation(scaleAnimation(NSNumber(float: 0.3), duration: 1.3, repeatCount: 20), forKey: nil)
     }
     
     private func createHelperButton() -> UIButton {
@@ -62,7 +61,7 @@ extension UIButton {
         button.layer.cornerRadius = 22.0
         button.userInteractionEnabled = false
         
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         self.superview?.addSubview(button)
         
         var constraints = [NSLayoutConstraint]()
@@ -77,7 +76,7 @@ extension UIButton {
         return button
     }
     
-    private func createFadeOutAnimation(fromValue: AnyObject!, duration: CFTimeInterval, repeatCount: Float) -> CABasicAnimation {
+    private func fadeOutAnimation(fromValue: AnyObject!, duration: CFTimeInterval, repeatCount: Float) -> CABasicAnimation {
     
         let animation = CABasicAnimation(keyPath: "opacity")
         
@@ -90,7 +89,7 @@ extension UIButton {
         return animation
     }
 
-    private func createScaleAnimation(toValue: AnyObject!, duration: CFTimeInterval, repeatCount: Float) -> CABasicAnimation {
+    private func scaleAnimation(toValue: AnyObject!, duration: CFTimeInterval, repeatCount: Float) -> CABasicAnimation {
     
         let animation = CABasicAnimation(keyPath: "transform.scale")
         
@@ -103,20 +102,13 @@ extension UIButton {
         return animation
     }
     
-    override public func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
+    override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        let animations = ["completionLarge", "completionMiddle", "completionSmall"]
         
-        if nil == anim {
-            return
-        }
-        
-        var completion = anim.valueForKey("completionLarge") as? CompletionBlockHolder
-        if nil == completion {
-            completion = anim.valueForKey("completionMiddle") as? CompletionBlockHolder
-        }
-        else {
-            if nil == completion {
-                completion = anim.valueForKey("completionSmall") as? CompletionBlockHolder
-            }
+        var completion: CompletionBlockHolder?
+        for animation in animations {
+            completion = anim.valueForKey(animation) as? CompletionBlockHolder
+            if completion != nil { break }
         }
         
         completion?.block()

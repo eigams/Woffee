@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hgs-lL-HEx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hgs-lL-HEx">
     <dependencies>
+        <deployment identifier="iOS"/>
         <development version="6000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -23,7 +24,7 @@
                                 <rect key="frame" x="175" y="273" width="250" height="55"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                    <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="PTA-Mf-V88"/>
@@ -38,8 +39,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="90" maxX="0.0" maxY="30"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VenueCell" rowHeight="110" id="MRx-f1-xZp" customClass="VenueCell">
-                                        <rect key="frame" x="0.0" y="245" width="600" height="110"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VenueTableViewCell" rowHeight="110" id="MRx-f1-xZp" customClass="VenueTableViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MRx-f1-xZp" id="ESd-mD-Td3">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
@@ -75,7 +76,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JE-Rq-PE2">
-                                                    <rect key="frame" x="526" y="7" width="67" height="77"/>
+                                                    <rect key="frame" x="526" y="9" width="67" height="77"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="67" id="Bzg-Zt-HN7"/>
@@ -83,7 +84,7 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wSh-mM-olo">
-                                                    <rect key="frame" x="527" y="8" width="65" height="75"/>
+                                                    <rect key="frame" x="527" y="10" width="65" height="75"/>
                                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="75" id="3RM-NG-R4y"/>
@@ -159,27 +160,27 @@
                                             <constraint firstItem="TPo-7m-qmZ" firstAttribute="top" secondItem="MRx-f1-xZp" secondAttribute="top" constant="10" id="j4v-08-qpZ"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="cityPostCodeAddress" destination="Ann-bV-atL" id="4Ad-4m-JEe"/>
-                                            <outlet property="distanceLabel" destination="iNq-wg-Vjm" id="ArH-vP-spz"/>
-                                            <outlet property="nameLabel" destination="TPo-7m-qmZ" id="ll3-2T-IcL"/>
-                                            <outlet property="openingHoursLabel" destination="IhM-dC-q6Q" id="sFI-xI-efI"/>
-                                            <outlet property="previewImage" destination="wSh-mM-olo" id="bgY-nJ-U8y"/>
-                                            <outlet property="priceLabel" destination="A1S-mD-dXd" id="ZgB-F7-rOb"/>
-                                            <outlet property="ratingLabel" destination="pC3-fz-6zX" id="lTw-OM-5JJ"/>
-                                            <outlet property="streetAddress" destination="H6l-yT-BjJ" id="NgJ-F4-DzE"/>
+                                            <outlet property="cityPostCodeAddress" destination="Ann-bV-atL" id="xQW-Y6-hJC"/>
+                                            <outlet property="distanceLabel" destination="iNq-wg-Vjm" id="rCS-y0-sgz"/>
+                                            <outlet property="nameLabel" destination="TPo-7m-qmZ" id="iw0-8w-hT5"/>
+                                            <outlet property="openingHoursLabel" destination="IhM-dC-q6Q" id="cxB-XZ-PB5"/>
+                                            <outlet property="previewImage" destination="wSh-mM-olo" id="j3z-h1-FKr"/>
+                                            <outlet property="priceLabel" destination="A1S-mD-dXd" id="IXN-t9-iqz"/>
+                                            <outlet property="ratingLabel" destination="pC3-fz-6zX" id="ddV-Cz-Yg8"/>
+                                            <outlet property="streetAddress" destination="H6l-yT-BjJ" id="0mS-OO-ohl"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="QpS-UN-0bV" id="yhl-1O-W8C"/>
+                                    <outlet property="dataSource" destination="P3R-rD-MIb" id="PMO-KG-Zxq"/>
                                     <outlet property="delegate" destination="QpS-UN-0bV" id="HI6-Ai-d5E"/>
                                 </connections>
                             </tableView>
                             <view alpha="0.59999999999999964" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x0a-9c-2XC">
-                                <rect key="frame" x="0.0" y="20" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="vDX-oN-yM8"/>
@@ -193,26 +194,28 @@
                                     <constraint firstAttribute="width" constant="210" id="x9T-gA-6OV"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hjI-ui-TwR">
-                                <rect key="frame" x="568" y="-30" width="12" height="12"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I2h-eX-fSf" customClass="CSPulsatingButton" customModule="CoffeeShop" customModuleProvider="target">
+                                <rect key="frame" x="546" y="-80" width="44" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="q3z-86-WtG"/>
-                                    <constraint firstAttribute="width" constant="12" id="uyP-oo-Qet"/>
+                                    <constraint firstAttribute="height" constant="44" id="aJR-dG-Vyz"/>
+                                    <constraint firstAttribute="width" constant="44" id="zxh-W5-Ndu"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="6"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="animationRepeatCountMin">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="animationRepeatCountMax">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="xibName" value="CSPulsatingButton"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                            </button>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zi-Ld-5vK">
-                                <rect key="frame" x="555" y="25" width="40" height="40"/>
+                                <rect key="frame" x="555" y="5" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jms-D6-YgS"/>
                                     <constraint firstAttribute="width" constant="40" id="z6b-IU-vTj"/>
@@ -227,7 +230,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
                         </accessibility>
                         <constraints>
                             <constraint firstItem="x0a-9c-2XC" firstAttribute="top" secondItem="g9l-CE-tGy" secondAttribute="bottom" id="1QZ-CP-5hb"/>
@@ -238,10 +241,10 @@
                             <constraint firstAttribute="trailing" secondItem="ktV-Zn-XeK" secondAttribute="trailing" id="SGB-iR-HF0"/>
                             <constraint firstItem="ktV-Zn-XeK" firstAttribute="leading" secondItem="pXr-vS-0rb" secondAttribute="leading" id="WMU-A3-IAd"/>
                             <constraint firstAttribute="centerX" secondItem="AQC-ZK-hdy" secondAttribute="centerX" id="Yp3-Gx-nRz"/>
+                            <constraint firstItem="I2h-eX-fSf" firstAttribute="top" secondItem="g9l-CE-tGy" secondAttribute="bottom" constant="-100" id="btv-H1-O82"/>
                             <constraint firstItem="x0a-9c-2XC" firstAttribute="width" secondItem="pXr-vS-0rb" secondAttribute="width" id="c3k-ik-uPQ"/>
+                            <constraint firstAttribute="trailing" secondItem="I2h-eX-fSf" secondAttribute="trailing" constant="10" id="c7u-Hh-yNL"/>
                             <constraint firstAttribute="centerX" secondItem="x0a-9c-2XC" secondAttribute="centerX" id="eW0-d3-7eu"/>
-                            <constraint firstAttribute="trailing" secondItem="hjI-ui-TwR" secondAttribute="trailing" constant="20" id="h5J-sr-Q2X"/>
-                            <constraint firstItem="hjI-ui-TwR" firstAttribute="top" secondItem="g9l-CE-tGy" secondAttribute="bottom" constant="-50" id="igZ-fP-h6q"/>
                             <constraint firstItem="6zi-Ld-5vK" firstAttribute="top" secondItem="g9l-CE-tGy" secondAttribute="bottom" constant="5" id="mHI-hZ-GAB"/>
                             <constraint firstItem="x0a-9c-2XC" firstAttribute="leading" secondItem="pXr-vS-0rb" secondAttribute="leading" id="nhr-vh-1Mp"/>
                             <constraint firstAttribute="centerY" secondItem="AQC-ZK-hdy" secondAttribute="centerY" constant="-60" id="us9-ZS-Fbx"/>
@@ -249,17 +252,34 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aca-1E-6by"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="actionButton" destination="6zi-Ld-5vK" id="pl2-Cc-YYR"/>
+                        <outlet property="dataController" destination="P3R-rD-MIb" id="aJt-1k-W8c"/>
                         <outlet property="progressBar" destination="AQC-ZK-hdy" id="3PR-8Q-rab"/>
-                        <outlet property="pulsatingButton" destination="hjI-ui-TwR" id="10x-Go-vPq"/>
+                        <outlet property="pulsatingButton" destination="I2h-eX-fSf" id="P5m-Ni-qek"/>
                         <outlet property="searchingMessageLabel" destination="nAb-dc-uej" id="beV-9t-e2q"/>
                         <outlet property="tableView" destination="ktV-Zn-XeK" id="bjA-sZ-snG"/>
+                        <outlet property="tableViewAnimation" destination="dpD-In-YHB" id="VmT-hP-vhG"/>
                         <outlet property="topBarView" destination="x0a-9c-2XC" id="GAH-3b-6hI"/>
                         <outlet property="yPosProgressBarConstraint" destination="us9-ZS-Fbx" id="ZBM-Xl-m39"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pky-g2-5IY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="dpD-In-YHB" customClass="CSTableViewAnimation" customModule="CoffeeShop" customModuleProvider="target">
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="dampingRatio">
+                            <real key="value" value="0.80000000000000004"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="velocity">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="owner" destination="ktV-Zn-XeK" id="Xp1-KD-IGm"/>
+                    </connections>
+                </customObject>
+                <customObject id="P3R-rD-MIb" customClass="ShopsListDataController"/>
             </objects>
             <point key="canvasLocation" x="1298" y="1389"/>
         </scene>
@@ -281,7 +301,7 @@
                                     <outlet property="delegate" destination="je7-RY-FKJ" id="VF8-vm-PMo"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUJ-6g-RvE">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUJ-6g-RvE">
                                 <rect key="frame" x="568" y="40" width="12" height="12"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -298,7 +318,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OvM-jJ-nwe">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OvM-jJ-nwe">
                                 <rect key="frame" x="555" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="I5N-4t-uWB"/>

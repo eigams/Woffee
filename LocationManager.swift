@@ -46,22 +46,22 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let location: CLLocation = locations.last as! CLLocation
+        let location: CLLocation = locations.last!
         
         self.completion!(location: location, error: nil)
         
         self.locationManager.stopUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
             self.locationManager.startUpdatingLocation()
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         self.completion!(location: CLLocation(), error: error)
         
         self.locationManager.stopUpdatingLocation()

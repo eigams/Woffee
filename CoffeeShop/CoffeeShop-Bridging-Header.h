@@ -5,6 +5,5 @@
 #import "Venue.h"
 #import "GroupItems.h"
 #import "RestKitClient.h"
-#import "VenueCell.h"
 #import "UIColor+HexColors.h"
 #import "M13ProgressViewSegmentedBar.h"

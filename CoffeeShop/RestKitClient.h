@@ -16,6 +16,7 @@
 + (void)getStarbucksVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion;
 + (void)getFoodVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion;
 + (void)getCoffeeVenues:(CLLocation *)location radius:(NSString *)radius completion:(void (^)(NSArray *, NSError *))completion;
+//+ (void)getVenueTips:(NSArray *)venueIdentifiers completion:(void (^)(NSArray *, NSError *))completion;
 + (void)getVenueTips:(NSArray *)venueIdentifiers completion:(void (^)(NSDictionary *, NSError *))completion;
 + (void)getVenuePhotos:(NSString *)venueIdentifier completion:(void (^)(NSArray *, NSError *))completion;
     

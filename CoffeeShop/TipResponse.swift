@@ -22,7 +22,6 @@ class TipResponse: NSObject {
     }
     
     init(id: String, dateCreated: CUnsignedLong, text: String) {
-        
         self.id = id
         self.createdAt = dateCreated
         self.text = text

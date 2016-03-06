@@ -41,13 +41,20 @@
 		0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */; };
 		0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */; };
 		0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */; };
+		0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */; };
 		0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */; };
 		0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */; };
+		0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */; };
+		0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */; };
+		0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */; };
+		0CA97FE91C8632FE007894B7 /* CustomControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA97FE81C8632FE007894B7 /* CustomControl.swift */; };
+		0CA97FEB1C86343E007894B7 /* Woodmark.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CA97FEA1C86343E007894B7 /* Woodmark.xib */; };
 		0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */; };
 		0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127D1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m */; };
 		0CC00FDA172FD2F700DD99F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC00FD9172FD2F700DD99F0 /* Location.m */; };
-		0CC00FE0172FF65500DD99F0 /* VenueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC00FDF172FF65500DD99F0 /* VenueCell.m */; };
 		0CC00FE3172FFA1000DD99F0 /* Stats.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC00FE2172FFA1000DD99F0 /* Stats.m */; };
+		0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */; };
+		0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */; };
 		0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE3F1031AE8F9E8003DD551 /* Images.xcassets */; };
 		0CFEE0D5172EAF1500A87736 /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFEE0D4172EAF1500A87736 /* Venue.m */; };
 		3A6BCA8FD79D4A39B5CE0955 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E963059EE8A4A2295E5B554 /* libPods.a */; };
@@ -97,19 +104,25 @@
 		0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListViewController.swift; sourceTree = "<group>"; };
 		0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsMapViewController.swift; sourceTree = "<group>"; };
 		0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Effects.swift"; sourceTree = "<group>"; };
+		0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTableViewAnimation.swift; sourceTree = "<group>"; };
 		0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+WoffeShop.swift"; sourceTree = "<group>"; };
 		0C8E234D1AE7D894007E6091 /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
 		0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
+		0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewCell.swift; sourceTree = "<group>"; };
+		0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListDataController.swift; sourceTree = "<group>"; };
+		0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSFadeable.swift; sourceTree = "<group>"; };
+		0CA97FE81C8632FE007894B7 /* CustomControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomControl.swift; sourceTree = "<group>"; };
+		0CA97FEA1C86343E007894B7 /* Woodmark.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Woodmark.xib; sourceTree = "<group>"; };
 		0CAC127A1AFA3D64004FB007 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
 		0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0CAC127C1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewSegmentedBar.h; sourceTree = "<group>"; };
 		0CAC127D1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewSegmentedBar.m; sourceTree = "<group>"; };
 		0CC00FD8172FD2F700DD99F0 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		0CC00FD9172FD2F700DD99F0 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		0CC00FDE172FF65500DD99F0 /* VenueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenueCell.h; sourceTree = "<group>"; };
-		0CC00FDF172FF65500DD99F0 /* VenueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenueCell.m; sourceTree = "<group>"; };
 		0CC00FE1172FFA1000DD99F0 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stats.h; sourceTree = "<group>"; };
 		0CC00FE2172FFA1000DD99F0 /* Stats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stats.m; sourceTree = "<group>"; };
+		0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPulsatingButton.swift; sourceTree = "<group>"; };
+		0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSPulsatingButton.xib; sourceTree = "<group>"; };
 		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0CFEE0D3172EAF1500A87736 /* Venue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venue.h; sourceTree = "<group>"; };
 		0CFEE0D4172EAF1500A87736 /* Venue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venue.m; sourceTree = "<group>"; };
@@ -191,6 +204,7 @@
 				0C236B43172D8A190010D749 /* AppDelegate.m */,
 				0C236B4B172D8A190010D749 /* MainStoryboard.storyboard */,
 				0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */,
+				0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */,
 				0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */,
 				0C27EA791AF588B800333507 /* Models */,
 				0C236B3A172D8A190010D749 /* Supporting Files */,
@@ -200,6 +214,12 @@
 				0C2272D81AE5925D00211D96 /* RestKitClient.m */,
 				0C8E23501AE7DBFC007E6091 /* Categories */,
 				0C27EA781AF5024300333507 /* TransitionAnimation */,
+				0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */,
+				0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */,
+				0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */,
+				0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */,
+				0CA97FE81C8632FE007894B7 /* CustomControl.swift */,
+				0CA97FEA1C86343E007894B7 /* Woodmark.xib */,
 			);
 			path = CoffeeShop;
 			sourceTree = "<group>";
@@ -232,8 +252,6 @@
 			isa = PBXGroup;
 			children = (
 				0C27EA7C1AF6DB8500333507 /* VenueAnnotation.swift */,
-				0CC00FDE172FF65500DD99F0 /* VenueCell.h */,
-				0CC00FDF172FF65500DD99F0 /* VenueCell.m */,
 				0CC00FE1172FFA1000DD99F0 /* Stats.h */,
 				0CC00FE2172FFA1000DD99F0 /* Stats.m */,
 				0CC00FD8172FD2F700DD99F0 /* Location.h */,
@@ -247,6 +265,7 @@
 				0C2272C31AE3EE3300211D96 /* TipResponse.swift */,
 				0C2272C51AE3FDFB00211D96 /* VenueTip.h */,
 				0C2272C61AE3FDFB00211D96 /* VenueTip.m */,
+				0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -300,6 +319,8 @@
 		0C236B28172D8A190010D749 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Stefan Burettea";
 			};
@@ -328,10 +349,12 @@
 				0C236B3E172D8A190010D749 /* InfoPlist.strings in Resources */,
 				0C236B46172D8A190010D749 /* Default.png in Resources */,
 				0C236B48172D8A190010D749 /* Default@2x.png in Resources */,
+				0CA97FEB1C86343E007894B7 /* Woodmark.xib in Resources */,
 				0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */,
 				0C236B4A172D8A190010D749 /* Default-568h@2x.png in Resources */,
 				0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */,
 				0C236B4D172D8A190010D749 /* MainStoryboard.storyboard in Resources */,
+				0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +405,7 @@
 				0C236B40172D8A190010D749 /* main.m in Sources */,
 				0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */,
 				0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */,
+				0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */,
 				0C236B44172D8A190010D749 /* AppDelegate.m in Sources */,
 				0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */,
 				0CFEE0D5172EAF1500A87736 /* Venue.m in Sources */,
@@ -391,14 +415,18 @@
 				0C2272C41AE3EE3300211D96 /* TipResponse.swift in Sources */,
 				0C27EA7D1AF6DB8500333507 /* VenueAnnotation.swift in Sources */,
 				0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */,
+				0CA97FE91C8632FE007894B7 /* CustomControl.swift in Sources */,
+				0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */,
 				0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */,
 				0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */,
 				0CC00FDA172FD2F700DD99F0 /* Location.m in Sources */,
+				0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */,
 				0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */,
-				0CC00FE0172FF65500DD99F0 /* VenueCell.m in Sources */,
+				0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */,
 				0CC00FE3172FFA1000DD99F0 /* Stats.m in Sources */,
 				0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */,
 				0C2272D91AE5925D00211D96 /* RestKitClient.m in Sources */,
+				0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +464,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -451,6 +480,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "192ede6b-fea4-4a2e-b35a-07ea3c45bca3";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -467,6 +497,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -475,6 +506,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "192ede6b-fea4-4a2e-b35a-07ea3c45bca3";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

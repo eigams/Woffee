@@ -10,18 +10,15 @@ import Foundation
 import MapKit
 import AddressBook
 
-class VenueAnnotation: NSObject, MKAnnotation {
+struct VenueAnnotation {
 
-    var title: String
-    var subtitle: String
-    var coordinate: CLLocationCoordinate2D
+    let title: String
+    let subtitle: String
+    let coordinate: CLLocationCoordinate2D
     
-    init(name: String!, address: String!, coordinate: CLLocationCoordinate2D) {
-        
+    init(name: String, address: String, coordinate: CLLocationCoordinate2D) {
         self.title = name
         self.subtitle = address
         self.coordinate = coordinate
-        
-        super.init()
     }    
 }
