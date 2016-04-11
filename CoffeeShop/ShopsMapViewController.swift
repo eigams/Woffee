@@ -18,33 +18,30 @@ class ShopsMapViewController: UIViewController {//, MKMapViewDelegate {
     var annotations: [MKPointAnnotation]?
     var location: CLLocation?
     
-    @IBAction func actionButtonTapped(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
+    private let MetersPerMile = 1609.344
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-
-        let METERS_PER_MILE = 1609.344
         
-        // 2
-        var viewRegion: MKCoordinateRegion?
-        if let coordinates = self.location?.coordinate {
+        guard let coordinates = self.location?.coordinate,
+              let annotations = self.annotations,
+              let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude), 4*MetersPerMile, 4*MetersPerMile) as MKCoordinateRegion? else { return }
             
-            viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude), 4*METERS_PER_MILE, 4*METERS_PER_MILE)
-            
-            // 3
-            self.mapView.setRegion(viewRegion!, animated: true)
-                        
-            self.mapView.addAnnotations(self.annotations!)
-        }
+        // 3
+        self.mapView.setRegion(viewRegion, animated: true)
+                    
+        self.mapView.addAnnotations(annotations)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }    
+    }
+    
+    @IBAction func actionButtonTapped(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
 }

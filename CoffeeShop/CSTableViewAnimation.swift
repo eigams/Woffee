@@ -24,22 +24,22 @@ import UIKit
         velocity = 0.0
     }
     
+    private func hideCell(cell: UITableViewCell) {
+        cell.transform = CGAffineTransformMakeTranslation(0, self.owner.bounds.size.height);
+        cell.alpha = 0;
+    }
+
+    private func showCell(cell: UITableViewCell) {
+        UIView.animateWithDuration(1.5, delay: 0.05 * Double((self.owner.indexPathForCell(cell)?.row)!), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
+            cell.transform = CGAffineTransformMakeTranslation(0, 0);
+            cell.alpha = 1.0
+            }, completion: nil)
+    }
+    
     func play() {
         self.owner.reloadData()
-        
-        self.owner.visibleCells.forEach{ cell in
-            cell.transform = CGAffineTransformMakeTranslation(0, self.owner.bounds.size.height);
-            cell.alpha = 0;
-        }
-        
-        var index = 0
-        self.owner.visibleCells.forEach{ cell in
-            UIView.animateWithDuration(1.5, delay: 0.05 * Double(index), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
-                cell.transform = CGAffineTransformMakeTranslation(0, 0);
-                cell.alpha = 1.0
-                }, completion: nil)
-            
-            index++
-        }        
+
+        _ = self.owner.visibleCells.map { hideCell($0) }
+        _ = self.owner.visibleCells.map { showCell($0) }
     }
 }

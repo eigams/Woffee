@@ -35,60 +35,11 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
 
         self.tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
         
-        self.progressBar.progressDirection = M13ProgressViewSegmentedBarProgressDirectionLeftToRight
-        self.progressBar.indeterminate = true
-        self.progressBar.segmentShape = M13ProgressViewSegmentedBarSegmentShapeCircle
-        self.progressBar.primaryColor = UIColor.whiteColor()
-        self.progressBar.secondaryColor = UIColor.grayColor()
+        self.progressBar.configure()
         
         // Do any additional setup after loading the view.
         self.setUpRefreshControl()
         self.searchNearByWirelessEnabledVenues()
-    }
-
-    typealias closureType = () -> (Void)
-    
-    private func animateProgressBar(completionBlock: closureType) {
-    
-        for constraint in self.progressBar.superview!.constraints {
-            
-            if constraint.secondItem as? NSObject == self.progressBar &&
-                constraint.firstAttribute == .CenterY {
-                
-                    self.progressBar.superview!.removeConstraint(constraint)
-                    
-                    let newConstraint = NSLayoutConstraint(item: self.progressBar,
-                                                            attribute: .Top,
-                                                            relatedBy: .Equal,
-                                                            toItem: self.progressBar.superview!,
-                                                            attribute: .Top,
-                                                            multiplier: 1,
-                                                            constant: 35)
-                    
-                    newConstraint.active = true
-                    
-                    break
-            }
-        }
-        
-        UIView.animateWithDuration(1.0,
-                                    delay: 0.0,
-                    usingSpringWithDamping: 1.0,
-                     initialSpringVelocity: 3.0,
-                                   options: .CurveEaseIn,
-                                animations: {
-                                    self.view.layoutIfNeeded()
-                                },
-                                completion: { (complete: Bool) in
-                                    completionBlock()
-                                    
-                                    return
-                                })
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -172,14 +123,13 @@ extension ShopsListViewController: VenuesManagerDelegate {
         }
         
         self.searchingMessageLabel.hidden = true
-        self.animateProgressBar({
+        self.progressBar.animateInView(self.view) {
             self.tableViewAnimation.play()
-        })
+        }
         
         self.pulsatingButton.dropAnimationInView(self.view) { (pulsatingButton) in
             self.pulsatingButton.animate()
         }
-        
     }
     
     func didFindWirelessVenue(venue: Venue?) {

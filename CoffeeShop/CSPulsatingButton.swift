@@ -23,7 +23,7 @@ private class AnimationCompletionBlockHolder : NSObject {
         }
     }
     
-    @IBInspectable var scaleAnimationToValue: Float = 1.0
+    @IBInspectable var scaleAnimationToValue: CGFloat = 1.0
     @IBInspectable var animationRepeatCount: Float = 20.0
     @IBInspectable var completionAnimationKey: String? = ""
     @IBInspectable var fadeAnimationFromValue: Float = 0.5
@@ -80,6 +80,20 @@ private class AnimationCompletionBlockHolder : NSObject {
         self.layer.addAnimation(scaleAnimation, forKey: nil)
         self.hidden = false
     }
+    
+    func animateWithBlocks() {
+        self.transform = CGAffineTransformMakeScale(0.2, 0.2)
+        UIView.animateWithDuration(1.3, delay: 0, options: [.Repeat], animations: { () -> Void in
+            UIView.setAnimationRepeatCount(self.animationRepeatCount)
+            self.hidden = false
+            self.alpha = 0.0
+            self.transform = CGAffineTransformMakeScale(self.scaleAnimationToValue, self.scaleAnimationToValue)
+        }, completion: { (finished) -> Void in
+            if finished {
+                self.hidden = true
+            }
+        })
+    }
 }
 
 @IBDesignable class CSPulsatingButton: UIView {
@@ -134,24 +148,21 @@ private class AnimationCompletionBlockHolder : NSObject {
             button.backgroundColor = color!
         }
         
-        pulsatingButton.addTarget(self, action: "didPressPulsatingButton", forControlEvents: .TouchUpInside)
+        pulsatingButton.addTarget(self, action: #selector(didPressPulsatingButton), forControlEvents: .TouchUpInside)
     }
 
     func animate() {
-        largeButton.configureForAnimation()
-        mediumButton.configureForAnimation()
-        smallButton.configureForAnimation()
+        (self.animationButtonItems as NSArray).valueForKey("configureForAnimation")
     }
     
     override internal func animationDidStop(animation: CAAnimation, finished flag: Bool) {
-        
-        let completion = animationButtonItems.map { animation.valueForKey($0.completionAnimationKey!) as? AnimationCompletionBlockHolder }.filter { $0 != nil }
+        let completion = animationButtonItems.flatMap { animation.valueForKey($0.completionAnimationKey!) as? AnimationCompletionBlockHolder }
         guard completion.count > 0 else { return }
         
-        completion[0]!.block()
+        completion[0].block()
     }
     
-    private func didPressPulsatingButton() {
+    @objc private func didPressPulsatingButton() {
         self.delegate?.didPressPulsatingButton(self.pulsatingButton)
     }
 }

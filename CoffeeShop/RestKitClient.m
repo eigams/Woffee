@@ -121,13 +121,13 @@
 
 @end
 
-@protocol IRequestBuilder <NSObject>
+@protocol RequestBuilder <NSObject>
 
 - (NSDictionary *)requestWithLocation:(CLLocation *)location radius:(NSString *)query eXtraParam:(NSString *)param;
 
 @end
 
-@interface QueryRequestBuilder : NSObject<IRequestBuilder>
+@interface QueryRequestBuilder : NSObject<RequestBuilder>
 
 @end
 
@@ -141,22 +141,22 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
     NSString *latLon = [NSString stringWithFormat:@"%.8f,%.8f", location.coordinate.latitude, location.coordinate.longitude];
     NSString *clientID = [NSString stringWithUTF8String:kCLIENTID];
     NSString *clientSecret = [NSString stringWithUTF8String:kCLIENTSECRET];
-    
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:latLon, @"ll",
-                                 clientID, @"client_id",
-                                 clientSecret, @"client_secret",
-                                 param, @"query",
-                                 @"20150420", @"v",
-                                 radius, @"radius",
-                                 @"1", @"sortByDistance",
-                                 @"100", @"limit", nil];
+
+    NSDictionary *queryParams = @{@"ll": latLon,
+                                  @"client_id": clientID,
+                                  @"client_secret": clientSecret,
+                                  @"query": param,
+                                  @"v": @"20150420",
+                                  @"radius": radius,
+                                  @"sortByDistance": @"1",
+                                  @"limit":@"100"};
     
     return queryParams;
 }
 
 @end
 
-@interface SectionRequestBuilder : NSObject<IRequestBuilder>
+@interface SectionRequestBuilder : NSObject<RequestBuilder>
 
 @end
 
@@ -189,7 +189,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                      radius:(NSString *)radius
                  completion:(void (^)(NSArray *, NSError *))completion {
     
-    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    id<RequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
     [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
@@ -198,7 +198,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                              radius:(NSString *)radius
                          completion:(void (^)(NSArray *, NSError *))completion {
     
-    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    id<RequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
     [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
@@ -206,7 +206,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                     radius:(NSString *)radius
                 completion:(void (^)(NSArray *, NSError *))completion {
     
-    id<IRequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
+    id<RequestBuilder> queryRequest = [[QueryRequestBuilder alloc] init];
     [[self class] getVenues:location radius:radius requestBuilder:queryRequest completion:completion];
 }
 
@@ -214,7 +214,7 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                radius:(NSString *)radius
            completion:(void (^)(NSArray *, NSError *))completion {
     
-    id<IRequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
+    id<RequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
     [[self class] getVenues:location radius:radius requestBuilder:sectionRequest completion:completion];
 }
 
@@ -222,14 +222,13 @@ static const char *kCLIENTSECRET = "Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSY
                  radius:(NSString *)radius
              completion:(void (^)(NSArray *, NSError *))completion {
 
-    id<IRequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
-
+    id<RequestBuilder> sectionRequest = [[SectionRequestBuilder alloc] init];
     [[self class] getVenues:location radius:radius requestBuilder:sectionRequest completion:completion];
 }
 
 + (void)getVenues:(CLLocation *)location
            radius:(NSString *)radius
-   requestBuilder:(id<IRequestBuilder>)requestBuilder
+   requestBuilder:(id<RequestBuilder>)requestBuilder
        completion:(void (^)(NSArray *, NSError *))completion {
     
     NSDictionary *request = [requestBuilder requestWithLocation:location radius:radius eXtraParam:@"coffee"];
@@ -319,13 +318,11 @@ static NSString *const VENUES_PATH = @"/v2/venues/explore";
     [[RKObjectManager sharedManager] getObjectsAtPath:VENUES_PATH
                                            parameters:requestParams
                                               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                  
                                                   NSArray *results = [mappingResult array];
                                                   
                                                   NSMutableArray *sink = [NSMutableArray array];
                                                   
                                                   for(Group *group in results) {
-                                                      
                                                       for (GroupItems *gItems in group.items) {
                                                           [sink addObject:gItems.venue];
                                                       }

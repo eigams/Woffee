@@ -13,10 +13,10 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
     
     typealias CompletionBlock_t = (location: CLLocation?, error: NSError?) -> Void
     
-    private let locationManager: CLLocationManager!
+    private let locationManager: CLLocationManager
     private var completion:CompletionBlock_t?
     
-    func start(completion: CompletionBlock_t) {
+    func start(completion: CompletionBlock_t?) {
         
         self.locationManager.delegate = self
         self.completion = completion
@@ -34,7 +34,6 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     override init() {
-        
         self.locationManager = CLLocationManager()
         
         super.init()
@@ -47,12 +46,11 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        let location: CLLocation = locations.last!
-        
-        self.completion!(location: location, error: nil)
-        
         self.locationManager.stopUpdatingLocation()
+        guard let completion = self.completion,
+              let location = locations.last else { return }
+        
+        completion(location: location, error: nil)
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -62,9 +60,10 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        self.completion!(location: CLLocation(), error: error)
-        
         self.locationManager.stopUpdatingLocation()
+        guard let completion = self.completion else { return }
+        
+        completion(location: nil, error: error)
     }
     
 }

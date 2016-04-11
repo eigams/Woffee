@@ -9,6 +9,12 @@
 import UIKit
 import CoreLocation
 
+extension Array where Element: Hashable {
+    var unique: [Element] {
+        return Array(Set(self))
+    }
+}
+
 @objc protocol VenuesManagerDelegate {
     
     func didFindWirelessVenue(venue: Venue?)
@@ -44,10 +50,9 @@ class VenuesManager: NSObject {
     var delegate: VenuesManagerDelegate?
     private var processedVenueIdentifiers = [String]()
     
-    let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
+    private let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
     
     override init() {
-        
         self.location = CLLocation()
         self.downloadGroup = dispatch_group_create()
         
@@ -67,21 +72,15 @@ class VenuesManager: NSObject {
         
     }
     
-    private func getVenues(input: NSArray!) -> Set<Venue> {
-        
+    private func getVenues(input: NSArray) -> Set<Venue> {
         var venues = Set<Venue>()
         
-        if input.count > 0 {
-            for gItems in input {
-                venues.insert(gItems.venue)
-            }
-        }
+        _ = input.map { venues.insert($0.venue) }
         
         return venues
     }
     
     private func getStarbucks(input: NSArray) -> Set<Venue> {
-        
         guard input.count > 0 else {
             return Set<Venue>()
         }
@@ -410,23 +409,6 @@ class VenuesManager: NSObject {
 //        })
         
         self.getVenuesTips(identifiers)
-    }
-
-    private class func updateVenuesContainer(container: Set<Venue>, venue: Venue) -> Set<Venue> {
-        
-        var sink = container
-        if !container.isEmpty {
-            if container.contains(venue) {
-                sink.remove(venue)
-                if sink.isEmpty {
-                    print("self.wifiTaggedVenues.isEmpty")
-                }
-            }
-            
-            return sink
-        }
-        
-        return container
     }
     
     private func removeProcessedVenue(venue: Venue) -> Set<Venue> {
