@@ -8,15 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		014FBF0A7FCF5073B3AE5B6D /* Pods_CoffeeShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */; };
-		0C2272C41AE3EE3300211D96 /* TipResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C31AE3EE3300211D96 /* TipResponse.swift */; };
+		0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */; };
 		0C2272C71AE3FDFB00211D96 /* VenueTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C61AE3FDFB00211D96 /* VenueTip.m */; };
-		0C2272CA1AE4099E00211D96 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C91AE4099E00211D96 /* Group.m */; };
-		0C2272CD1AE40A1600211D96 /* GroupItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272CC1AE40A1600211D96 /* GroupItems.m */; };
 		0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272CE1AE50CF500211D96 /* LocationManager.swift */; };
 		0C2272D11AE50D7300211D96 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2272D01AE50D7300211D96 /* CoreLocation.framework */; };
 		0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D31AE551D000211D96 /* VenuesManager.swift */; };
 		0C2272D61AE58BB000211D96 /* MasterDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D51AE58BB000211D96 /* MasterDataController.swift */; };
-		0C2272D91AE5925D00211D96 /* RestKitClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D81AE5925D00211D96 /* RestKitClient.m */; };
 		0C236B34172D8A190010D749 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C236B33172D8A190010D749 /* UIKit.framework */; };
 		0C236B36172D8A190010D749 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C236B35172D8A190010D749 /* Foundation.framework */; };
 		0C236B38172D8A190010D749 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C236B37172D8A190010D749 /* CoreGraphics.framework */; };
@@ -37,46 +34,43 @@
 		0C27EA751AF501F100333507 /* NavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C27EA741AF501F100333507 /* NavigationControllerDelegate.swift */; };
 		0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C27EA761AF5023800333507 /* CircleTransitionAnimator.swift */; };
 		0C27EA7B1AF6C45A00333507 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C27EA7A1AF6C45A00333507 /* MapKit.framework */; };
-		0C27EA7D1AF6DB8500333507 /* VenueAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C27EA7C1AF6DB8500333507 /* VenueAnnotation.swift */; };
-		0C3BB1981CBB9C3600887A74 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB1971CBB9C3600887A74 /* Stats.swift */; };
+		0C27EA7D1AF6DB8500333507 /* CSHVenueAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C27EA7C1AF6DB8500333507 /* CSHVenueAnnotation.swift */; };
+		0C3BB1981CBB9C3600887A74 /* CSHStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB1971CBB9C3600887A74 /* CSHStats.swift */; };
+		0C3BB19A1CBBABA800887A74 /* CSHLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB1991CBBABA800887A74 /* CSHLocation.swift */; };
+		0C3BB19C1CBBAF9100887A74 /* CSHVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB19B1CBBAF9100887A74 /* CSHVenue.swift */; };
+		0C3BB19E1CBBF69200887A74 /* CSHGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */; };
+		0C3BB1A01CBBF6D900887A74 /* CSHGroupItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */; };
+		0C3BB1A21CBBFAF100887A74 /* CSHVenueTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */; };
 		0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */; };
 		0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */; };
 		0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */; };
 		0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */; };
 		0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */; };
 		0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */; };
+		0C7DBA091CCD5D7800963A35 /* CSHFoursquareClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */; };
 		0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */; };
 		0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */; };
 		0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */; };
 		0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */; };
 		0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */; };
 		0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127D1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m */; };
-		0CC00FDA172FD2F700DD99F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC00FD9172FD2F700DD99F0 /* Location.m */; };
-		0CC00FE3172FFA1000DD99F0 /* Stats.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC00FE2172FFA1000DD99F0 /* Stats.m */; };
 		0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC3DE051C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift */; };
 		0CC3DE081C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */; };
 		0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */; };
 		0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */; };
 		0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE3F1031AE8F9E8003DD551 /* Images.xcassets */; };
-		0CFEE0D5172EAF1500A87736 /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFEE0D4172EAF1500A87736 /* Venue.m */; };
 		3A6BCA8FD79D4A39B5CE0955 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E963059EE8A4A2295E5B554 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C2272C21AE3EE3200211D96 /* CoffeeShop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoffeeShop-Bridging-Header.h"; sourceTree = "<group>"; };
-		0C2272C31AE3EE3300211D96 /* TipResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipResponse.swift; sourceTree = "<group>"; };
+		0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHTipResponse.swift; sourceTree = "<group>"; };
 		0C2272C51AE3FDFB00211D96 /* VenueTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenueTip.h; sourceTree = "<group>"; };
 		0C2272C61AE3FDFB00211D96 /* VenueTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenueTip.m; sourceTree = "<group>"; };
-		0C2272C81AE4099E00211D96 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
-		0C2272C91AE4099E00211D96 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
-		0C2272CB1AE40A1600211D96 /* GroupItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupItems.h; sourceTree = "<group>"; };
-		0C2272CC1AE40A1600211D96 /* GroupItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupItems.m; sourceTree = "<group>"; };
 		0C2272CE1AE50CF500211D96 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = ../LocationManager.swift; sourceTree = "<group>"; };
 		0C2272D01AE50D7300211D96 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0C2272D31AE551D000211D96 /* VenuesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VenuesManager.swift; path = ../VenuesManager.swift; sourceTree = "<group>"; };
-		0C2272D51AE58BB000211D96 /* MasterDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterDataController.swift; sourceTree = "<group>"; };
-		0C2272D71AE5925D00211D96 /* RestKitClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKitClient.h; sourceTree = "<group>"; };
-		0C2272D81AE5925D00211D96 /* RestKitClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestKitClient.m; sourceTree = "<group>"; };
+		0C2272D51AE58BB000211D96 /* MasterDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MasterDataController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C236B30172D8A190010D749 /* CoffeeShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C236B33172D8A190010D749 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0C236B35172D8A190010D749 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -101,34 +95,34 @@
 		0C27EA741AF501F100333507 /* NavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationControllerDelegate.swift; sourceTree = "<group>"; };
 		0C27EA761AF5023800333507 /* CircleTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleTransitionAnimator.swift; sourceTree = "<group>"; };
 		0C27EA7A1AF6C45A00333507 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		0C27EA7C1AF6DB8500333507 /* VenueAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueAnnotation.swift; sourceTree = "<group>"; };
-		0C3BB1971CBB9C3600887A74 /* Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		0C27EA7C1AF6DB8500333507 /* CSHVenueAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHVenueAnnotation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		0C3BB1971CBB9C3600887A74 /* CSHStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHStats.swift; sourceTree = "<group>"; };
+		0C3BB1991CBBABA800887A74 /* CSHLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHLocation.swift; sourceTree = "<group>"; };
+		0C3BB19B1CBBAF9100887A74 /* CSHVenue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHVenue.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHGroup.swift; sourceTree = "<group>"; };
+		0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHGroupItems.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHVenueTip.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListViewController.swift; sourceTree = "<group>"; };
 		0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsMapViewController.swift; sourceTree = "<group>"; };
 		0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Effects.swift"; sourceTree = "<group>"; };
 		0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTableViewAnimation.swift; sourceTree = "<group>"; };
 		0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+WoffeShop.swift"; sourceTree = "<group>"; };
+		0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHFoursquareClient.swift; sourceTree = "<group>"; };
 		0C8E234D1AE7D894007E6091 /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
 		0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
 		0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewCell.swift; sourceTree = "<group>"; };
-		0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListDataController.swift; sourceTree = "<group>"; };
+		0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopsListDataController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSFadeable.swift; sourceTree = "<group>"; };
 		0CAC127A1AFA3D64004FB007 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
 		0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0CAC127C1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewSegmentedBar.h; sourceTree = "<group>"; };
 		0CAC127D1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewSegmentedBar.m; sourceTree = "<group>"; };
-		0CC00FD8172FD2F700DD99F0 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		0CC00FD9172FD2F700DD99F0 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		0CC00FE1172FFA1000DD99F0 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stats.h; sourceTree = "<group>"; };
-		0CC00FE2172FFA1000DD99F0 /* Stats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stats.m; sourceTree = "<group>"; };
 		0CC3DE051C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "M13ProgressViewSegmentedBar+CSAdditions.swift"; sourceTree = "<group>"; };
 		0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+CSAdditions.swift"; sourceTree = "<group>"; };
 		0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPulsatingButton.swift; sourceTree = "<group>"; };
 		0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSPulsatingButton.xib; sourceTree = "<group>"; };
 		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		0CFEE0D3172EAF1500A87736 /* Venue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venue.h; sourceTree = "<group>"; };
-		0CFEE0D4172EAF1500A87736 /* Venue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venue.m; sourceTree = "<group>"; };
 		545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E88D277713E7DC29D88466 /* Pods-CoffeeShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.debug.xcconfig"; sourceTree = "<group>"; };
 		9E963059EE8A4A2295E5B554 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,14 +211,13 @@
 				0C236B3A172D8A190010D749 /* Supporting Files */,
 				0C2272C21AE3EE3200211D96 /* CoffeeShop-Bridging-Header.h */,
 				0C2272D51AE58BB000211D96 /* MasterDataController.swift */,
-				0C2272D71AE5925D00211D96 /* RestKitClient.h */,
-				0C2272D81AE5925D00211D96 /* RestKitClient.m */,
 				0C8E23501AE7DBFC007E6091 /* Categories */,
 				0C27EA781AF5024300333507 /* TransitionAnimation */,
 				0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */,
 				0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */,
 				0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */,
 				0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */,
+				0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */,
 			);
 			path = CoffeeShop;
 			sourceTree = "<group>";
@@ -256,21 +249,16 @@
 		0C27EA791AF588B800333507 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0C27EA7C1AF6DB8500333507 /* VenueAnnotation.swift */,
-				0CC00FE1172FFA1000DD99F0 /* Stats.h */,
-				0CC00FE2172FFA1000DD99F0 /* Stats.m */,
-				0C3BB1971CBB9C3600887A74 /* Stats.swift */,
-				0CC00FD8172FD2F700DD99F0 /* Location.h */,
-				0CC00FD9172FD2F700DD99F0 /* Location.m */,
-				0CFEE0D3172EAF1500A87736 /* Venue.h */,
-				0CFEE0D4172EAF1500A87736 /* Venue.m */,
-				0C2272C81AE4099E00211D96 /* Group.h */,
-				0C2272C91AE4099E00211D96 /* Group.m */,
-				0C2272CB1AE40A1600211D96 /* GroupItems.h */,
-				0C2272CC1AE40A1600211D96 /* GroupItems.m */,
-				0C2272C31AE3EE3300211D96 /* TipResponse.swift */,
+				0C27EA7C1AF6DB8500333507 /* CSHVenueAnnotation.swift */,
+				0C3BB1971CBB9C3600887A74 /* CSHStats.swift */,
+				0C3BB1991CBBABA800887A74 /* CSHLocation.swift */,
+				0C3BB19B1CBBAF9100887A74 /* CSHVenue.swift */,
+				0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */,
+				0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */,
+				0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */,
 				0C2272C51AE3FDFB00211D96 /* VenueTip.h */,
 				0C2272C61AE3FDFB00211D96 /* VenueTip.m */,
+				0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */,
 				0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */,
 			);
 			name = Models;
@@ -430,36 +418,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C2272CA1AE4099E00211D96 /* Group.m in Sources */,
 				0C2272C71AE3FDFB00211D96 /* VenueTip.m in Sources */,
 				0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */,
-				0C2272CD1AE40A1600211D96 /* GroupItems.m in Sources */,
 				0C236B40172D8A190010D749 /* main.m in Sources */,
 				0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */,
 				0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */,
 				0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */,
 				0C236B44172D8A190010D749 /* AppDelegate.m in Sources */,
 				0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */,
-				0CFEE0D5172EAF1500A87736 /* Venue.m in Sources */,
+				0C7DBA091CCD5D7800963A35 /* CSHFoursquareClient.swift in Sources */,
+				0C3BB1A21CBBFAF100887A74 /* CSHVenueTip.swift in Sources */,
+				0C3BB1A01CBBF6D900887A74 /* CSHGroupItems.swift in Sources */,
+				0C3BB19E1CBBF69200887A74 /* CSHGroup.swift in Sources */,
 				0C2272D61AE58BB000211D96 /* MasterDataController.swift in Sources */,
 				0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */,
+				0C3BB19C1CBBAF9100887A74 /* CSHVenue.swift in Sources */,
 				0C27EA751AF501F100333507 /* NavigationControllerDelegate.swift in Sources */,
-				0C2272C41AE3EE3300211D96 /* TipResponse.swift in Sources */,
-				0C27EA7D1AF6DB8500333507 /* VenueAnnotation.swift in Sources */,
+				0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */,
+				0C27EA7D1AF6DB8500333507 /* CSHVenueAnnotation.swift in Sources */,
 				0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */,
 				0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */,
-				0C3BB1981CBB9C3600887A74 /* Stats.swift in Sources */,
+				0C3BB1981CBB9C3600887A74 /* CSHStats.swift in Sources */,
 				0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */,
 				0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */,
 				0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */,
-				0CC00FDA172FD2F700DD99F0 /* Location.m in Sources */,
 				0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */,
 				0CC3DE081C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift in Sources */,
 				0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */,
 				0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */,
-				0CC00FE3172FFA1000DD99F0 /* Stats.m in Sources */,
 				0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */,
-				0C2272D91AE5925D00211D96 /* RestKitClient.m in Sources */,
+				0C3BB19A1CBBABA800887A74 /* CSHLocation.swift in Sources */,
 				0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

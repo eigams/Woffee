@@ -24,13 +24,12 @@ class VenueTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configureForVenue(venue: Venue) {
-
+    func configureWithVenue(venue: CSHVenue) {
         self.nameLabel.text = venue.name
         self.ratingLabel.text = ""
         
         if let rating = venue.rating {
-            self.ratingLabel.text = String(format: "%.1f", rating.floatValue)
+            self.ratingLabel.text = String(format: "%.1f", rating)
         }
         else {
             print("doesnt have rating: \(venue.name)")
@@ -45,11 +44,10 @@ class VenueTableViewCell: UITableViewCell {
         }
         
         var price = ""
-        if let p = venue.price,
-           let tier = p.tier {
-                for var i = 0; i < tier.integerValue; ++i {
-                    price += venue.price.currency
-                }
+        if let p = venue.price, let tier = p.tier {
+            for _ in 1...tier {
+                price += p.currency
+            }
         }
         
         self.priceLabel.text = price
@@ -60,7 +58,7 @@ class VenueTableViewCell: UITableViewCell {
         }
         else {
             if let isOpen = venue.hours?.isOpen {
-                self.openingHoursLabel.text = isOpen.boolValue ? "Open" : "";
+                self.openingHoursLabel.text = isOpen ? "Open" : "";
             }
         }
         
@@ -77,10 +75,10 @@ class VenueTableViewCell: UITableViewCell {
 //            print("doesnt have photo: \(venue.name)")
 //        }
         
-        self.distanceLabel.text = String(format:"%.0fm", venue.location.distance.floatValue)
         if let location = venue.location {
+            self.distanceLabel.text = String(format:"%.0fm", location.distance!)
             self.streetAddress.text = location.address;
-            self.cityPostCodeAddress.text = venue.address()
+            self.cityPostCodeAddress.text = venue.address
         }
         
         self.layer.shouldRasterize = true

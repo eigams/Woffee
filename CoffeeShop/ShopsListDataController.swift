@@ -10,11 +10,13 @@ import UIKit
 import MapKit
 
 extension MKPointAnnotation {
-    convenience init(venue: Venue) {
+    convenience init(venue: CSHVenue) {
         self.init()
         title = venue.name
-        subtitle = "\(venue.location.address)  @\(venue.location.distance)m"
-        coordinate = CLLocationCoordinate2DMake(venue.location.lat.doubleValue, venue.location.lng.doubleValue)
+        subtitle = "\(venue.location?.address)  @\(venue.location?.distance)m"
+        if let lat = venue.location?.lat, let lng = venue.location?.lng {
+            coordinate = CLLocationCoordinate2DMake(lat, lng)
+        }
     }
 }
 
@@ -24,28 +26,27 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
     private var venues:NSMutableOrderedSet = NSMutableOrderedSet()
     private var images:[String: NSData]?
     
-    func venueAtIndexPath(indexPath: NSIndexPath) -> Venue? {
-        guard self.venues.count > indexPath.row,
-              let venue = self.venues[indexPath.row] as? Venue else { return nil }
+    func venueAtIndexPath(indexPath: NSIndexPath) -> CSHVenue? {
+        guard self.venues.count > indexPath.row else { return nil }
         
-        return venue
+        return self.venues[indexPath.row] as? CSHVenue
     }
     
     func sortVenuesByDistance() {
         let sortedVenues = self.venues.array.sort({
-            ($0 as! Venue).location.distance.intValue < ($1 as! Venue).location.distance.intValue
+            ($0 as! CSHVenue).location?.distance < ($1 as! CSHVenue).location?.distance
         })
 
         self.venues = NSMutableOrderedSet(array: sortedVenues)
     }
     
     func annotations() -> [MKPointAnnotation]? {
-        guard let venues = self.venues.array as? [Venue] else { return nil }
+        guard let venues = self.venues.array as? Array<CSHVenue> else { return nil }
         
         return venues.map { MKPointAnnotation(venue: $0) }
     }
     
-    func addVenue(venue: Venue, completion: ((index: Int) -> Void)?) {
+    func addVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
         guard let photo = venue.photo where false == self.venues.containsObject(venue) else { return }
         
         venues.addObject(venue)
@@ -57,13 +58,13 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
 //            self.venuesImage[venue.identifier] = imageData
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                guard let index = Array(arrayLiteral: self.venues).indexOf(venue)
-                      where self.venues.count > 0 else {
-                        completion?(index: -1)
-                        return
-                }
+//                guard let index = Array(arrayLiteral: venues).indexOf(venue)
+//                      where venues.count > 0 else {
+//                        completion?(index: -1)
+//                        return
+//                }
                 
-                completion?(index: index)
+                completion?(index: -1)
             })
         })
     }
@@ -79,9 +80,9 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(VenueTableViewCell.reusableIdentifier(), forIndexPath: indexPath) as? VenueTableViewCell else { return UITableViewCell() }
         
-        guard let venue = venues[indexPath.row] as? Venue else { return cell }
+        guard let venue = venues[indexPath.row] as? CSHVenue else { return cell }
         
-        cell.configureForVenue(venue)
+        cell.configureWithVenue(venue)
         
         return cell
     }

@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import AddressBook
 
-struct VenueAnnotation {
+struct CSHVenueAnnotation {
 
     let title: String
     let subtitle: String

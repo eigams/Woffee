@@ -132,7 +132,7 @@ extension ShopsListViewController: VenuesManagerDelegate {
         }
     }
     
-    func didFindWirelessVenue(venue: Venue?) {
+    func didFindWirelessVenue(venue: CSHVenue?) {
         guard let venue = venue else { return }
         
         self.dataController.addVenue(venue) { (index) in
