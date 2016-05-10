@@ -1,0 +1,6 @@
+framework module GHUnit {
+  umbrella header "GHUnit-umbrella.h"
+
+  export *
+  module * { export * }
+}

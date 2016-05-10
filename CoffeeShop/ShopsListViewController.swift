@@ -61,6 +61,11 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
             guard let location = location else { return }
             self.location = location
             
+            let client = CSHFoursquareClient()
+            client.getVenuesAtLocation(location, radius: "2000", completion: { (venues, error) in
+                
+            })
+            
             let venuesManager = VenuesManager(location: location)
             venuesManager.delegate = self
             venuesManager.lookForVenuesWithWIFI()

@@ -1,0 +1,22 @@
+PODS:
+  - Alamofire (3.3.1)
+  - AlamofireObjectMapper (3.0.0):
+    - Alamofire (~> 3.2)
+    - ObjectMapper (~> 1.0)
+  - GHUnit (0.5.9)
+  - ObjectMapper (1.2.0)
+  - SVProgressHUD (2.0.3)
+
+DEPENDENCIES:
+  - AlamofireObjectMapper (~> 3.0)
+  - GHUnit
+  - SVProgressHUD
+
+SPEC CHECKSUMS:
+  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
+  AlamofireObjectMapper: 2d16585d06177be0116d76de73497e77437798af
+  GHUnit: c54e0019313bd49a575aecc502e30597f4b6664e
+  ObjectMapper: b1e9c7c8a9f6400b72690c80072c131504caa66f
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+
+COCOAPODS: 0.39.0

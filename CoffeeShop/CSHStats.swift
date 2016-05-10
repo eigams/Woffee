@@ -19,8 +19,8 @@ struct CSHStats: Mappable {
     }
     
     mutating func mapping(map: Map) {
-        checkins    <- map["checkins"]
-        tips        <- map["tips"]
-        users       <- map["users"]
+        checkins    <- map["checkinsCount"]
+        tips        <- map["tipCount"]
+        users       <- map["usersCount"]
     }
 }

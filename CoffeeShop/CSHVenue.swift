@@ -59,6 +59,63 @@ struct CSHPrice: Mappable {
     }
 }
 
+struct CSHFoursquareResponse: Mappable {
+    var meta: CSHFoursquareResponseMeta?
+    var response: CSHFoursquareResponseObject?
+    
+    init?(_ map: Map){
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        meta     <- map["meta"]
+        response    <- map["response"]
+    }
+}
+
+struct CSHFoursquareResponseMeta: Mappable {
+    var code: Int?
+    var requestId: String?
+    
+    init?(_ map: Map){
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        code        <- map["code"]
+        requestId   <- map["requestId"]
+    }
+}
+
+struct CSHFoursquareResponseObject: Mappable {
+    var query: String?
+    var totalResults: Int?
+    var items: [CSHFoursquareResponseObjectGroupItem]?
+    
+    init?(_ map: Map){
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        query        <- map["query"]
+        totalResults <- map["totalResults"]
+        items        <- map["groups.0.items"]
+    }
+}
+
+struct CSHFoursquareResponseObjectGroupItem: Mappable {
+    var venue: CSHVenue?
+    var referralId: String?
+    
+    init?(_ map: Map){
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        venue        <- map["venue"]
+        referralId   <- map["referralId"]
+    }
+}
 
 class CSHVenue: Mappable {
 
@@ -98,9 +155,14 @@ class CSHVenue: Mappable {
     }
     
     func mapping(map: Map) {
-        identifier  <- map["identifier"]
+        identifier  <- map["id"]
         name        <- map["name"]
         location    <- map["location"]
         stats       <- map["stats"]
+        rating      <- map["rating"]
+        ratingColor <- map["ratingColor"]
+        hours       <- map["hours"]
+        price       <- map["price"]
+        photo       <- map["photos"]
     }
 }

@@ -59,6 +59,9 @@
 		0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */; };
 		0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */; };
 		0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE3F1031AE8F9E8003DD551 /* Images.xcassets */; };
+		0CE721EA1CDF3C4300B88CE8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */; };
+		0CE721EB1CDF3C4300B88CE8 /* AlamofireObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */; };
+		0CE721EC1CDF3C4300B88CE8 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */; };
 		3A6BCA8FD79D4A39B5CE0955 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E963059EE8A4A2295E5B554 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -122,7 +125,10 @@
 		0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+CSAdditions.swift"; sourceTree = "<group>"; };
 		0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPulsatingButton.swift; sourceTree = "<group>"; };
 		0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSPulsatingButton.xib; sourceTree = "<group>"; };
-		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
+		0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/Alamofire.framework"; sourceTree = "<group>"; };
+		0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/AlamofireObjectMapper.framework"; sourceTree = "<group>"; };
+		0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/ObjectMapper.framework"; sourceTree = "<group>"; };
 		545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E88D277713E7DC29D88466 /* Pods-CoffeeShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.debug.xcconfig"; sourceTree = "<group>"; };
 		9E963059EE8A4A2295E5B554 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +140,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CE721EA1CDF3C4300B88CE8 /* Alamofire.framework in Frameworks */,
+				0CE721EB1CDF3C4300B88CE8 /* AlamofireObjectMapper.framework in Frameworks */,
+				0CE721EC1CDF3C4300B88CE8 /* ObjectMapper.framework in Frameworks */,
 				0C27EA7B1AF6C45A00333507 /* MapKit.framework in Frameworks */,
 				0C2272D11AE50D7300211D96 /* CoreLocation.framework in Frameworks */,
 				0C236B72172D94680010D749 /* CFNetwork.framework in Frameworks */,
@@ -157,7 +166,6 @@
 		0C236B27172D8A190010D749 = {
 			isa = PBXGroup;
 			children = (
-				0CE3F1031AE8F9E8003DD551 /* Images.xcassets */,
 				0C236B39172D8A190010D749 /* CoffeeShop */,
 				0C236B32172D8A190010D749 /* Frameworks */,
 				0C236B31172D8A190010D749 /* Products */,
@@ -176,6 +184,9 @@
 		0C236B32172D8A190010D749 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */,
+				0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */,
+				0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */,
 				0C27EA7A1AF6C45A00333507 /* MapKit.framework */,
 				0C2272D01AE50D7300211D96 /* CoreLocation.framework */,
 				0C236B6B172D94680010D749 /* CFNetwork.framework */,
@@ -197,6 +208,7 @@
 		0C236B39172D8A190010D749 /* CoffeeShop */ = {
 			isa = PBXGroup;
 			children = (
+				0CE3F1031AE8F9E8003DD551 /* Images.xcassets */,
 				0CAC12801AFA3D6A004FB007 /* ProgressView */,
 				0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */,
 				0C2272D31AE551D000211D96 /* VenuesManager.swift */,
