@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FoursquareAPI</key>
+	<dict>
+		<key>ClientID</key>
+		<string>ZZCLOTJ2RO5TY5LVDUVVUOWW41VN2PGQXHEL1IR3U14XEZTC</string>
+		<key>ClientSecret</key>
+		<string>Q3OCB5OC0V30JXVLCIBZRGMGJOFRWE2QXDRKKVTKIQSYF43N</string>
+		<key>Protocol</key>
+		<string>https</string>		
+		<key>Host</key>
+		<string>api.foursquare.com</string>
+		<key>Path</key>
+		<string>/v2/venues/explore</string>
+	</dict>
+</dict>
+</plist>
+

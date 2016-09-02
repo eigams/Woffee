@@ -21,7 +21,7 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager.delegate = self
         self.completion = completion
         
-        if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
+        if self.locationManager.respondsToSelector(#selector(CLLocationManager.requestWhenInUseAuthorization)) {
             self.locationManager.requestWhenInUseAuthorization()
         }
         else {

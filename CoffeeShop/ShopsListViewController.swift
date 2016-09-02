@@ -38,15 +38,15 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         self.progressBar.configure()
         
         // Do any additional setup after loading the view.
-        self.setUpRefreshControl()
-        self.searchNearByWirelessEnabledVenues()
+        setUpRefreshControl()
+        searchNearByWirelessEnabledVenues()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         guard segue.identifier == "PushSegue",
               let shopsMapViewController = segue.destinationViewController as? ShopsMapViewController else { return }
 
-        shopsMapViewController.annotations = self.dataController.annotations()
+        shopsMapViewController.annotations = self.dataController.annotations
         shopsMapViewController.location = self.location
     }
     
@@ -57,15 +57,10 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
             if let error = error where error.code > 0 {
                 return
             }
-            
+        
             guard let location = location else { return }
             self.location = location
-            
-            let client = CSHFoursquareClient()
-            client.getVenuesAtLocation(location, radius: "2000", completion: { (venues, error) in
-                
-            })
-            
+        
             let venuesManager = VenuesManager(location: location)
             venuesManager.delegate = self
             venuesManager.lookForVenuesWithWIFI()
@@ -73,7 +68,7 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     }
 
     func reloadData() {
-        self.searchNearByWirelessEnabledVenues()
+        searchNearByWirelessEnabledVenues()
     }
     
     func setUpRefreshControl() {
@@ -81,7 +76,7 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         
         self.refreshControl.backgroundColor = UIColor.clearColor()
         self.refreshControl.tintColor = UIColor.whiteColor()
-        self.refreshControl.addTarget(self, action: "reloadData", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(reloadData), forControlEvents: UIControlEvents.ValueChanged)
         
         self.tableView.insertSubview(self.refreshControl, atIndex: 0)
     }
@@ -107,9 +102,9 @@ extension ShopsListViewController: VenuesManagerDelegate {
         self.pulsatingButton.dropAnimationInView(self.view) { (pulsatingButton) in
             pulsatingButton?.animate()
         }
-        //        self.animateDropPulsatingButton({ () -> (Void) in
-        //            self.pulsatingButton.addPulsatingEffect()
-        //        })
+
+        self.tableView.reloadData()
+        self.searchingMessageLabel.hidden = true
         
         self.refreshControl.attributedTitle = attributedTitle;
         self.refreshControl.endRefreshing()
@@ -118,32 +113,18 @@ extension ShopsListViewController: VenuesManagerDelegate {
     func didFailToFindVenueWithError(error: NSError!) {
         print("ERROR: \(error)")
     }
-    
-    func didFindWirelessVenuesGroup() {
-        self.dataController.sortVenuesByDistance()
-        
-        guard !self.searchingMessageLabel.hidden else {
-            self.tableViewAnimation.play()
-            return
-        }
-        
-        self.searchingMessageLabel.hidden = true
-        self.progressBar.animateInView(self.view) {
-            self.tableViewAnimation.play()
-        }
-        
-        self.pulsatingButton.dropAnimationInView(self.view) { (pulsatingButton) in
-            self.pulsatingButton.animate()
+
+    func didFindPhotoForWirelessVenue(venue: CSHVenue) {
+        self.dataController.imageForVenue(venue) { index in 
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
-    
+
     func didFindWirelessVenue(venue: CSHVenue?) {
         guard let venue = venue else { return }
         
-        self.dataController.addVenue(venue) { (index) in
-            guard index >= 0 else { return }
-            
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        self.dataController.addVenue(venue) { index in
+            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
 }

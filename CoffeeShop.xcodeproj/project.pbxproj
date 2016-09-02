@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		014FBF0A7FCF5073B3AE5B6D /* Pods_CoffeeShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */; };
 		0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */; };
-		0C2272C71AE3FDFB00211D96 /* VenueTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C61AE3FDFB00211D96 /* VenueTip.m */; };
 		0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272CE1AE50CF500211D96 /* LocationManager.swift */; };
 		0C2272D11AE50D7300211D96 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2272D01AE50D7300211D96 /* CoreLocation.framework */; };
 		0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D31AE551D000211D96 /* VenuesManager.swift */; };
@@ -44,12 +43,11 @@
 		0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */; };
 		0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */; };
 		0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */; };
-		0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */; };
 		0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */; };
 		0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */; };
 		0C7DBA091CCD5D7800963A35 /* CSHFoursquareClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */; };
 		0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */; };
-		0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */; };
+		0C99538E1C785B36009BD886 /* CSHVenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */; };
 		0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */; };
 		0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */; };
 		0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */; };
@@ -58,7 +56,11 @@
 		0CC3DE081C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */; };
 		0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */; };
 		0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */; };
+		0CE363181D5635FD000A5FF7 /* CSHConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */; };
+		0CE3631A1D56407D000A5FF7 /* configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CE363191D56407D000A5FF7 /* configuration.plist */; };
 		0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE3F1031AE8F9E8003DD551 /* Images.xcassets */; };
+		0CE61DA81D743D89001E462A /* CSHVenuePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */; };
+		0CE61DAA1D744CF6001E462A /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE61DA91D744CF6001E462A /* Array+Additions.swift */; };
 		0CE721EA1CDF3C4300B88CE8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */; };
 		0CE721EB1CDF3C4300B88CE8 /* AlamofireObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */; };
 		0CE721EC1CDF3C4300B88CE8 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */; };
@@ -68,8 +70,6 @@
 /* Begin PBXFileReference section */
 		0C2272C21AE3EE3200211D96 /* CoffeeShop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoffeeShop-Bridging-Header.h"; sourceTree = "<group>"; };
 		0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHTipResponse.swift; sourceTree = "<group>"; };
-		0C2272C51AE3FDFB00211D96 /* VenueTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenueTip.h; sourceTree = "<group>"; };
-		0C2272C61AE3FDFB00211D96 /* VenueTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenueTip.m; sourceTree = "<group>"; };
 		0C2272CE1AE50CF500211D96 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = ../LocationManager.swift; sourceTree = "<group>"; };
 		0C2272D01AE50D7300211D96 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0C2272D31AE551D000211D96 /* VenuesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VenuesManager.swift; path = ../VenuesManager.swift; sourceTree = "<group>"; };
@@ -108,13 +108,12 @@
 		0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListViewController.swift; sourceTree = "<group>"; };
 		0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsMapViewController.swift; sourceTree = "<group>"; };
-		0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Effects.swift"; sourceTree = "<group>"; };
 		0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTableViewAnimation.swift; sourceTree = "<group>"; };
 		0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+WoffeShop.swift"; sourceTree = "<group>"; };
 		0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHFoursquareClient.swift; sourceTree = "<group>"; };
 		0C8E234D1AE7D894007E6091 /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
 		0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
-		0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTableViewCell.swift; sourceTree = "<group>"; };
+		0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHVenueTableViewCell.swift; sourceTree = "<group>"; };
 		0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopsListDataController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSFadeable.swift; sourceTree = "<group>"; };
 		0CAC127A1AFA3D64004FB007 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
@@ -125,7 +124,11 @@
 		0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+CSAdditions.swift"; sourceTree = "<group>"; };
 		0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPulsatingButton.swift; sourceTree = "<group>"; };
 		0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSPulsatingButton.xib; sourceTree = "<group>"; };
+		0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHConfiguration.swift; sourceTree = "<group>"; };
+		0CE363191D56407D000A5FF7 /* configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = configuration.plist; sourceTree = SOURCE_ROOT; };
 		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
+		0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHVenuePhoto.swift; sourceTree = "<group>"; };
+		0CE61DA91D744CF6001E462A /* Array+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
 		0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/Alamofire.framework"; sourceTree = "<group>"; };
 		0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/AlamofireObjectMapper.framework"; sourceTree = "<group>"; };
 		0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/ObjectMapper.framework"; sourceTree = "<group>"; };
@@ -208,9 +211,9 @@
 		0C236B39172D8A190010D749 /* CoffeeShop */ = {
 			isa = PBXGroup;
 			children = (
+				0CE363191D56407D000A5FF7 /* configuration.plist */,
 				0CE3F1031AE8F9E8003DD551 /* Images.xcassets */,
 				0CAC12801AFA3D6A004FB007 /* ProgressView */,
-				0C60D9131AF2830D00D44ACA /* UIButton+Effects.swift */,
 				0C2272D31AE551D000211D96 /* VenuesManager.swift */,
 				0C2272CE1AE50CF500211D96 /* LocationManager.swift */,
 				0C236B42172D8A190010D749 /* AppDelegate.h */,
@@ -229,6 +232,7 @@
 				0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */,
 				0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */,
 				0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */,
+				0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */,
 				0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */,
 			);
 			path = CoffeeShop;
@@ -268,10 +272,9 @@
 				0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */,
 				0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */,
 				0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */,
-				0C2272C51AE3FDFB00211D96 /* VenueTip.h */,
-				0C2272C61AE3FDFB00211D96 /* VenueTip.m */,
 				0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */,
-				0C99538D1C785B36009BD886 /* VenueTableViewCell.swift */,
+				0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */,
+				0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */,
 				0CC3DE051C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift */,
 				0CC3DE071C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift */,
+				0CE61DA91D744CF6001E462A /* Array+Additions.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -368,6 +372,7 @@
 				0C236B46172D8A190010D749 /* Default.png in Resources */,
 				0C236B48172D8A190010D749 /* Default@2x.png in Resources */,
 				0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */,
+				0CE3631A1D56407D000A5FF7 /* configuration.plist in Resources */,
 				0C236B4A172D8A190010D749 /* Default-568h@2x.png in Resources */,
 				0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */,
 				0C236B4D172D8A190010D749 /* MainStoryboard.storyboard in Resources */,
@@ -430,17 +435,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C2272C71AE3FDFB00211D96 /* VenueTip.m in Sources */,
 				0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */,
 				0C236B40172D8A190010D749 /* main.m in Sources */,
+				0CE61DA81D743D89001E462A /* CSHVenuePhoto.swift in Sources */,
 				0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */,
 				0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */,
 				0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */,
 				0C236B44172D8A190010D749 /* AppDelegate.m in Sources */,
-				0C60D9141AF2830D00D44ACA /* UIButton+Effects.swift in Sources */,
+				0CE363181D5635FD000A5FF7 /* CSHConfiguration.swift in Sources */,
 				0C7DBA091CCD5D7800963A35 /* CSHFoursquareClient.swift in Sources */,
 				0C3BB1A21CBBFAF100887A74 /* CSHVenueTip.swift in Sources */,
 				0C3BB1A01CBBF6D900887A74 /* CSHGroupItems.swift in Sources */,
+				0CE61DAA1D744CF6001E462A /* Array+Additions.swift in Sources */,
 				0C3BB19E1CBBF69200887A74 /* CSHGroup.swift in Sources */,
 				0C2272D61AE58BB000211D96 /* MasterDataController.swift in Sources */,
 				0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */,
@@ -449,7 +455,7 @@
 				0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */,
 				0C27EA7D1AF6DB8500333507 /* CSHVenueAnnotation.swift in Sources */,
 				0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */,
-				0C99538E1C785B36009BD886 /* VenueTableViewCell.swift in Sources */,
+				0C99538E1C785B36009BD886 /* CSHVenueTableViewCell.swift in Sources */,
 				0C3BB1981CBB9C3600887A74 /* CSHStats.swift in Sources */,
 				0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */,
 				0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */,

@@ -13,7 +13,7 @@ extension MKPointAnnotation {
     convenience init(venue: CSHVenue) {
         self.init()
         title = venue.name
-        subtitle = "\(venue.location?.address)  @\(venue.location?.distance)m"
+        subtitle = "\(venue.location?.address ?? "")  @\(venue.location?.distance ?? 0)m"
         if let lat = venue.location?.lat, let lng = venue.location?.lng {
             coordinate = CLLocationCoordinate2DMake(lat, lng)
         }
@@ -23,50 +23,57 @@ extension MKPointAnnotation {
 @objc (ShopsListDataController)
 class ShopsListDataController: NSObject, UITableViewDataSource {
     
-    private var venues:NSMutableOrderedSet = NSMutableOrderedSet()
-    private var images:[String: NSData]?
+    private var venues = [CSHVenue]()
+    private var images = [String: NSData]()
+    
+    var annotations: [MKPointAnnotation]? {
+        return self.venues.map { MKPointAnnotation(venue: $0) }
+    }
     
     func venueAtIndexPath(indexPath: NSIndexPath) -> CSHVenue? {
         guard self.venues.count > indexPath.row else { return nil }
         
-        return self.venues[indexPath.row] as? CSHVenue
+        return self.venues[indexPath.row]
     }
     
     func sortVenuesByDistance() {
-        let sortedVenues = self.venues.array.sort({
-            ($0 as! CSHVenue).location?.distance < ($1 as! CSHVenue).location?.distance
-        })
-
-        self.venues = NSMutableOrderedSet(array: sortedVenues)
-    }
-    
-    func annotations() -> [MKPointAnnotation]? {
-        guard let venues = self.venues.array as? Array<CSHVenue> else { return nil }
-        
-        return venues.map { MKPointAnnotation(venue: $0) }
+        self.venues = self.venues.sort{ $0.location?.distance < $1.location?.distance }
     }
     
     func addVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
-        guard let photo = venue.photo where false == self.venues.containsObject(venue) else { return }
+        guard self.venues.venueForIdentifier(venue.identifier) == nil else { return }
         
-        venues.addObject(venue)
+        self.venues.append(venue)
+        self.images[venue.identifier] = nil
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            guard let imageData = NSData(contentsOfURL: NSURL(string:photo)!) else { return }
+        self.sortVenuesByDistance()
+        
+        if let index = self.venues.indexOf({$0.identifier == venue.identifier}) {
+            completion?(index: index)
+        }
+    }
+
+    func imageForVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
+        guard self.images[venue.identifier] == nil,
+              let photo = venue.photo else { return }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [weak self] in
+            guard let url = NSURL(string: photo),
+                  let imageData = NSData(contentsOfURL: url)  else { return }
             
-            print("set venue image for: \(venue.name) imageData count: \(imageData.length)")
-//            self.venuesImage[venue.identifier] = imageData
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                guard let index = Array(arrayLiteral: venues).indexOf(venue)
-//                      where venues.count > 0 else {
-//                        completion?(index: -1)
-//                        return
-//                }
+            self?.images[venue.identifier] = imageData
+            dispatch_sync(dispatch_get_main_queue(), { [weak self] in
+                guard let index = self?.venues.indexOf({ $0.identifier == venue.identifier }) else { return }
                 
-                completion?(index: -1)
+                completion?(index: index)
             })
         })
+    }
+    
+    func venueImageAtIndexPath(indexPath: NSIndexPath) -> UIImage? {
+        guard let venue = self.venueAtIndexPath(indexPath) else { return nil }
+        
+        return UIImage(data: self.images[venue.identifier] ?? NSData())
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -74,15 +81,13 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return venues.count
+        return self.venues.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(VenueTableViewCell.reusableIdentifier(), forIndexPath: indexPath) as? VenueTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(CSHVenueTableViewCell.reusableIdentifier(), forIndexPath: indexPath) as? CSHVenueTableViewCell else { return UITableViewCell() }
         
-        guard let venue = venues[indexPath.row] as? CSHVenue else { return cell }
-        
-        cell.configureWithVenue(venue)
+        cell.configureWithVenue(self.venues[indexPath.row], image: self.venueImageAtIndexPath(indexPath))
         
         return cell
     }

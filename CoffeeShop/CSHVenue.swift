@@ -9,26 +9,6 @@
 import Foundation
 import ObjectMapper
 
-struct CSHPhoto: Mappable {
-    var identifier: String!
-    var createdAt: Int?
-    var width: Float?
-    var height: Float?
-    var prefix: String?
-    var suffix: String?
-    var visibility: String?
-    
-    init?(_ map: Map){
-        
-    }
-    
-    mutating func mapping(map: Map) {
-        identifier  <- map["identifier"]
-        createdAt  <- map["createdAt"]
-    }
-}
-
-
 struct CSHHours: Mappable {
     var status: String?
     var isOpen: Bool?
@@ -147,7 +127,14 @@ class CSHVenue: Mappable {
             result = (result as NSString).stringByAppendingString(postalCode)
         }
         
-        return result
+        var sink:[String] = []
+        if city.isEmpty == false { sink.append(city) }
+        if postalCode.isEmpty == false { sink.append(postalCode) }
+        
+        if sink.count > 1 { return sink.joinWithSeparator(", ") }
+        if sink.count > 0 { return sink[0] }
+        
+        return ""
     }
     
     required init?(_ map: Map){
@@ -163,6 +150,5 @@ class CSHVenue: Mappable {
         ratingColor <- map["ratingColor"]
         hours       <- map["hours"]
         price       <- map["price"]
-        photo       <- map["photos"]
     }
 }
