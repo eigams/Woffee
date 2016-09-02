@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		014FBF0A7FCF5073B3AE5B6D /* Pods_CoffeeShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */; };
+		0C2016721D7A1D9000658831 /* VenuesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2016711D7A1D9000658831 /* VenuesManager.swift */; };
+		0C2016741D7A1DAA00658831 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2016731D7A1DAA00658831 /* LocationManager.swift */; };
+		0C2016761D7A1E1E00658831 /* configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C2016751D7A1E1E00658831 /* configuration.plist */; };
 		0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */; };
-		0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272CE1AE50CF500211D96 /* LocationManager.swift */; };
 		0C2272D11AE50D7300211D96 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C2272D01AE50D7300211D96 /* CoreLocation.framework */; };
-		0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D31AE551D000211D96 /* VenuesManager.swift */; };
 		0C2272D61AE58BB000211D96 /* MasterDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2272D51AE58BB000211D96 /* MasterDataController.swift */; };
 		0C236B34172D8A190010D749 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C236B33172D8A190010D749 /* UIKit.framework */; };
 		0C236B36172D8A190010D749 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C236B35172D8A190010D749 /* Foundation.framework */; };
@@ -57,7 +58,6 @@
 		0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */; };
 		0CDF26801C7CA6ED0074497F /* CSPulsatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */; };
 		0CE363181D5635FD000A5FF7 /* CSHConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */; };
-		0CE3631A1D56407D000A5FF7 /* configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CE363191D56407D000A5FF7 /* configuration.plist */; };
 		0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE3F1031AE8F9E8003DD551 /* Images.xcassets */; };
 		0CE61DA81D743D89001E462A /* CSHVenuePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */; };
 		0CE61DAA1D744CF6001E462A /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE61DA91D744CF6001E462A /* Array+Additions.swift */; };
@@ -68,11 +68,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C2016711D7A1D9000658831 /* VenuesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenuesManager.swift; sourceTree = "<group>"; };
+		0C2016731D7A1DAA00658831 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		0C2016751D7A1E1E00658831 /* configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = configuration.plist; sourceTree = "<group>"; };
 		0C2272C21AE3EE3200211D96 /* CoffeeShop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoffeeShop-Bridging-Header.h"; sourceTree = "<group>"; };
 		0C2272C31AE3EE3300211D96 /* CSHTipResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHTipResponse.swift; sourceTree = "<group>"; };
-		0C2272CE1AE50CF500211D96 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = ../LocationManager.swift; sourceTree = "<group>"; };
 		0C2272D01AE50D7300211D96 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		0C2272D31AE551D000211D96 /* VenuesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VenuesManager.swift; path = ../VenuesManager.swift; sourceTree = "<group>"; };
 		0C2272D51AE58BB000211D96 /* MasterDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MasterDataController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C236B30172D8A190010D749 /* CoffeeShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C236B33172D8A190010D749 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -125,7 +126,6 @@
 		0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPulsatingButton.swift; sourceTree = "<group>"; };
 		0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSPulsatingButton.xib; sourceTree = "<group>"; };
 		0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHConfiguration.swift; sourceTree = "<group>"; };
-		0CE363191D56407D000A5FF7 /* configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = configuration.plist; sourceTree = SOURCE_ROOT; };
 		0CE3F1031AE8F9E8003DD551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHVenuePhoto.swift; sourceTree = "<group>"; };
 		0CE61DA91D744CF6001E462A /* Array+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
@@ -211,17 +211,17 @@
 		0C236B39172D8A190010D749 /* CoffeeShop */ = {
 			isa = PBXGroup;
 			children = (
-				0CE363191D56407D000A5FF7 /* configuration.plist */,
+				0C2016751D7A1E1E00658831 /* configuration.plist */,
 				0CE3F1031AE8F9E8003DD551 /* Images.xcassets */,
 				0CAC12801AFA3D6A004FB007 /* ProgressView */,
-				0C2272D31AE551D000211D96 /* VenuesManager.swift */,
-				0C2272CE1AE50CF500211D96 /* LocationManager.swift */,
 				0C236B42172D8A190010D749 /* AppDelegate.h */,
+				0C2016711D7A1D9000658831 /* VenuesManager.swift */,
 				0C236B43172D8A190010D749 /* AppDelegate.m */,
 				0C236B4B172D8A190010D749 /* MainStoryboard.storyboard */,
 				0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */,
 				0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */,
 				0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */,
+				0C2016731D7A1DAA00658831 /* LocationManager.swift */,
 				0C27EA791AF588B800333507 /* Models */,
 				0C236B3A172D8A190010D749 /* Supporting Files */,
 				0C2272C21AE3EE3200211D96 /* CoffeeShop-Bridging-Header.h */,
@@ -372,7 +372,7 @@
 				0C236B46172D8A190010D749 /* Default.png in Resources */,
 				0C236B48172D8A190010D749 /* Default@2x.png in Resources */,
 				0CE3F1041AE8F9E8003DD551 /* Images.xcassets in Resources */,
-				0CE3631A1D56407D000A5FF7 /* configuration.plist in Resources */,
+				0C2016761D7A1E1E00658831 /* configuration.plist in Resources */,
 				0C236B4A172D8A190010D749 /* Default-568h@2x.png in Resources */,
 				0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */,
 				0C236B4D172D8A190010D749 /* MainStoryboard.storyboard in Resources */,
@@ -437,7 +437,9 @@
 			files = (
 				0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */,
 				0C236B40172D8A190010D749 /* main.m in Sources */,
+				0C2016721D7A1D9000658831 /* VenuesManager.swift in Sources */,
 				0CE61DA81D743D89001E462A /* CSHVenuePhoto.swift in Sources */,
+				0C2016741D7A1DAA00658831 /* LocationManager.swift in Sources */,
 				0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */,
 				0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */,
 				0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */,
@@ -449,12 +451,10 @@
 				0CE61DAA1D744CF6001E462A /* Array+Additions.swift in Sources */,
 				0C3BB19E1CBBF69200887A74 /* CSHGroup.swift in Sources */,
 				0C2272D61AE58BB000211D96 /* MasterDataController.swift in Sources */,
-				0C2272D41AE551D000211D96 /* VenuesManager.swift in Sources */,
 				0C3BB19C1CBBAF9100887A74 /* CSHVenue.swift in Sources */,
 				0C27EA751AF501F100333507 /* NavigationControllerDelegate.swift in Sources */,
 				0C2272C41AE3EE3300211D96 /* CSHTipResponse.swift in Sources */,
 				0C27EA7D1AF6DB8500333507 /* CSHVenueAnnotation.swift in Sources */,
-				0C2272CF1AE50CF500211D96 /* LocationManager.swift in Sources */,
 				0C99538E1C785B36009BD886 /* CSHVenueTableViewCell.swift in Sources */,
 				0C3BB1981CBB9C3600887A74 /* CSHStats.swift in Sources */,
 				0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */,
