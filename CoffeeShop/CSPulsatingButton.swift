@@ -25,7 +25,7 @@ private class AnimationCompletionBlockHolder : NSObject {
     
     @IBInspectable var scaleAnimationToValue: CGFloat = 1.0
     @IBInspectable var animationRepeatCount: Float = 20.0
-    @IBInspectable var completionAnimationKey: String? = ""
+    @IBInspectable var completionAnimationKey: String = ""
     @IBInspectable var fadeAnimationFromValue: Float = 0.5
     
     private var scaleAnimation: CABasicAnimation!
@@ -71,9 +71,7 @@ private class AnimationCompletionBlockHolder : NSObject {
         scaleAnimation = CSScaleAnimation(toValue: scaleAnimationToValue, repeatCount: animationRepeatCount)
         fadeAnimation = CSFadeAnimation(repeatCount: animationRepeatCount, delegate: self.superview)
         
-        if let completionAnimationKey = self.completionAnimationKey {
-            fadeAnimation.setValue(holder, forKey: completionAnimationKey)
-        }
+        fadeAnimation.setValue(holder, forKey: completionAnimationKey)
         
         self.layer.setValue(NSNumber(float: 0.2), forKeyPath: "transform.scale")
         self.layer.addAnimation(fadeAnimation, forKey: "opacity")
@@ -131,9 +129,10 @@ private class AnimationCompletionBlockHolder : NSObject {
         
         let className = NSStringFromClass(self.dynamicType).substringFromIndex(dotIndex.startIndex.advancedBy(dotIndex.count))
         guard let xib = NSBundle.mainBundle().loadNibNamed(className, owner: self, options: nil),
-            let views = xib as? [UIView] where views.count > 0 else { return nil }
+              let views = xib as? [UIView] where views.count > 0 else { return nil }
         
-        self.addSubview(xib[0] as! UIView)
+        guard let view = xib[0] as? UIView else { return nil }
+        self.addSubview(view)
         
         return views[0]
     }
@@ -143,10 +142,8 @@ private class AnimationCompletionBlockHolder : NSObject {
         largeButton.hidden = true
         mediumButton.hidden = true
         smallButton.hidden = true
-        pulsatingButton.backgroundColor = color!
-        for button in animationButtonItems {
-            button.backgroundColor = color!
-        }
+        pulsatingButton.backgroundColor = color ?? UIColor.clearColor()
+        animationButtonItems.forEach{ $0.backgroundColor = color ?? UIColor.clearColor() }
         
         pulsatingButton.addTarget(self, action: #selector(didPressPulsatingButton), forControlEvents: .TouchUpInside)
     }
@@ -156,7 +153,7 @@ private class AnimationCompletionBlockHolder : NSObject {
     }
     
     override internal func animationDidStop(animation: CAAnimation, finished flag: Bool) {
-        let completion = animationButtonItems.flatMap { animation.valueForKey($0.completionAnimationKey!) as? AnimationCompletionBlockHolder }
+        let completion = animationButtonItems.flatMap { animation.valueForKey($0.completionAnimationKey) as? AnimationCompletionBlockHolder }
         guard completion.count > 0 else { return }
         
         completion[0].block()

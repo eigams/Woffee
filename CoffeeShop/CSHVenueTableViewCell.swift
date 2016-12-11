@@ -25,32 +25,23 @@ class CSHVenueTableViewCell: UITableViewCell {
     }
     
     func configureWithVenue(venue: CSHVenue, image: UIImage?) {
-        self.nameLabel.text = venue.name
+        let cellViewModel = CSHVenueCellViewModel(venue: venue, image: image)
+        
+        self.nameLabel.text = cellViewModel.name
         self.ratingLabel.text = ""
         
-        if let rating = venue.rating {
-            self.ratingLabel.text = String(format: "%.1f", rating)
-        }
-        else {
-            print("doesnt have rating: \(venue.name)")
-        }
+        self.ratingLabel.text = cellViewModel.rating
         
-        self.ratingLabel.backgroundColor = UIColor(hexString: venue.ratingColor ?? "");
-        self.priceLabel.text = [String](count: venue.price?.tier ?? 1, repeatedValue: venue.price?.currency ?? "€").reduce("", combine: +)
+        self.ratingLabel.backgroundColor = cellViewModel.ratingColor
+        self.priceLabel.text = cellViewModel.price
         
-        self.openingHoursLabel.text = ""
-        if let status = venue.hours?.status {
-            self.openingHoursLabel.text = status;
-        }
-        else {
-            self.openingHoursLabel.text = venue.hours?.isOpen ?? false ? "Open" : "";
-        }
+        self.openingHoursLabel.text = cellViewModel.openingHours
         
-        self.previewImage.image = image ?? UIImage()
+        self.previewImage.image = cellViewModel.previewImage
         
-        self.distanceLabel.text = "\(venue.location?.distance ?? 0) m"
-        self.streetAddress.text = venue.location?.address ?? nil;
-        self.cityPostCodeAddress.text = venue.address
+        self.distanceLabel.text = cellViewModel.distance
+        self.streetAddress.text = cellViewModel.street
+        self.cityPostCodeAddress.text = cellViewModel.cityPostCode
         
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.mainScreen().scale

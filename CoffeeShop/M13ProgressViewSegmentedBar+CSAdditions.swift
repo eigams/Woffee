@@ -20,12 +20,14 @@ extension M13ProgressViewSegmentedBar {
     }
     
     func animateInView(view: UIView, completion: (() -> Void)?) {
-        for constraint in self.superview!.constraints {
+        guard let superview = self.superview else { return }
+        
+        for constraint in superview.constraints {
             guard constraint.secondItem as? NSObject == self && constraint.firstAttribute == .CenterY else { continue }
             
-            self.superview!.removeConstraint(constraint)
+            superview.removeConstraint(constraint)
             
-            let newConstraint = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: self.superview!,
+            let newConstraint = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: superview,
                                                    attribute: .Top, multiplier: 1, constant: 35)
             newConstraint.active = true
             break

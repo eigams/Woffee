@@ -33,7 +33,7 @@ protocol VenuesManagerDelegate {
 
 class VenuesManager: NSObject {
 
-    private let queue: dispatch_queue_t;
+    private let queue: dispatch_queue_t = dispatch_queue_create("com.coffeshop.cachevenues", DISPATCH_QUEUE_CONCURRENT)
     private var venues = [CSHVenue]()
     private var defaultWifiEnabledVenues = [CSHVenue]()
     
@@ -48,14 +48,12 @@ class VenuesManager: NSObject {
     
     override init() {
         self.location = CLLocation()
-        self.queue = dispatch_queue_create("com.coffeshop.cachevenues", DISPATCH_QUEUE_CONCURRENT);
         
         super.init()
     }
     
     init(location: CLLocation) {
         self.location = location
-        self.queue = dispatch_queue_create("com.coffeshop.cachevenues", DISPATCH_QUEUE_CONCURRENT);
         
         super.init()
     }
@@ -64,7 +62,7 @@ class VenuesManager: NSObject {
         let defaultWifiEnabledVenueNames = ["starbucks", "pizza express", "harris + hoole"]
         
         let defaultEnabledWirelessVenuesDownloadGroup = dispatch_group_create()
-        dispatch_group_enter(self.downloadGroup)
+        dispatch_group_enter(downloadGroup)
         
         CSHFoursquareClient.sharedInstance.venuesAtLocation(location, queries: defaultWifiEnabledVenueNames, radius: "2500") { venues, error in
             defer { dispatch_group_leave(self.downloadGroup) }
@@ -80,9 +78,9 @@ class VenuesManager: NSObject {
     }
 
     private func lookForCoffeeVenues() {
-        dispatch_group_enter(self.downloadGroup)
+        dispatch_group_enter(downloadGroup)
         
-        CSHFoursquareClient.sharedInstance.coffeeVenuesAtLocation(self.location, radius: "2500") { (venues, error) in
+        CSHFoursquareClient.sharedInstance.coffeeVenuesAtLocation(location, radius: "2500") { (venues, error) in
             defer { dispatch_group_leave(self.downloadGroup) }
             
             if let venues = venues where venues.count > 0 {
@@ -96,7 +94,7 @@ class VenuesManager: NSObject {
     private func lookForFoodVenues() {
         dispatch_group_enter(self.downloadGroup)
         
-        CSHFoursquareClient.sharedInstance.foodVenuesAtLocation(self.location, radius: "2500") { (venues, error) in
+        CSHFoursquareClient.sharedInstance.foodVenuesAtLocation(location, radius: "2500") { (venues, error) in
             defer { dispatch_group_leave(self.downloadGroup) }
             
             if let venues = venues where venues.count > 0 {
@@ -108,7 +106,7 @@ class VenuesManager: NSObject {
     }
     
     func lookForVenuesWithWIFI() {
-        self.delegate?.didStartLookingForVenues()
+        delegate?.didStartLookingForVenues()
         
         lookForDefaultWirelessEnabledVenues()
         lookForFoodVenues()
@@ -120,8 +118,8 @@ class VenuesManager: NSObject {
     }
     
     private func lookForWifiEnabledVenues() {
-        self.venues = self.venues.removeDuplicateVenues()
-        let venueIdentifiers = self.venues.map{ $0.identifier as String }
+        venues = venues.removeDuplicates()
+        let venueIdentifiers = venues.map{ $0.identifier as String }
         
         var sink = [CSHVenue]()
         
@@ -134,10 +132,10 @@ class VenuesManager: NSObject {
                 
                 guard error == nil, let tips = tips else { return }
                 
-                guard let wifiTips = tips.values.first?.filter ({ $0.isWIFI() }) where wifiTips.count > 0,
-                    let wifiIdentifier = tips.keys.first else { return }
+                guard let _ = tips.values.first?.indexOf ({ $0.isWIFI() }),
+                      let wifiIdentifier = tips.keys.first else { return }
                 
-                guard let wifiEnabledVenue = self?.venues.filter( { $0.identifier == wifiIdentifier} ).first else { return }
+                guard let wifiEnabledVenue = self?.venues.indexOf( { $0.identifier == wifiIdentifier} ).flatMap({ self?.venues[$0] }) else { return }
                 sink.append(wifiEnabledVenue)
                 self?.delegate?.didFindWirelessVenue(wifiEnabledVenue)
                 
@@ -146,7 +144,7 @@ class VenuesManager: NSObject {
         }
         
         dispatch_group_notify(wifiTipsGroup, dispatch_get_main_queue(), {
-            self.venues = (sink + self.defaultWifiEnabledVenues).removeDuplicateVenues()
+            self.venues = (sink + self.defaultWifiEnabledVenues).removeDuplicates()
             
             self.delegate?.didFinishLookingForVenues()
             
@@ -155,12 +153,12 @@ class VenuesManager: NSObject {
     }
     
     private func lookForVenuesPhoto() {
-        self.venues.map{ $0.identifier }.forEach {
+        venues.map{ $0.identifier }.forEach {
             CSHFoursquareClient.sharedInstance.venuePhotosWithIdentifier($0) { result, error in
                 
                 guard let identifier = result?.keys.first else { return }
                 guard let photos = result?.values.first where photos.count > 0,
-                    let mostRecentPhoto = photos.first else {
+                      let mostRecentPhoto = photos.first else {
                         print("No photo for: \(identifier)\n")
                         return
                 }

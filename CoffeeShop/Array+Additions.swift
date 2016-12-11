@@ -10,7 +10,7 @@ import Foundation
 
 
 extension Array where Element:CSHVenue {
-    func removeDuplicateVenues() -> Array {
+    func removeDuplicates() -> Array {
         var seen: [String:Bool] = [:]
         
         return self.filter{

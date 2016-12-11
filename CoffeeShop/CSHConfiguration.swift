@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class CSHConfiguration {
+struct CSHConfiguration {
     static let sharedInstance = CSHConfiguration()
     private var keys: [String:AnyObject]!
     
@@ -18,23 +18,23 @@ final class CSHConfiguration {
         }
     }
     
-    func FoursquareClientID() -> String? {
-        return self.keys["FoursquareAPI"]?["ClientID"] as? String
+    var foursquareClientID: String {
+        return keys["FoursquareAPI"]?["ClientID"] as? String ?? ""
     }
     
-    func FoursquareClientSecret() -> String? {
-        return self.keys["FoursquareAPI"]?["ClientSecret"] as? String
+    var foursquareClientSecret: String {
+        return keys["FoursquareAPI"]?["ClientSecret"] as? String ?? ""
     }
     
-    func FoursquareProtocol() -> String {
-        return (self.keys["FoursquareAPI"]?["Protocol"] as? String) ?? "http"
+    var foursquareProtocol: String {
+        return (keys["FoursquareAPI"]?["Protocol"] as? String) ?? "http"
     }
 
-    func FoursquareHost() -> String? {
-        return self.keys["FoursquareAPI"]?["Host"] as? String
+    var foursquareHost: String {
+        return keys["FoursquareAPI"]?["Host"] as? String ?? ""
     }
 
-    func FoursquarePath() -> String? {
-        return self.keys["FoursquareAPI"]?["Path"] as? String
+    var foursquarePath: String {
+        return keys["FoursquareAPI"]?["Path"] as? String ?? ""
     }
 }

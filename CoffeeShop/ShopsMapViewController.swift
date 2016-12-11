@@ -26,13 +26,12 @@ class ShopsMapViewController: UIViewController {//, MKMapViewDelegate {
         // Do any additional setup after loading the view.
         
         guard let coordinates = self.location?.coordinate,
-              let annotations = self.annotations,
-              let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude), 4*MetersPerMile, 4*MetersPerMile) as MKCoordinateRegion? else { return }
+                  annotations = self.annotations,
+                  viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: coordinates.latitude, longitude: coordinates.longitude), 4*MetersPerMile, 4*MetersPerMile) as MKCoordinateRegion? else { return }
             
         // 3
-        self.mapView.setRegion(viewRegion, animated: true)
-                    
-        self.mapView.addAnnotations(annotations)
+        mapView.setRegion(viewRegion, animated: true)
+        mapView.addAnnotations(annotations)
     }
 
     override func didReceiveMemoryWarning() {

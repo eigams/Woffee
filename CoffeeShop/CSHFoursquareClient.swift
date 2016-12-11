@@ -47,41 +47,41 @@ private struct CSHFourquareRequest {
         self.isForPhotos = forPhotos
     }
     
-    private func venueResources() -> [String: String] {
-        return ["client_id": CSHConfiguration.sharedInstance.FoursquareClientID() ?? "",
-                "client_secret": CSHConfiguration.sharedInstance.FoursquareClientSecret() ?? "",
-                "v": self.version,
+    private var venueResources: [String: String] {
+        return ["client_id": CSHConfiguration.sharedInstance.foursquareClientID,
+                "client_secret": CSHConfiguration.sharedInstance.foursquareClientSecret,
+                "v": version,
                 "sort": "recent"]
     }
     
-    private func venues() -> [String: String] {
-        guard let location = self.location else { return [:] }
+    private var venues: [String: String] {
+        guard let location = location else { return [:] }
         let latitudeLongitude = String(format: "%.8f,%.8f", location.coordinate.latitude, location.coordinate.longitude)
         
         return ["ll": latitudeLongitude,
-              "client_id": CSHConfiguration.sharedInstance.FoursquareClientID() ?? "",
-              "client_secret": CSHConfiguration.sharedInstance.FoursquareClientSecret() ?? "",
-              self.queryType: self.queryParameter ?? "",
-              "v": self.version,
-              "radius": self.radius ?? "2000",
-              "sortByDistance": self.sortByDistance,
-              "limit": self.limit]
+              "client_id": CSHConfiguration.sharedInstance.foursquareClientID,
+              "client_secret": CSHConfiguration.sharedInstance.foursquareClientSecret,
+              queryType: queryParameter ?? "",
+              "v": version,
+              "radius": radius ?? "2000",
+              "sortByDistance": sortByDistance,
+              "limit": limit]
     }
     
     func asString() -> String {
         
         let sink: [NSURLQueryItem]
         if self.location != nil {
-           sink = venues().map{ NSURLQueryItem(name: $0.0, value: $0.1) }
+           sink = venues.map{ NSURLQueryItem(name: $0.0, value: $0.1) }
         } else {
-           sink = venueResources().map{ NSURLQueryItem(name: $0.0, value: $0.1) }
+           sink = venueResources.map{ NSURLQueryItem(name: $0.0, value: $0.1) }
         }
         
         let components = NSURLComponents()
         components.queryItems = sink
-        components.scheme = CSHConfiguration.sharedInstance.FoursquareProtocol()
-        components.host = CSHConfiguration.sharedInstance.FoursquareHost() ?? ""
-        components.path = self.location != nil ? CSHConfiguration.sharedInstance.FoursquarePath() ?? "" : "/v2/venues/\(self.identifier ?? "")/\(self.isForPhotos ? "photos": "tips")"
+        components.scheme = CSHConfiguration.sharedInstance.foursquareProtocol
+        components.host = CSHConfiguration.sharedInstance.foursquareHost
+        components.path = self.location != nil ? CSHConfiguration.sharedInstance.foursquarePath : "/v2/venues/\(self.identifier ?? "")/\(self.isForPhotos ? "photos": "tips")"
         
         return components.URLString ?? ""
     }
@@ -101,12 +101,14 @@ private enum VenueResourceType {
     case Photo
 }
 
+typealias CSHVenuesCompletionBlock = ([CSHVenue]?, NSError?) -> Void
+
 final class CSHFoursquareClient {
     static let sharedInstance = CSHFoursquareClient()
     
     internal required init() {}
     
-    private func sendRequestWithLocation(location: CLLocation, query: String, queryType: String, radius: String, completion: ([CSHVenue]?, NSError?) -> Void) {
+    private func sendRequestWithLocation(location: CLLocation, query: String, queryType: String, radius: String, completion: CSHVenuesCompletionBlock) {
         
         let request = CSHFourquareRequest(location: location, radius: radius, queryParameter: query)
         let path = request.asString()
@@ -124,19 +126,19 @@ final class CSHFoursquareClient {
         }
     }
     
-    func venuesAtLocation(location: CLLocation, query: String, radius: String, completion: (venues: [CSHVenue]?, error: NSError?) -> Void) {
+    func venuesAtLocation(location: CLLocation, query: String, radius: String, completion: CSHVenuesCompletionBlock) {
         sendRequestWithLocation(location, query: query, queryType: "query", radius: radius, completion: completion)
     }
     
-    func coffeeVenuesAtLocation(location: CLLocation, radius: String, completion: (venues: [CSHVenue]?, error: NSError?) -> Void) {
+    func coffeeVenuesAtLocation(location: CLLocation, radius: String, completion: CSHVenuesCompletionBlock) {
         sendRequestWithLocation(location, query: "coffee", queryType: "section", radius: radius, completion: completion)
     }
     
-    func foodVenuesAtLocation(location: CLLocation, radius: String, completion: (venues: [CSHVenue]?, error: NSError?) -> Void) {
+    func foodVenuesAtLocation(location: CLLocation, radius: String, completion: CSHVenuesCompletionBlock) {
         sendRequestWithLocation(location, query: "food", queryType: "section", radius: radius, completion: completion)
     }
     
-    func venuesAtLocation(location: CLLocation, queries: [String], radius: String, completion: ([CSHVenue]?, NSError?) -> Void) {
+    func venuesAtLocation(location: CLLocation, queries: [String], radius: String, completion: CSHVenuesCompletionBlock) {
         let downloadGroup = dispatch_group_create()
         
         var sink:[[CSHVenue]] = []
@@ -159,7 +161,7 @@ final class CSHFoursquareClient {
                 return
             }
             
-            let joined = sink.reduce([],combine: {$0 + $1}).removeDuplicateVenues()
+            let joined = sink.reduce([],combine: {$0 + $1}).removeDuplicates()
             
             completion(joined, nil)
         }
@@ -174,7 +176,7 @@ final class CSHFoursquareClient {
         Alamofire.request(.GET, resourceRequest).responseObject{ (response: Response<CSHFoursquareVenueTipResponse, NSError>) in
             
             guard let value = response.result.value,
-                let items = value.response?.tips?.items where items.count > 0 else {
+                    items = value.response?.tips?.items where items.count > 0 else {
                     completion(tip: nil, error: response.result.error)
                     return
             }
@@ -193,7 +195,7 @@ final class CSHFoursquareClient {
         Alamofire.request(.GET, request).responseObject{ (response: Response<CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>, NSError>) in
             
             guard let value = response.result.value,
-                let items = value.response?.photo?.items else {
+                      items = value.response?.photo?.items else {
                     completion(photo: nil, error: response.result.error)
                     return
             }

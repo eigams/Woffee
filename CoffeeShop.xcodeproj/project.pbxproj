@@ -41,10 +41,12 @@
 		0C3BB19E1CBBF69200887A74 /* CSHGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */; };
 		0C3BB1A01CBBF6D900887A74 /* CSHGroupItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */; };
 		0C3BB1A21CBBFAF100887A74 /* CSHVenueTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */; };
+		0C489AC21DBAD355007E3C5D /* CSHExpandableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C489AC11DBAD355007E3C5D /* CSHExpandableTableViewCell.swift */; };
 		0C515E9C1AEA591000C96E71 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */; };
 		0C515E9E1AEA8D3E00C96E71 /* ShopsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */; };
 		0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */; };
 		0C64DD0C1C76F6F600CFCEE6 /* CSTableViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */; };
+		0C65ADB21DB66590000098B0 /* CSHVenueCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C65ADB11DB66590000098B0 /* CSHVenueCellViewModel.swift */; };
 		0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */; };
 		0C7DBA091CCD5D7800963A35 /* CSHFoursquareClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */; };
 		0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */; };
@@ -106,10 +108,12 @@
 		0C3BB19D1CBBF69200887A74 /* CSHGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHGroup.swift; sourceTree = "<group>"; };
 		0C3BB19F1CBBF6D900887A74 /* CSHGroupItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHGroupItems.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CSHVenueTip.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		0C489AC11DBAD355007E3C5D /* CSHExpandableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHExpandableTableViewCell.swift; sourceTree = "<group>"; };
 		0C515E9B1AEA590F00C96E71 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		0C515E9D1AEA8D3E00C96E71 /* ShopsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsListViewController.swift; sourceTree = "<group>"; };
 		0C515E9F1AEA8D6800C96E71 /* ShopsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopsMapViewController.swift; sourceTree = "<group>"; };
 		0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSTableViewAnimation.swift; sourceTree = "<group>"; };
+		0C65ADB11DB66590000098B0 /* CSHVenueCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHVenueCellViewModel.swift; sourceTree = "<group>"; };
 		0C6EF9831AED73480042ADF5 /* NSDate+WoffeShop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+WoffeShop.swift"; sourceTree = "<group>"; };
 		0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHFoursquareClient.swift; sourceTree = "<group>"; };
 		0C8E234D1AE7D894007E6091 /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 				0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */,
 				0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */,
 				0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */,
+				0C489AC11DBAD355007E3C5D /* CSHExpandableTableViewCell.swift */,
 			);
 			path = CoffeeShop;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				0C3BB1A11CBBFAF100887A74 /* CSHVenueTip.swift */,
 				0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */,
 				0CE61DA71D743D89001E462A /* CSHVenuePhoto.swift */,
+				0C65ADB11DB66590000098B0 /* CSHVenueCellViewModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 				0C3BB1981CBB9C3600887A74 /* CSHStats.swift in Sources */,
 				0C27EA771AF5023800333507 /* CircleTransitionAnimator.swift in Sources */,
 				0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */,
+				0C489AC21DBAD355007E3C5D /* CSHExpandableTableViewCell.swift in Sources */,
 				0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */,
 				0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */,
 				0CC3DE081C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift in Sources */,
@@ -467,6 +474,7 @@
 				0C6EF9841AED73480042ADF5 /* NSDate+WoffeShop.swift in Sources */,
 				0C3BB19A1CBBABA800887A74 /* CSHLocation.swift in Sources */,
 				0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */,
+				0C65ADB21DB66590000098B0 /* CSHVenueCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

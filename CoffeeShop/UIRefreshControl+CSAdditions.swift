@@ -8,3 +8,12 @@
 
 import Foundation
 
+extension UIRefreshControl {
+    func setupInTableView(parentTableView: UITableView, viewController: UIViewController, selector: Selector) {
+        self.backgroundColor = UIColor.clearColor()
+        self.tintColor = UIColor.whiteColor()
+        self.addTarget(viewController, action: selector, forControlEvents: UIControlEvents.ValueChanged)
+        
+        parentTableView.insertSubview(self, atIndex: 0)
+    }
+}
