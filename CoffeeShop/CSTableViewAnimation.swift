@@ -17,7 +17,6 @@ import UIKit
     @IBInspectable var velocity: CGFloat
 
     override required init() {
-        
         self.duration = 1.5
         self.delay = 0.05
         self.dampingRatio = 0.0

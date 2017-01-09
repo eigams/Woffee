@@ -69,19 +69,13 @@ private struct CSHFourquareRequest {
     }
     
     func asString() -> String {
-        
-        let sink: [NSURLQueryItem]
-        if self.location != nil {
-           sink = venues.map{ NSURLQueryItem(name: $0.0, value: $0.1) }
-        } else {
-           sink = venueResources.map{ NSURLQueryItem(name: $0.0, value: $0.1) }
-        }
+        let sink: [NSURLQueryItem] = location.map { venues.map{ NSURLQueryItem(name: $0.0, value: $0.1) } } ?? venueResources.map{ NSURLQueryItem(name: $0.0, value: $0.1) }
         
         let components = NSURLComponents()
         components.queryItems = sink
         components.scheme = CSHConfiguration.sharedInstance.foursquareProtocol
         components.host = CSHConfiguration.sharedInstance.foursquareHost
-        components.path = self.location != nil ? CSHConfiguration.sharedInstance.foursquarePath : "/v2/venues/\(self.identifier ?? "")/\(self.isForPhotos ? "photos": "tips")"
+        components.path = location.map { CSHConfiguration.sharedInstance.foursquarePath } ?? "/v2/venues/\(identifier ?? "")/\(isForPhotos ? "photos": "tips")"
         
         return components.URLString ?? ""
     }
@@ -168,7 +162,7 @@ final class CSHFoursquareClient {
     }
     
     typealias CSHFoursquareVenueTipResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenueTipResponseObject>
-    func venueTipsWithIdentifier(identifier: String, completion: (tip: [String: [CSHVenueTip]]?, error: NSError?) -> Void) {
+    func venueTipsWithIdentifier(identifier: String, completion: (_ tip: [String: [CSHVenueTip]]?, _ error: NSError?) -> Void) {
         
         guard let resourceRequest = CSHFourquareRequest.requestForResourceType(identifier, resourceType: .Tip) else { completion(tip: nil, error: nil); return }
         var result: [String: [CSHVenueTip]] = [:]
@@ -176,7 +170,7 @@ final class CSHFoursquareClient {
         Alamofire.request(.GET, resourceRequest).responseObject{ (response: Response<CSHFoursquareVenueTipResponse, NSError>) in
             
             guard let value = response.result.value,
-                    items = value.response?.tips?.items where items.count > 0 else {
+                  let items = value.response?.tips?.items, items.count > 0 else {
                     completion(tip: nil, error: response.result.error)
                     return
             }
@@ -187,7 +181,7 @@ final class CSHFoursquareClient {
     }
 
     typealias CSHFoursquareVenuePhotoResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>
-    func venuePhotosWithIdentifier(identifier: String, completion: (photo: [String: [CSHVenuePhoto]]?, error: NSError?) -> Void) {
+    func venuePhotosWithIdentifier(identifier: String, completion: (_ photo: [String: [CSHVenuePhoto]]?, _ error: NSError?) -> Void) {
         
         guard let request = CSHFourquareRequest.requestForResourceType(identifier, resourceType: .Photo) else { completion(photo: nil, error: nil); return }
         var result: [String: [CSHVenuePhoto]] = [:]
@@ -195,7 +189,7 @@ final class CSHFoursquareClient {
         Alamofire.request(.GET, request).responseObject{ (response: Response<CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>, NSError>) in
             
             guard let value = response.result.value,
-                      items = value.response?.photo?.items else {
+                  let items = value.response?.photo?.items else {
                     completion(photo: nil, error: response.result.error)
                     return
             }

@@ -10,7 +10,10 @@ import Foundation
 
 struct CSHConfiguration {
     static let sharedInstance = CSHConfiguration()
-    private var keys: [String:AnyObject]!
+    private var keys: [String:AnyObject]?
+    private var foursquareAPIKey: String? = {
+        return keys?["FoursquareAPI"]
+    }
     
     private init() {
         if let keysPath = NSBundle.mainBundle().pathForResource("configuration", ofType: "plist") {
@@ -19,22 +22,22 @@ struct CSHConfiguration {
     }
     
     var foursquareClientID: String {
-        return keys["FoursquareAPI"]?["ClientID"] as? String ?? ""
+        return foursquareAPIKey.map { return $0["ClientID"] as? String } ?? ""
     }
     
     var foursquareClientSecret: String {
-        return keys["FoursquareAPI"]?["ClientSecret"] as? String ?? ""
+        return foursquareAPIKey.map { return $0["ClientSecret"] as? String } ?? ""
     }
     
     var foursquareProtocol: String {
-        return (keys["FoursquareAPI"]?["Protocol"] as? String) ?? "http"
+        return foursquareAPIKey.map { return $0["Protocol"] as? String } ?? ""
     }
 
     var foursquareHost: String {
-        return keys["FoursquareAPI"]?["Host"] as? String ?? ""
+        return foursquareAPIKey.map { return $0["Host"] as? String } ?? ""
     }
 
     var foursquarePath: String {
-        return keys["FoursquareAPI"]?["Path"] as? String ?? ""
+        return foursquareAPIKey.map { return $0["Path"] as? String } ?? ""
     }
 }

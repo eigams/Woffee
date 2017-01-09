@@ -35,18 +35,14 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
         
         return venues[indexPath.row]
     }
-    
-    func sortVenuesByDistance() {
-        venues = venues.sort{ $0.location?.distance < $1.location?.distance }
-    }
-    
+        
     func addVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
         guard self.venues.venueForIdentifier(venue.identifier) == nil else { return }
         
         venues.append(venue)
         images[venue.identifier] = nil
         
-        sortVenuesByDistance()
+        venues = venues.sort{ $0.location?.distance < $1.location?.distance }
         
         if let index = self.venues.indexOf({$0.identifier == venue.identifier}) {
             completion?(index: index)
