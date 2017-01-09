@@ -20,7 +20,7 @@ struct CSHLocation: Mappable {
     var lat: Double?
     var lng: Double?
     
-    init?(_ map: Map) {
+    init?(map: Map) {
         
     }
     

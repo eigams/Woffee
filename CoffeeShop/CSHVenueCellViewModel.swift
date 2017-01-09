@@ -11,15 +11,15 @@ import Foundation
 
 struct CSHVenueCellViewModel {
     
-    private (set) var name: String
-    private (set) var rating: String
-    private (set) var ratingColor: UIColor
-    private (set) var price: String
-    private (set) var openingHours: String
-    private (set) var previewImage: UIImage
-    private (set) var distance: String
-    private (set) var street: String
-    private (set) var cityPostCode: String
+    fileprivate (set) var name: String
+    fileprivate (set) var rating: String
+    fileprivate (set) var ratingColor: UIColor
+    fileprivate (set) var price: String
+    fileprivate (set) var openingHours: String
+    fileprivate (set) var previewImage: UIImage
+    fileprivate (set) var distance: String
+    fileprivate (set) var street: String
+    fileprivate (set) var cityPostCode: String
     
     init(venue: CSHVenue, image: UIImage?) {
         self.name = venue.name
@@ -31,8 +31,8 @@ struct CSHVenueCellViewModel {
             self.rating = ""
         }
         
-        self.ratingColor = UIColor(hexString: venue.ratingColor ?? "") ?? UIColor.grayColor()
-        self.price = [String](count: venue.price?.tier ?? 1, repeatedValue: venue.price?.currency ?? "€").reduce("", combine: +)
+        self.ratingColor = UIColor(hexString: venue.ratingColor ?? "") ?? UIColor.gray
+        self.price = [String](repeating: venue.price?.currency ?? "€", count: venue.price?.tier ?? 1).reduce("", +)
         
         if let status = venue.hours?.status {
             self.openingHours = status

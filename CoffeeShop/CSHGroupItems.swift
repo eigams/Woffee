@@ -15,7 +15,7 @@ struct CSGroupItems: Mappable {
     var referralId: String?
     var reasons: [String: AnyObject]?
     
-    init?(_ map: Map) {
+    init?(map: Map) {
         
     }
     

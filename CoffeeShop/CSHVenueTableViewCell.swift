@@ -11,20 +11,20 @@ import UIKit
 @objc (CSHVenueTableViewCell)
 class CSHVenueTableViewCell: UITableViewCell {
     
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var distanceLabel: UILabel!
-    @IBOutlet private weak var streetAddress: UILabel!
-    @IBOutlet private weak var cityPostCodeAddress: UILabel!
-    @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var ratingLabel: UILabel!
-    @IBOutlet private weak var previewImage: UIImageView!
-    @IBOutlet private weak var openingHoursLabel: UILabel!
+    @IBOutlet fileprivate weak var nameLabel: UILabel!
+    @IBOutlet fileprivate weak var distanceLabel: UILabel!
+    @IBOutlet fileprivate weak var streetAddress: UILabel!
+    @IBOutlet fileprivate weak var cityPostCodeAddress: UILabel!
+    @IBOutlet fileprivate weak var priceLabel: UILabel!
+    @IBOutlet fileprivate weak var ratingLabel: UILabel!
+    @IBOutlet fileprivate weak var previewImage: UIImageView!
+    @IBOutlet fileprivate weak var openingHoursLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func configureWithVenue(venue: CSHVenue, image: UIImage?) {
+    func configure(venue: CSHVenue, image: UIImage?) {
         let cellViewModel = CSHVenueCellViewModel(venue: venue, image: image)
         
         self.nameLabel.text = cellViewModel.name
@@ -44,7 +44,7 @@ class CSHVenueTableViewCell: UITableViewCell {
         self.cityPostCodeAddress.text = cellViewModel.cityPostCode
         
         self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.mainScreen().scale
+        self.layer.rasterizationScale = UIScreen.main.scale
     }
     
     class func reusableIdentifier() -> String {

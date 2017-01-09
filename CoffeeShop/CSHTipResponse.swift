@@ -14,7 +14,7 @@ struct CSHTipResponse: Mappable {
     var createdAt: CUnsignedLong?
     var text: String!
     
-    init?(_ map: Map) {
+    init?(map: Map) {
         
     }
     

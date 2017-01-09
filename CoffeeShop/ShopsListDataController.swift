@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 extension MKPointAnnotation {
     convenience init(venue: CSHVenue) {
         self.init()
@@ -23,67 +24,67 @@ extension MKPointAnnotation {
 @objc (ShopsListDataController)
 class ShopsListDataController: NSObject, UITableViewDataSource {
     
-    private var venues = [CSHVenue]()
-    private var images = [String: NSData]()
+    fileprivate var venues = [CSHVenue]()
+    fileprivate var images = [String: Data]()
     
     var annotations: [MKPointAnnotation]? {
         return venues.map { MKPointAnnotation(venue: $0) }
     }
     
-    func venueAtIndexPath(indexPath: NSIndexPath) -> CSHVenue? {
+    func venueAtIndexPath(_ indexPath: IndexPath) -> CSHVenue? {
         guard venues.count > indexPath.row else { return nil }
         
         return venues[indexPath.row]
     }
         
-    func addVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
+    func addVenue(_ venue: CSHVenue, completion: ((Int) -> Void)?) {
         guard self.venues.venueForIdentifier(venue.identifier) == nil else { return }
         
         venues.append(venue)
         images[venue.identifier] = nil
         
-        venues = venues.sort{ $0.location?.distance < $1.location?.distance }
+        venues = venues.sorted{ $0.location?.distance ?? 0 < $1.location?.distance ?? 0 }
         
-        if let index = self.venues.indexOf({$0.identifier == venue.identifier}) {
-            completion?(index: index)
+        if let index = self.venues.index(where: {$0.identifier == venue.identifier}) {
+            completion?(index)
         }
     }
 
-    func imageForVenue(venue: CSHVenue, completion: ((index: Int) -> Void)?) {
+    func imageForVenue(_ venue: CSHVenue, completion: ((_ index: Int) -> Void)?) {
         guard images[venue.identifier] == nil,
               let photo = venue.photo else { return }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [weak self] in
-            guard let url = NSURL(string: photo),
-                      imageData = NSData(contentsOfURL: url)  else { return }
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { [weak self] in
+            guard let url = URL(string: photo),
+                      let imageData = try? Data(contentsOf: url)  else { return }
             
             self?.images[venue.identifier] = imageData
-            dispatch_sync(dispatch_get_main_queue(), { [weak self] in
-                guard let index = self?.venues.indexOf({ $0.identifier == venue.identifier }) else { return }
+            DispatchQueue.main.sync(execute: { [weak self] in
+                guard let index = self?.venues.index(where: { $0.identifier == venue.identifier }) else { return }
                 
-                completion?(index: index)
+                completion?(index)
             })
         })
     }
     
-    func venueImageAtIndexPath(indexPath: NSIndexPath) -> UIImage? {
+    func venueImage(indexPath: IndexPath) -> UIImage? {
         guard let venue = venueAtIndexPath(indexPath) else { return nil }
         
-        return UIImage(data: images[venue.identifier] ?? NSData())
+        return UIImage(data: images[venue.identifier] ?? Data())
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return venues.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(CSHVenueTableViewCell.reusableIdentifier(), forIndexPath: indexPath) as? CSHVenueTableViewCell else { return UITableViewCell() }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CSHVenueTableViewCell.reusableIdentifier(), for: indexPath) as? CSHVenueTableViewCell else { return UITableViewCell() }
         
-        cell.configureWithVenue(venues[indexPath.row], image: venueImageAtIndexPath(indexPath))
+        cell.configure(venue: venues[indexPath.row], image: venueImage(indexPath: indexPath))
         
         return cell
     }

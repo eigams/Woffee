@@ -14,7 +14,7 @@ struct CSHStats: Mappable {
     var tips: Int?
     var users: Int?
 
-    init?(_ map: Map) {
+    init?(map: Map) {
         
     }
     

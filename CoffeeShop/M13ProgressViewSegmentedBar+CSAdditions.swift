@@ -15,25 +15,25 @@ extension M13ProgressViewSegmentedBar {
         self.progressDirection = M13ProgressViewSegmentedBarProgressDirectionLeftToRight
         self.indeterminate = true
         self.segmentShape = M13ProgressViewSegmentedBarSegmentShapeCircle
-        self.primaryColor = UIColor.whiteColor()
-        self.secondaryColor = UIColor.grayColor()
+        self.primaryColor = UIColor.white
+        self.secondaryColor = UIColor.gray
     }
     
-    func animateInView(view: UIView, completion: (() -> Void)?) {
+    func animateInView(_ view: UIView, completion: (() -> Void)?) {
         guard let superview = self.superview else { return }
         
         for constraint in superview.constraints {
-            guard constraint.secondItem as? NSObject == self && constraint.firstAttribute == .CenterY else { continue }
+            guard constraint.secondItem as? NSObject == self && constraint.firstAttribute == .centerY else { continue }
             
             superview.removeConstraint(constraint)
             
-            let newConstraint = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: superview,
-                                                   attribute: .Top, multiplier: 1, constant: 35)
-            newConstraint.active = true
+            let newConstraint = NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview,
+                                                   attribute: .top, multiplier: 1, constant: 35)
+            newConstraint.isActive = true
             break
         }
         
-        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 3.0, options: .CurveEaseIn,
+        UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 3.0, options: .curveEaseIn,
             animations: {
                 view.layoutIfNeeded()
             },

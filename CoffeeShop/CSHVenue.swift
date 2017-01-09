@@ -13,7 +13,7 @@ struct CSHHours: Mappable {
     var status: String?
     var isOpen: Bool?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -28,7 +28,7 @@ struct CSHPrice: Mappable {
     var currency: String!
     var tier: Int?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -43,7 +43,7 @@ struct CSHFoursquareResponse: Mappable {
     var meta: CSHFoursquareResponseMeta?
     var response: CSHFoursquareResponseObject?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -57,7 +57,7 @@ struct CSHFoursquareResponseMeta: Mappable {
     var code: Int?
     var requestId: String?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -72,7 +72,7 @@ struct CSHFoursquareResponseObject: Mappable {
     var totalResults: Int?
     var items: [CSHFoursquareResponseObjectGroupItem]?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -87,7 +87,7 @@ struct CSHFoursquareResponseObjectGroupItem: Mappable {
     var venue: CSHVenue?
     var referralId: String?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -116,28 +116,28 @@ class CSHVenue: Mappable {
         
         var result = ""
         if city.isEmpty == false {
-            result = (result as NSString).stringByAppendingString(city)
+            result = (result as NSString).appending(city)
         }
         
         if postalCode.isEmpty == false {
             if result.isEmpty == false && result.characters.last != "," {
-                result = (result as NSString).stringByAppendingString(", ")
+                result = (result as NSString).appending(", ")
             }
             
-            result = (result as NSString).stringByAppendingString(postalCode)
+            result = (result as NSString).appending(postalCode)
         }
         
         var sink:[String] = []
         if city.isEmpty == false { sink.append(city) }
         if postalCode.isEmpty == false { sink.append(postalCode) }
         
-        if sink.count > 1 { return sink.joinWithSeparator(", ") }
+        if sink.count > 1 { return sink.joined(separator: ", ") }
         if sink.count > 0 { return sink[0] }
         
         return ""
     }
     
-    required init?(_ map: Map){
+    required init?(map: Map){
         
     }
     

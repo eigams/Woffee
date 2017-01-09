@@ -11,17 +11,17 @@ import CoreLocation
 
 class CSLocationManager: NSObject, CLLocationManagerDelegate {
     
-    typealias CompletionBlock_t = (location: CLLocation?, error: NSError?) -> Void
+    typealias CompletionBlock_t = (_ location: CLLocation?, _ error: NSError?) -> Void
     
-    private let locationManager: CLLocationManager
-    private var completion:CompletionBlock_t?
+    fileprivate let locationManager: CLLocationManager
+    fileprivate var completion:CompletionBlock_t?
     
-    func start(completion: CompletionBlock_t?) {
+    func start(_ completion: CompletionBlock_t?) {
         
         self.locationManager.delegate = self
         self.completion = completion
         
-        if self.locationManager.respondsToSelector(#selector(CLLocationManager.requestWhenInUseAuthorization)) {
+        if self.locationManager.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization)) {
             self.locationManager.requestWhenInUseAuthorization()
         }
         else {
@@ -45,25 +45,25 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.locationManager.stopUpdatingLocation()
         guard let completion = self.completion,
               let location = locations.last else { return }
         
-        completion(location: location, error: nil)
+        completion(location, nil)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
             self.locationManager.startUpdatingLocation()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         self.locationManager.stopUpdatingLocation()
         guard let completion = self.completion else { return }
         
-        completion(location: nil, error: error)
+        completion(nil, error as NSError?)
     }
     
 }

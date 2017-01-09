@@ -10,10 +10,10 @@ import UIKit
 
 class MasterDataController: NSObject {
 
-    private func configureRestKit() {
+    fileprivate func configureRestKit() {
         
         
-        let baseURL = NSURL(string: "https://api.foursquare.com/v2")
+        let baseURL = URL(string: "https://api.foursquare.com/v2")
 //        let client = AFHTTPClient(baseURL: baseURL)
 //        
 //        // initialize RestKit
@@ -65,7 +65,7 @@ class MasterDataController: NSObject {
         
     }
     
-    private func f() {
+    fileprivate func f() {
     
     }
     

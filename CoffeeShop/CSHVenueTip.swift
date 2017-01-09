@@ -15,7 +15,7 @@ struct CSHVenueTip: Mappable {
     var text: String?
     var photourl: String?
     
-    init?(_ map: Map) {
+    init?(map: Map) {
         
     }
     
@@ -29,19 +29,19 @@ struct CSHVenueTip: Mappable {
     func isWIFI() -> Bool {
         guard let venueTip = self.text else { return false }
         
-        let containsWifi = venueTip.rangeOfString("wifi") != nil
-        let hasWifi = venueTip.rangeOfString("no wifi") == nil && venueTip.rangeOfString("no free wifi") == nil &&
-            venueTip.rangeOfString("no wi-fi") == nil && venueTip.rangeOfString("no free wi-fi") == nil
+        let containsWifi = venueTip.range(of: "wifi") != nil
+        let hasWifi = venueTip.range(of: "no wifi") == nil && venueTip.range(of: "no free wifi") == nil &&
+            venueTip.range(of: "no wi-fi") == nil && venueTip.range(of: "no free wi-fi") == nil
         
         return containsWifi && hasWifi
     }
 }
 
-struct CSHFoursquareVenueResourceResponse<T where T:Mappable>: Mappable {
+struct CSHFoursquareVenueResourceResponse<T>: Mappable where T:Mappable {
     var meta: CSHFoursquareResponseMeta?
     var response: T?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -54,7 +54,7 @@ struct CSHFoursquareVenueResourceResponse<T where T:Mappable>: Mappable {
 struct CSHFoursquareVenueTipResponseObject: Mappable {
     var tips: CSHFoursquareVenueResourceData<CSHVenueTip>?
     
-    init?(_ map: Map){ }
+    init?(map: Map){ }
     
     mutating func mapping(map: Map) {
         tips <- map["tips"]
@@ -65,7 +65,7 @@ struct CSHFoursquareVenueTipData: Mappable {
     var count: Int?
     var items: [CSHVenueTip]?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -75,11 +75,11 @@ struct CSHFoursquareVenueTipData: Mappable {
     }
 }
 
-struct CSHFoursquareVenueResourceData<T where T:Mappable>: Mappable {
+struct CSHFoursquareVenueResourceData<T>: Mappable where T:Mappable {
     var count: Int?
     var items: [T]?
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -92,7 +92,7 @@ struct CSHFoursquareVenueResourceData<T where T:Mappable>: Mappable {
 struct CSHFoursquareVenuePhotoResponseObject: Mappable {
     var photo: CSHFoursquareVenueResourceData<CSHVenuePhoto>?
     
-    init?(_ map: Map){ }
+    init?(map: Map){ }
     
     mutating func mapping(map: Map) {
         photo <- map["photos"]

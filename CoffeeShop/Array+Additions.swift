@@ -18,13 +18,13 @@ extension Array where Element:CSHVenue {
         }
     }
     
-    func updatePhotoURL(identifier: String, photoURL: String) {
+    func updatePhotoURL(_ identifier: String, photoURL: String) {
         guard let venue = self.venueForIdentifier(identifier) else { return }
         
         venue.photo = photoURL
     }
     
-    func venueForIdentifier(identifier: String) -> CSHVenue? {
-        return self.indexOf { $0.identifier == identifier }.map{ self[$0] }
+    func venueForIdentifier(_ identifier: String) -> CSHVenue? {
+        return self.index { $0.identifier == identifier }.map{ self[$0] }
     }
 }

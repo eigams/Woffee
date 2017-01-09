@@ -11,8 +11,8 @@ import UIKit
 @IBDesignable class CSTableViewAnimation: NSObject {
     @IBOutlet weak var owner: UITableView!
     
-    @IBInspectable var duration: NSTimeInterval
-    @IBInspectable var delay: NSTimeInterval
+    @IBInspectable var duration: TimeInterval
+    @IBInspectable var delay: TimeInterval
     @IBInspectable var dampingRatio: CGFloat
     @IBInspectable var velocity: CGFloat
 
@@ -23,16 +23,16 @@ import UIKit
         self.velocity = 0.0
     }
     
-    private func hideCell(cell: UITableViewCell) {
-        cell.transform = CGAffineTransformMakeTranslation(0, owner.bounds.size.height);
+    fileprivate func hideCell(_ cell: UITableViewCell) {
+        cell.transform = CGAffineTransform(translationX: 0, y: owner.bounds.size.height);
         cell.alpha = 0;
     }
 
-    private func showCell(cell: UITableViewCell) {
-        guard let row = owner.indexPathForCell(cell)?.row else { return }
+    fileprivate func showCell(_ cell: UITableViewCell) {
+        guard let row = owner.indexPath(for: cell)?.row else { return }
         
-        UIView.animateWithDuration(1.5, delay: 0.05 * Double(row), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
-            cell.transform = CGAffineTransformMakeTranslation(0, 0);
+        UIView.animate(withDuration: 1.5, delay: 0.05 * Double(row), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
+            cell.transform = CGAffineTransform(translationX: 0, y: 0);
             cell.alpha = 1.0
             }, completion: nil)
     }

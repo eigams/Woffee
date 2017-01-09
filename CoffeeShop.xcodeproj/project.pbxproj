@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		014FBF0A7FCF5073B3AE5B6D /* Pods_CoffeeShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */; };
 		0C2016721D7A1D9000658831 /* VenuesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2016711D7A1D9000658831 /* VenuesManager.swift */; };
 		0C2016741D7A1DAA00658831 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2016731D7A1DAA00658831 /* LocationManager.swift */; };
 		0C2016761D7A1E1E00658831 /* configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C2016751D7A1E1E00658831 /* configuration.plist */; };
@@ -52,7 +51,6 @@
 		0C8E234F1AE7D894007E6091 /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */; };
 		0C99538E1C785B36009BD886 /* CSHVenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */; };
 		0C9953901C78AB54009BD886 /* ShopsListDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */; };
-		0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */; };
 		0CAC127E1AFA3D64004FB007 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */; };
 		0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC127D1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m */; };
 		0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC3DE051C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift */; };
@@ -66,7 +64,7 @@
 		0CE721EA1CDF3C4300B88CE8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */; };
 		0CE721EB1CDF3C4300B88CE8 /* AlamofireObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */; };
 		0CE721EC1CDF3C4300B88CE8 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */; };
-		3A6BCA8FD79D4A39B5CE0955 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E963059EE8A4A2295E5B554 /* libPods.a */; };
+		89DDC2A976389492C7884A2D /* Pods_CoffeeShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3C3AAD9A6A7D83135CA20A /* Pods_CoffeeShop.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,7 +118,6 @@
 		0C8E234E1AE7D894007E6091 /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
 		0C99538D1C785B36009BD886 /* CSHVenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSHVenueTableViewCell.swift; sourceTree = "<group>"; };
 		0C99538F1C78AB54009BD886 /* ShopsListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopsListDataController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSFadeable.swift; sourceTree = "<group>"; };
 		0CAC127A1AFA3D64004FB007 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
 		0CAC127B1AFA3D64004FB007 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
 		0CAC127C1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewSegmentedBar.h; sourceTree = "<group>"; };
@@ -136,10 +133,9 @@
 		0CE721E71CDF3C4300B88CE8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/Alamofire.framework"; sourceTree = "<group>"; };
 		0CE721E81CDF3C4300B88CE8 /* AlamofireObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/AlamofireObjectMapper.framework"; sourceTree = "<group>"; };
 		0CE721E91CDF3C4300B88CE8 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoffeeShop-bkcgyvnjhjccvcaqclivibeuucbg/Build/Products/Debug-iphonesimulator/ObjectMapper.framework"; sourceTree = "<group>"; };
-		545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		63E88D277713E7DC29D88466 /* Pods-CoffeeShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.debug.xcconfig"; sourceTree = "<group>"; };
-		9E963059EE8A4A2295E5B554 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD495A0AF5DFE75C8794D5FE /* Pods-CoffeeShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.release.xcconfig"; sourceTree = "<group>"; };
+		6B3C3AAD9A6A7D83135CA20A /* Pods_CoffeeShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F67A847988CDDACE4566AF0 /* Pods-CoffeeShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.release.xcconfig"; sourceTree = "<group>"; };
+		CE62BBF52716FB7C319460D8 /* Pods-CoffeeShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeShop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,8 +158,7 @@
 				0C236B34172D8A190010D749 /* UIKit.framework in Frameworks */,
 				0C236B36172D8A190010D749 /* Foundation.framework in Frameworks */,
 				0C236B38172D8A190010D749 /* CoreGraphics.framework in Frameworks */,
-				3A6BCA8FD79D4A39B5CE0955 /* libPods.a in Frameworks */,
-				014FBF0A7FCF5073B3AE5B6D /* Pods_CoffeeShop.framework in Frameworks */,
+				89DDC2A976389492C7884A2D /* Pods_CoffeeShop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +171,7 @@
 				0C236B39172D8A190010D749 /* CoffeeShop */,
 				0C236B32172D8A190010D749 /* Frameworks */,
 				0C236B31172D8A190010D749 /* Products */,
-				B248F72F988496E6B94DAB3E /* Pods */,
+				C29AA6832BAAB0A8AFBF8336 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,8 +201,7 @@
 				0C236B33172D8A190010D749 /* UIKit.framework */,
 				0C236B35172D8A190010D749 /* Foundation.framework */,
 				0C236B37172D8A190010D749 /* CoreGraphics.framework */,
-				9E963059EE8A4A2295E5B554 /* libPods.a */,
-				545135B69F8C75B64C0CDBF2 /* Pods_CoffeeShop.framework */,
+				6B3C3AAD9A6A7D83135CA20A /* Pods_CoffeeShop.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,7 +229,6 @@
 				0C64DD0B1C76F6F600CFCEE6 /* CSTableViewAnimation.swift */,
 				0CDF267D1C7CA6070074497F /* CSPulsatingButton.swift */,
 				0CDF267F1C7CA6ED0074497F /* CSPulsatingButton.xib */,
-				0C9B2B6C1C7EEDE00028ED71 /* CSFadeable.swift */,
 				0CE363171D5635FD000A5FF7 /* CSHConfiguration.swift */,
 				0C7DBA081CCD5D7800963A35 /* CSHFoursquareClient.swift */,
 				0C489AC11DBAD355007E3C5D /* CSHExpandableTableViewCell.swift */,
@@ -309,11 +302,11 @@
 			name = ProgressView;
 			sourceTree = "<group>";
 		};
-		B248F72F988496E6B94DAB3E /* Pods */ = {
+		C29AA6832BAAB0A8AFBF8336 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				63E88D277713E7DC29D88466 /* Pods-CoffeeShop.debug.xcconfig */,
-				FD495A0AF5DFE75C8794D5FE /* Pods-CoffeeShop.release.xcconfig */,
+				CE62BBF52716FB7C319460D8 /* Pods-CoffeeShop.debug.xcconfig */,
+				9F67A847988CDDACE4566AF0 /* Pods-CoffeeShop.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -325,12 +318,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C236B56172D8A190010D749 /* Build configuration list for PBXNativeTarget "CoffeeShop" */;
 			buildPhases = (
-				212A17CDFAD441D890A07A60 /* Check Pods Manifest.lock */,
+				0264BFB398B4173AB3DE71DC /* [CP] Check Pods Manifest.lock */,
 				0C236B2C172D8A190010D749 /* Sources */,
 				0C236B2D172D8A190010D749 /* Frameworks */,
 				0C236B2E172D8A190010D749 /* Resources */,
-				A27D248B3A2E4753AADE01D2 /* Copy Pods Resources */,
-				18516E84C153880E20DF75F3 /* Embed Pods Frameworks */,
+				7928D9C54BB6EEEB0373671A /* [CP] Embed Pods Frameworks */,
+				0335FBC1013081926F6FB181 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -349,8 +342,13 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Stefan Burettea";
+				TargetAttributes = {
+					0C236B2F172D8A190010D749 = {
+						LastSwiftMigration = 0820;
+					};
+				};
 			};
 			buildConfigurationList = 0C236B2B172D8A190010D749 /* Build configuration list for PBXProject "CoffeeShop" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -389,29 +387,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		18516E84C153880E20DF75F3 /* Embed Pods Frameworks */ = {
+		0264BFB398B4173AB3DE71DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		212A17CDFAD441D890A07A60 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,19 +402,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		A27D248B3A2E4753AADE01D2 /* Copy Pods Resources */ = {
+		0335FBC1013081926F6FB181 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7928D9C54BB6EEEB0373671A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoffeeShop/Pods-CoffeeShop-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -467,7 +465,6 @@
 				0CC3DE061C9B0D02009D5473 /* M13ProgressViewSegmentedBar+CSAdditions.swift in Sources */,
 				0C489AC21DBAD355007E3C5D /* CSHExpandableTableViewCell.swift in Sources */,
 				0CAC127F1AFA3D64004FB007 /* M13ProgressViewSegmentedBar.m in Sources */,
-				0C9B2B6D1C7EEDE00028ED71 /* CSFadeable.swift in Sources */,
 				0CC3DE081C9B0FB5009D5473 /* UIRefreshControl+CSAdditions.swift in Sources */,
 				0C515EA01AEA8D6800C96E71 /* ShopsMapViewController.swift in Sources */,
 				0CDF267E1C7CA6070074497F /* CSPulsatingButton.swift in Sources */,
@@ -507,24 +504,34 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -540,35 +547,45 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "192ede6b-fea4-4a2e-b35a-07ea3c45bca3";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		0C236B57172D8A190010D749 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63E88D277713E7DC29D88466 /* Pods-CoffeeShop.debug.xcconfig */;
+			baseConfigurationReference = CE62BBF52716FB7C319460D8 /* Pods-CoffeeShop.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: EVERYLIFE TECHNOLOGIES LTD";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Swisscom IT Services AG";
 				DEFINES_MODULE = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoffeeShop/CoffeeShop-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"";
@@ -579,9 +596,13 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stefanburettea.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "eddd1808-8314-4958-b46a-33eeb24b44df";
+				PROVISIONING_PROFILE_SPECIFIER = eVojaClientisDistributionCertificate;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoffeeShop/CoffeeShop-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -589,12 +610,13 @@
 		};
 		0C236B58172D8A190010D749 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD495A0AF5DFE75C8794D5FE /* Pods-CoffeeShop.release.xcconfig */;
+			baseConfigurationReference = 9F67A847988CDDACE4566AF0 /* Pods-CoffeeShop.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Swisscom IT Services AG";
 				DEFINES_MODULE = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoffeeShop/CoffeeShop-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"";
@@ -605,8 +627,12 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stefanburettea.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "eddd1808-8314-4958-b46a-33eeb24b44df";
+				PROVISIONING_PROFILE_SPECIFIER = eVojaClientisDistributionCertificate;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoffeeShop/CoffeeShop-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

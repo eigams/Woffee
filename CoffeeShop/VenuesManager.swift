@@ -17,9 +17,9 @@ extension Array where Element: Hashable {
 
 protocol VenuesManagerDelegate {
     
-    func didFindWirelessVenue(venue: CSHVenue?)
-    func didFindPhotoForWirelessVenue(venue: CSHVenue)
-    func didFailToFindVenueWithError(error: NSError!)
+    func didFindWirelessVenue(_ venue: CSHVenue?)
+    func didFindPhotoForWirelessVenue(_ venue: CSHVenue)
+    func didFailToFindVenueWithError(_ error: NSError!)
     func didStartLookingForVenues()
     func didFinishLookingForVenues()
 }
@@ -33,18 +33,20 @@ protocol VenuesManagerDelegate {
 
 class VenuesManager: NSObject {
 
-    private let queue: dispatch_queue_t = dispatch_queue_create("com.coffeshop.cachevenues", DISPATCH_QUEUE_CONCURRENT)
-    private var venues = [CSHVenue]()
-    private var defaultWifiEnabledVenues = [CSHVenue]()
+    fileprivate let queue: DispatchQueue = DispatchQueue(label: "com.coffeshop.cachevenues", attributes: DispatchQueue.Attributes.concurrent)
+    fileprivate var venues = [CSHVenue]()
+    fileprivate var defaultWifiEnabledVenues = [CSHVenue]()
     
-    private let location: CLLocation!
-    private lazy var downloadGroup: dispatch_group_t = {
-        return dispatch_group_create()
+    fileprivate let location: CLLocation!
+    fileprivate lazy var downloadGroup: DispatchGroup = {
+        return DispatchGroup()
     }()
+    
+    fileprivate let standardLookupRadius = "2500"
     
     var delegate: VenuesManagerDelegate?
     
-    private let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
+    fileprivate let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
     
     override init() {
         self.location = CLLocation()
@@ -58,48 +60,48 @@ class VenuesManager: NSObject {
         super.init()
     }
     
-    private func lookForDefaultWirelessEnabledVenues() {
+    fileprivate func lookForDefaultWirelessEnabledVenues() {
         let defaultWifiEnabledVenueNames = ["starbucks", "pizza express", "harris + hoole"]
         
-        let defaultEnabledWirelessVenuesDownloadGroup = dispatch_group_create()
-        dispatch_group_enter(downloadGroup)
+        let defaultEnabledWirelessVenuesDownloadGroup = DispatchGroup()
+        downloadGroup.enter()
         
-        CSHFoursquareClient.sharedInstance.venuesAtLocation(location, queries: defaultWifiEnabledVenueNames, radius: "2500") { venues, error in
-            defer { dispatch_group_leave(self.downloadGroup) }
+        CSHFoursquareClient.sharedInstance.venues(location: location, queries: defaultWifiEnabledVenueNames, radius: standardLookupRadius) { venues, error in
+            defer { self.downloadGroup.leave() }
             
             if let venues = venues {
                 venues.forEach { self.delegate?.didFindWirelessVenue($0) }
                 
-                dispatch_barrier_async(self.queue, {
-                    self.defaultWifiEnabledVenues.appendContentsOf(venues)
+                self.queue.async(flags: .barrier, execute: {
+                    self.defaultWifiEnabledVenues.append(contentsOf: venues)
                 })
             }
         }
     }
 
-    private func lookForCoffeeVenues() {
-        dispatch_group_enter(downloadGroup)
+    fileprivate func lookForCoffeeVenues() {
+        downloadGroup.enter()
         
-        CSHFoursquareClient.sharedInstance.coffeeVenuesAtLocation(location, radius: "2500") { (venues, error) in
-            defer { dispatch_group_leave(self.downloadGroup) }
+        CSHFoursquareClient.sharedInstance.coffeeVenuesAtLocation(location, radius: standardLookupRadius) { (venues, error) in
+            defer { self.downloadGroup.leave() }
             
-            if let venues = venues where venues.count > 0 {
-                dispatch_barrier_async(self.queue, {
-                    self.venues.appendContentsOf(venues)
+            if let venues = venues, venues.count > 0 {
+                self.queue.async(flags: .barrier, execute: {
+                    self.venues.append(contentsOf: venues)
                 })
             }
         }
     }
     
-    private func lookForFoodVenues() {
-        dispatch_group_enter(self.downloadGroup)
+    fileprivate func lookForFoodVenues() {
+        downloadGroup.enter()
         
-        CSHFoursquareClient.sharedInstance.foodVenuesAtLocation(location, radius: "2500") { (venues, error) in
-            defer { dispatch_group_leave(self.downloadGroup) }
+        CSHFoursquareClient.sharedInstance.foodVenuesAtLocation(location, radius: standardLookupRadius) { (venues, error) in
+            defer { self.downloadGroup.leave() }
             
-            if let venues = venues where venues.count > 0 {
-                dispatch_barrier_async(self.queue, {
-                    self.venues.appendContentsOf(venues)
+            if let venues = venues, venues.count > 0 {
+                self.queue.async(flags: .barrier, execute: {
+                    self.venues.append(contentsOf: venues)
                 })
             }
         }
@@ -112,38 +114,36 @@ class VenuesManager: NSObject {
         lookForFoodVenues()
         lookForCoffeeVenues()
         
-        dispatch_group_notify(self.downloadGroup, dispatch_get_main_queue()) {
+        self.downloadGroup.notify(queue: DispatchQueue.main) {
             self.lookForWifiEnabledVenues()
         }
     }
     
-    private func lookForWifiEnabledVenues() {
+    fileprivate func lookForWifiEnabledVenues() {
         venues = venues.removeDuplicates()
         let venueIdentifiers = venues.map{ $0.identifier as String }
         
         var sink = [CSHVenue]()
         
-        let wifiTipsGroup = dispatch_group_create()
+        let wifiTipsGroup = DispatchGroup()
         venueIdentifiers.forEach {
-            dispatch_group_enter(wifiTipsGroup)
+            wifiTipsGroup.enter()
             
-            CSHFoursquareClient.sharedInstance.venueTipsWithIdentifier($0) { [weak self] tips, error in
-                defer { dispatch_group_leave(wifiTipsGroup) }
+            CSHFoursquareClient.sharedInstance.venueTips(identifier: $0) { [weak self] tips, error in
+                defer { wifiTipsGroup.leave() }
                 
                 guard error == nil, let tips = tips else { return }
                 
-                guard let _ = tips.values.first?.indexOf ({ $0.isWIFI() }),
+                guard let _ = tips.values.first?.index (where: { $0.isWIFI() }),
                       let wifiIdentifier = tips.keys.first else { return }
                 
-                guard let wifiEnabledVenue = self?.venues.indexOf( { $0.identifier == wifiIdentifier} ).flatMap({ self?.venues[$0] }) else { return }
+                guard let wifiEnabledVenue = self?.venues.index(where: { $0.identifier == wifiIdentifier} ).flatMap({ self?.venues[$0] }) else { return }
                 sink.append(wifiEnabledVenue)
                 self?.delegate?.didFindWirelessVenue(wifiEnabledVenue)
-                
-                print("wifiIdentifier: \(wifiIdentifier)")
             }
         }
         
-        dispatch_group_notify(wifiTipsGroup, dispatch_get_main_queue(), {
+        wifiTipsGroup.notify(queue: DispatchQueue.main, execute: {
             self.venues = (sink + self.defaultWifiEnabledVenues).removeDuplicates()
             
             self.delegate?.didFinishLookingForVenues()
@@ -152,18 +152,16 @@ class VenuesManager: NSObject {
         })
     }
     
-    private func lookForVenuesPhoto() {
+    fileprivate func lookForVenuesPhoto() {
         venues.map{ $0.identifier }.forEach {
-            CSHFoursquareClient.sharedInstance.venuePhotosWithIdentifier($0) { result, error in
-                
+            CSHFoursquareClient.sharedInstance.venuePhotos(identifier: $0) { result, error in
                 guard let identifier = result?.keys.first else { return }
-                guard let photos = result?.values.first where photos.count > 0,
+                guard let photos = result?.values.first, photos.count > 0,
                       let mostRecentPhoto = photos.first else {
                         print("No photo for: \(identifier)\n")
                         return
                 }
                 
-                print("\(identifier) <-> \(mostRecentPhoto.url)\n")
                 self.venues.updatePhotoURL(identifier, photoURL: mostRecentPhoto.url)
                 if let venue = self.venues.venueForIdentifier(identifier) {
                     self.delegate?.didFindPhotoForWirelessVenue(venue)

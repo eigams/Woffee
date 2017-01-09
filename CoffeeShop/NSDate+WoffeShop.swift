@@ -8,14 +8,14 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
     
-    private var dateFormatter: NSDateFormatter {
+    fileprivate var dateFormatter: DateFormatter {
         
         struct Static {
-            static let instance: NSDateFormatter = {
-                let formatter = NSDateFormatter()
-                formatter.timeZone = NSTimeZone.systemTimeZone()
+            static let instance: DateFormatter = {
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone.current
                 
                 return formatter
                 }()
@@ -24,11 +24,11 @@ extension NSDate {
         return Static.instance
     }
     
-    func stringWithDateFormat(dateFormat: String) -> String {
+    func stringWithDateFormat(_ dateFormat: String) -> String {
         
         self.dateFormatter.dateFormat = dateFormat
         
-        return self.dateFormatter.stringFromDate(self)
+        return self.dateFormatter.string(from: self)
     }
     
 }

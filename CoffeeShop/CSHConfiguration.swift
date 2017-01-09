@@ -10,34 +10,36 @@ import Foundation
 
 struct CSHConfiguration {
     static let sharedInstance = CSHConfiguration()
-    private var keys: [String:AnyObject]?
-    private var foursquareAPIKey: String? = {
-        return keys?["FoursquareAPI"]
+    fileprivate var keys: [String:Any] = [:]
+    fileprivate var foursquareAPIKey: [String:String]? {
+        get {
+            return self.keys["FoursquareAPI"] as? [String:String]
+        }
     }
     
-    private init() {
-        if let keysPath = NSBundle.mainBundle().pathForResource("configuration", ofType: "plist") {
-            keys = NSDictionary(contentsOfFile: keysPath) as? [String: AnyObject]
+    fileprivate init() {
+        if let keysPath = Bundle.main.path(forResource: "configuration", ofType: "plist") {
+            keys = (NSDictionary(contentsOfFile: keysPath) as? [String: AnyObject])!
         }
     }
     
     var foursquareClientID: String {
-        return foursquareAPIKey.map { return $0["ClientID"] as? String } ?? ""
+        return foursquareAPIKey?["ClientID"] ?? ""
     }
     
     var foursquareClientSecret: String {
-        return foursquareAPIKey.map { return $0["ClientSecret"] as? String } ?? ""
+        return foursquareAPIKey?["ClientSecret"] ?? ""
     }
     
     var foursquareProtocol: String {
-        return foursquareAPIKey.map { return $0["Protocol"] as? String } ?? ""
+        return foursquareAPIKey?["Protocol"] ?? ""
     }
 
     var foursquareHost: String {
-        return foursquareAPIKey.map { return $0["Host"] as? String } ?? ""
+        return foursquareAPIKey?["Host"] ?? ""
     }
 
     var foursquarePath: String {
-        return foursquareAPIKey.map { return $0["Path"] as? String } ?? ""
+        return foursquareAPIKey?["Path"] ?? ""
     }
 }

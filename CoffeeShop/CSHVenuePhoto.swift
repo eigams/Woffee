@@ -13,7 +13,7 @@ struct CSHVenuePhotoSource: Mappable {
     var name: String!
     var url: String!
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     
@@ -46,7 +46,7 @@ struct CSHVenuePhoto: Mappable {
         }
     }
     
-    init?(_ map: Map){
+    init?(map: Map){
         
     }
     

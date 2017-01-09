@@ -14,7 +14,7 @@ struct CSHGroup: Mappable {
     var name: String?
     var items: [AnyObject]?
     
-    init?(_ map: Map) {
+    init?(map: Map) {
 
     }
     

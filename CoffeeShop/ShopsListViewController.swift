@@ -11,11 +11,11 @@ import MapKit
 
 class ShopsListViewController: UIViewController, UITableViewDelegate {
 
-    private var locationManager: CSLocationManager!
+    fileprivate var locationManager: CSLocationManager!
 
-    private var venues: NSMutableOrderedSet?
-    private var venuesImage: [String: NSData]!
-    private var location: CLLocation?
+    fileprivate var venues: NSMutableOrderedSet?
+    fileprivate var venuesImage: [String: Data]!
+    fileprivate var location: CLLocation?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchingMessageLabel: UILabel!
@@ -24,12 +24,12 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var topBarView: UIView!
     @IBOutlet weak var progressBar: M13ProgressViewSegmentedBar!
     @IBOutlet weak var yPosProgressBarConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var tableViewAnimation: CSTableViewAnimation!
-    @IBOutlet private weak var dataController: ShopsListDataController!
+    @IBOutlet fileprivate weak var tableViewAnimation: CSTableViewAnimation!
+    @IBOutlet fileprivate weak var dataController: ShopsListDataController!
     
     var tableViewController: UITableViewController!
     var refreshControl: UIRefreshControl = UIRefreshControl()
-    var selectedCellIndexPath: NSIndexPath?
+    var selectedCellIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,18 +43,18 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         searchNearByWirelessEnabledVenues()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let shopsMapViewController = segue.destinationViewController as? ShopsMapViewController where segue.identifier == "PushSegue" else { return }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let shopsMapViewController = segue.destination as? ShopsMapViewController, segue.identifier == "PushSegue" else { return }
 
         shopsMapViewController.annotations = self.dataController.annotations
         shopsMapViewController.location = self.location
     }
     
-    func searchNearByWirelessEnabledVenues() {
-        self.locationManager = CSLocationManager()
+    @objc private func searchNearByWirelessEnabledVenues() {
+        locationManager = CSLocationManager()
         
-        self.locationManager.start { [unowned self] (location, error) -> Void in
-            if let error = error where error.code > 0 { return }
+        locationManager.start { [unowned self] (location, error) -> Void in
+            if let error = error, error.code > 0 { return }
             guard let location = location else { return }
             
             self.location = location
@@ -65,39 +65,39 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let selected = selectedCellIndexPath where selected == indexPath {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let selected = selectedCellIndexPath, selected == indexPath {
             return 300
         }
         
         return 110
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndexPath = indexPath
         
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
 //MARK: - VenuesManager delegates
 extension ShopsListViewController: VenuesManagerDelegate {
     func didStartLookingForVenues() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        self.pulsatingButton.liftAnimationInView(self.view)
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        self.pulsatingButton.liftAnimation(view: view)
     }
     
     func didFinishLookingForVenues() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
-        let date = NSDate().stringWithDateFormat("MMM d, h:mm a")
+        let date = Date().stringWithDateFormat("MMM d, h:mm a")
         let title = "Last update: \(date)"
         
-        let attrsDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let attrsDictionary = [NSForegroundColorAttributeName: UIColor.white]
         let attributedTitle = NSAttributedString(string: title, attributes: attrsDictionary)
         
-        self.progressBar.hidden = true
-        self.pulsatingButton.dropAnimationInView(self.view) {
+        self.progressBar.isHidden = true
+        self.pulsatingButton.dropAnimation(view: view) {
             $0?.animate()
         }
 
@@ -107,31 +107,31 @@ extension ShopsListViewController: VenuesManagerDelegate {
         refreshControl.endRefreshing()
     }
     
-    func didFailToFindVenueWithError(error: NSError!) {
+    func didFailToFindVenueWithError(_ error: NSError!) {
         print("ERROR: \(error)")
     }
 
-    func didFindPhotoForWirelessVenue(venue: CSHVenue) {
+    func didFindPhotoForWirelessVenue(_ venue: CSHVenue) {
         dataController.imageForVenue(venue) { index in
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
         }
     }
 
-    func didFindWirelessVenue(venue: CSHVenue?) {
+    func didFindWirelessVenue(_ venue: CSHVenue?) {
         guard let venue = venue else { return }
         
         dataController.addVenue(venue) { index in
-            self.searchingMessageLabel.hidden = true            
+            self.searchingMessageLabel.isHidden = true            
             self.progressBar.animateInView(self.view, completion: nil)
             
-            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
         }
     }
 }
 
 //MARK: - CSPulsatingButtonDelegate
 extension ShopsListViewController: CSPulsatingButtonDelegate {
-    func didPressPulsatingButton(sender: UIButton!) {
+    func didPressPulsatingButton(_ sender: UIButton!) {
         
     }
 }
