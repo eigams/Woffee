@@ -84,7 +84,7 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CSHVenueTableViewCell.reusableIdentifier(), for: indexPath) as? CSHVenueTableViewCell else { return UITableViewCell() }
         
-        cell.configure(venue: venues[indexPath.row], image: venueImage(indexPath: indexPath))
+        cell.model = CSHVenueCellViewModel(venue: venues[indexPath.row], image: venueImage(indexPath: indexPath))
         
         return cell
     }

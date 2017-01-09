@@ -9,7 +9,7 @@
 import UIKit
 
 @objc (CSHVenueTableViewCell)
-class CSHVenueTableViewCell: UITableViewCell {
+final class CSHVenueTableViewCell: UITableViewCell {
     
     @IBOutlet fileprivate weak var nameLabel: UILabel!
     @IBOutlet fileprivate weak var distanceLabel: UILabel!
@@ -24,8 +24,14 @@ class CSHVenueTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configure(venue: CSHVenue, image: UIImage?) {
-        let cellViewModel = CSHVenueCellViewModel(venue: venue, image: image)
+    var model: CSHVenueCellViewModel? {
+        didSet {
+            configure(model: model)
+        }
+    }
+    
+    func configure(model: CSHVenueCellViewModel?) {
+        guard let cellViewModel = model else { return }
         
         self.nameLabel.text = cellViewModel.name
         self.ratingLabel.text = ""

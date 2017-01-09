@@ -29,7 +29,8 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     
     var tableViewController: UITableViewController!
     var refreshControl: UIRefreshControl = UIRefreshControl()
-    var selectedCellIndexPath: IndexPath?
+    fileprivate var selectedCellIndexPath: IndexPath?
+    fileprivate var previouslySelectedCellIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,18 +66,21 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         }
     }
     
+    fileprivate let ExpandedTableViewCellSize:CGFloat = 300
+    fileprivate let NormalTableViewCellSize:CGFloat = 110
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let selected = selectedCellIndexPath, selected == indexPath {
-            return 300
+        if let selected = selectedCellIndexPath, selected == indexPath, previouslySelectedCellIndexPath != selectedCellIndexPath {
+            return ExpandedTableViewCellSize
         }
         
-        return 110
+        return NormalTableViewCellSize
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCellIndexPath = indexPath
         
         tableView.reloadRows(at: [indexPath], with: .none)
+        previouslySelectedCellIndexPath = selectedCellIndexPath != previouslySelectedCellIndexPath ? selectedCellIndexPath : nil
     }
 }
 
