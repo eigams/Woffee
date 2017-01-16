@@ -8,7 +8,8 @@
 
 import UIKit
 import MapKit
-
+import RxCocoa
+import RxSwift
 
 extension MKPointAnnotation {
     convenience init(venue: CSHVenue) {
@@ -21,7 +22,7 @@ extension MKPointAnnotation {
     }
 }
 
-@objc (ShopsListDataController)
+@objc (ShopsListDataController) 
 class ShopsListDataController: NSObject, UITableViewDataSource {
     
     fileprivate var venues = [CSHVenue]()
@@ -31,21 +32,21 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
         return venues.map { MKPointAnnotation(venue: $0) }
     }
     
-    func venueAtIndexPath(_ indexPath: IndexPath) -> CSHVenue? {
+    func venue(at indexPath: IndexPath) -> CSHVenue? {
         guard venues.count > indexPath.row else { return nil }
         
         return venues[indexPath.row]
     }
         
     func addVenue(_ venue: CSHVenue, completion: ((Int) -> Void)?) {
-        guard self.venues.venueForIdentifier(venue.identifier) == nil else { return }
+        if self.venues.contains(venue) { return }
         
         venues.append(venue)
         images[venue.identifier] = nil
         
         venues = venues.sorted{ $0.location?.distance ?? 0 < $1.location?.distance ?? 0 }
         
-        if let index = self.venues.index(where: {$0.identifier == venue.identifier}) {
+        if let index = venues.index(where: {$0.identifier == venue.identifier}) {
             completion?(index)
         }
     }
@@ -56,7 +57,7 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { [weak self] in
             guard let url = URL(string: photo),
-                      let imageData = try? Data(contentsOf: url)  else { return }
+                  let imageData = try? Data(contentsOf: url)  else { return }
             
             self?.images[venue.identifier] = imageData
             DispatchQueue.main.sync(execute: { [weak self] in
@@ -67,8 +68,8 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
         })
     }
     
-    func venueImage(indexPath: IndexPath) -> UIImage? {
-        guard let venue = venueAtIndexPath(indexPath) else { return nil }
+    func venueImage(at indexPath: IndexPath) -> UIImage? {
+        guard let venue = venue(at: indexPath) else { return nil }
         
         return UIImage(data: images[venue.identifier] ?? Data())
     }
@@ -84,7 +85,7 @@ class ShopsListDataController: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CSHVenueTableViewCell.reusableIdentifier(), for: indexPath) as? CSHVenueTableViewCell else { return UITableViewCell() }
         
-        cell.model = CSHVenueCellViewModel(venue: venues[indexPath.row], image: venueImage(indexPath: indexPath))
+        cell.model = CSHVenueCellViewModel(venue: venues[indexPath.row], image: venueImage(at: indexPath))
         
         return cell
     }

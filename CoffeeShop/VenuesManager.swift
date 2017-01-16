@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreLocation
+import RxCocoa
+import RxSwift
+
 
 extension Array where Element: Hashable {
     var unique: [Element] {
@@ -15,13 +18,12 @@ extension Array where Element: Hashable {
     }
 }
 
-protocol VenuesManagerDelegate {
-    
-    func didFindWirelessVenue(_ venue: CSHVenue?)
-    func didFindPhotoForWirelessVenue(_ venue: CSHVenue)
-    func didFailToFindVenueWithError(_ error: NSError!)
-    func didStartLookingForVenues()
-    func didFinishLookingForVenues()
+protocol CSHVenuesManagerDelegate {
+    func venuesManager(_ manager: CSHVenuesManager, didFindWirelessVenue venue: CSHVenue?)
+    func venuesManager(_ manager: CSHVenuesManager, didFindPhotoForWirelessVenue venue: CSHVenue)
+    func venuesManager(_ manager: CSHVenuesManager, didFailToFindVenueWithError error: NSError!)
+    func venuesManagerDidStartLookingForVenues(_ manager: CSHVenuesManager)
+    func venuesManagerDidFinishLookingForVenues(_ manager: CSHVenuesManager)
 }
 
 // 1. get all venues of a certain type
@@ -31,22 +33,18 @@ protocol VenuesManagerDelegate {
 // 5. call "didFindWirelessVenue" for wifi tagged venues
 // 6. get the venues public photos webpath
 
-class VenuesManager: NSObject {
-
-    fileprivate let queue: DispatchQueue = DispatchQueue(label: "com.coffeshop.cachevenues", attributes: DispatchQueue.Attributes.concurrent)
+class CSHVenuesManager: NSObject {
+    fileprivate struct Constants {
+        static let standardLookupRadius = "2500"
+        static let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
+    }
+    
     fileprivate var venues = [CSHVenue]()
-    fileprivate var defaultWifiEnabledVenues = [CSHVenue]()
-    
     fileprivate let location: CLLocation!
-    fileprivate lazy var downloadGroup: DispatchGroup = {
-        return DispatchGroup()
-    }()
     
-    fileprivate let standardLookupRadius = "2500"
+    var delegate: CSHVenuesManagerDelegate?
     
-    var delegate: VenuesManagerDelegate?
-    
-    fileprivate let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
+    fileprivate let disposeBag = DisposeBag()
     
     override init() {
         self.location = CLLocation()
@@ -60,113 +58,56 @@ class VenuesManager: NSObject {
         super.init()
     }
     
-    fileprivate func lookForDefaultWirelessEnabledVenues() {
-        let defaultWifiEnabledVenueNames = ["starbucks", "pizza express", "harris + hoole"]
-        
-        let defaultEnabledWirelessVenuesDownloadGroup = DispatchGroup()
-        downloadGroup.enter()
-        
-        CSHFoursquareClient.sharedInstance.venues(location: location, queries: defaultWifiEnabledVenueNames, radius: standardLookupRadius) { venues, error in
-            defer { self.downloadGroup.leave() }
+    var startLookingForVenues: Observable<Void> {
+        return Observable.create { observer in
+            observer.on(.next())
+            observer.on(.completed)
             
-            if let venues = venues {
-                venues.forEach { self.delegate?.didFindWirelessVenue($0) }
-                
-                self.queue.async(flags: .barrier, execute: {
-                    self.defaultWifiEnabledVenues.append(contentsOf: venues)
-                })
-            }
+            return Disposables.create()
         }
     }
+    
+    func lookForVenuesWithWIFI() -> Observable<[CSHVenue]> {
+        delegate?.venuesManagerDidStartLookingForVenues(self)
+        
+        let defaultWirelessVenues = CSHFoursquareClient.sharedInstance.venues(at: location, queries: Constants.defaultWifiEnabledVenueNames, radius: Constants.standardLookupRadius)
+        let coffeeWirelessVenues = CSHFoursquareClient.sharedInstance.coffeeVenues(at: location, radius: Constants.standardLookupRadius)
+        let foodWirelessVenues = CSHFoursquareClient.sharedInstance.foodVenues(at: location, radius: Constants.standardLookupRadius)
 
-    fileprivate func lookForCoffeeVenues() {
-        downloadGroup.enter()
-        
-        CSHFoursquareClient.sharedInstance.coffeeVenuesAtLocation(location, radius: standardLookupRadius) { (venues, error) in
-            defer { self.downloadGroup.leave() }
-            
-            if let venues = venues, venues.count > 0 {
-                self.queue.async(flags: .barrier, execute: {
-                    self.venues.append(contentsOf: venues)
-                })
-            }
-        }
-    }
-    
-    fileprivate func lookForFoodVenues() {
-        downloadGroup.enter()
-        
-        CSHFoursquareClient.sharedInstance.foodVenuesAtLocation(location, radius: standardLookupRadius) { (venues, error) in
-            defer { self.downloadGroup.leave() }
-            
-            if let venues = venues, venues.count > 0 {
-                self.queue.async(flags: .barrier, execute: {
-                    self.venues.append(contentsOf: venues)
-                })
-            }
-        }
-    }
-    
-    func lookForVenuesWithWIFI() {
-        delegate?.didStartLookingForVenues()
-        
-        lookForDefaultWirelessEnabledVenues()
-        lookForFoodVenues()
-        lookForCoffeeVenues()
-        
-        self.downloadGroup.notify(queue: DispatchQueue.main) {
-            self.lookForWifiEnabledVenues()
-        }
-    }
-    
-    fileprivate func lookForWifiEnabledVenues() {
-        venues = venues.removeDuplicates()
-        let venueIdentifiers = venues.map{ $0.identifier as String }
-        
-        var sink = [CSHVenue]()
-        
-        let wifiTipsGroup = DispatchGroup()
-        venueIdentifiers.forEach {
-            wifiTipsGroup.enter()
-            
-            CSHFoursquareClient.sharedInstance.venueTips(identifier: $0) { [weak self] tips, error in
-                defer { wifiTipsGroup.leave() }
-                
-                guard error == nil, let tips = tips else { return }
-                
-                guard let _ = tips.values.first?.index (where: { $0.isWIFI() }),
-                      let wifiIdentifier = tips.keys.first else { return }
-                
-                guard let wifiEnabledVenue = self?.venues.index(where: { $0.identifier == wifiIdentifier} ).flatMap({ self?.venues[$0] }) else { return }
-                sink.append(wifiEnabledVenue)
-                self?.delegate?.didFindWirelessVenue(wifiEnabledVenue)
-            }
-        }
-        
-        wifiTipsGroup.notify(queue: DispatchQueue.main, execute: {
-            self.venues = (sink + self.defaultWifiEnabledVenues).removeDuplicates()
-            
-            self.delegate?.didFinishLookingForVenues()
-            
-            self.lookForVenuesPhoto()
-        })
-    }
-    
-    fileprivate func lookForVenuesPhoto() {
-        venues.map{ $0.identifier }.forEach {
-            CSHFoursquareClient.sharedInstance.venuePhotos(identifier: $0) { result, error in
-                guard let identifier = result?.keys.first else { return }
-                guard let photos = result?.values.first, photos.count > 0,
-                      let mostRecentPhoto = photos.first else {
-                        print("No photo for: \(identifier)\n")
-                        return
+        let venues = Observable.combineLatest(coffeeWirelessVenues, foodWirelessVenues, resultSelector: {$0 + $1})
+        return venues
+                .observeOn(MainScheduler.instance)
+                .flatMapLatest { venues -> Observable<[CSHVenue: [CSHVenueTip]]> in
+                    return Observable
+                                .from(venues.removeDuplicates().map{ CSHFoursquareClient.sharedInstance.venueTips(for: $0) })
+                                .merge()
+                                .filter { (tip: [CSHVenue : [CSHVenueTip]]) -> Bool in
+                                    tip.values.first?.index(where: { $0.isWIFI() }) != nil
+                                }
                 }
-                
-                self.venues.updatePhotoURL(identifier, photoURL: mostRecentPhoto.url)
-                if let venue = self.venues.venueForIdentifier(identifier) {
-                    self.delegate?.didFindPhotoForWirelessVenue(venue)
+                .flatMapLatest { venueTips -> Observable<[CSHVenue]> in
+                    let venues = venueTips.flatMap({ (tip: (key: CSHVenue, value: [CSHVenueTip])) -> CSHVenue in
+                        return tip.key
+                    })
+                    
+                    return Observable.combineLatest(defaultWirelessVenues, Observable.from(venues), resultSelector: {$0 + $1})
                 }
-            }
-        }
+    }
+    
+    func lookForPhotos(of venues: [CSHVenue]) -> Observable<[CSHVenue]> {
+        let result = venues.flatMap ({
+                        CSHFoursquareClient.sharedInstance.venuePhotos(for: $0).flatMap { photo -> Observable<CSHVenue> in
+                            guard let identifier = photo.keys.first,
+                                let url = photo.values.first else { return Observable.empty() }
+                        venues.updateVenue(identifier, withPhotoURL: url)
+                        if let venue = venues.venue(for: identifier) {
+                            return Observable.just(venue)
+                        }
+                            
+                        return Observable.empty()
+                    }
+                })
+        
+        return Observable.from(result).merge().toArray()
     }
 }

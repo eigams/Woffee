@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import RxCocoa
+import RxSwift
 
 class ShopsListViewController: UIViewController, UITableViewDelegate {
 
@@ -31,17 +33,22 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     var refreshControl: UIRefreshControl = UIRefreshControl()
     fileprivate var selectedCellIndexPath: IndexPath?
     fileprivate var previouslySelectedCellIndexPath: IndexPath?
+    fileprivate var venuesManager: CSHVenuesManager!
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        locationManager = CSLocationManager()
         tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
         
         progressBar.configure()
         
         // Do any additional setup after loading the view.
-        refreshControl.setupInTableView(tableView, viewController: self, selector: #selector(self.searchNearByWirelessEnabledVenues))
-        searchNearByWirelessEnabledVenues()
+        refreshControl.setup(in: tableView, viewController: self, selector: #selector(self.setupLocationObserver))
+        setupLocationObserver()
+        setupTableViewObserver()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -51,19 +58,51 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         shopsMapViewController.location = self.location
     }
     
-    @objc private func searchNearByWirelessEnabledVenues() {
-        locationManager = CSLocationManager()
-        
-        locationManager.start { [unowned self] (location, error) -> Void in
-            if let error = error, error.code > 0 { return }
-            guard let location = location else { return }
-            
-            self.location = location
-        
-            let venuesManager = VenuesManager(location: location)
-            venuesManager.delegate = self
-            venuesManager.lookForVenuesWithWIFI()
-        }
+    fileprivate func setupTableViewObserver() {
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [unowned self] indexPath in
+                self.selectedCellIndexPath = indexPath
+                
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+                self.previouslySelectedCellIndexPath = self.selectedCellIndexPath != self.previouslySelectedCellIndexPath ? self.selectedCellIndexPath : nil
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    @objc private func setupLocationObserver() {
+        locationManager.locationDidUpdate
+            .flatMapLatest({ [unowned self] location -> Observable<[CSHVenue]> in
+                guard let location = location else { return Observable.just([]) }
+                self.location = location
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                self.pulsatingButton.liftAnimation(view: self.view)
+                
+                self.venuesManager = CSHVenuesManager(location: location)
+                return self.venuesManager.lookForVenuesWithWIFI()
+            })
+            .flatMap({ venues -> Observable<[CSHVenue]> in
+                venues.forEach { 
+                    self.dataController.addVenue($0) { [unowned self] index in
+                        self.searchingMessageLabel.isHidden = true
+                        self.progressBar.animateInView(self.view, completion: nil)
+                        
+                        self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
+                    }
+                }
+                
+                return self.venuesManager.lookForPhotos(of: venues)
+            })
+            .subscribe(onNext: { venues in
+                venues.forEach {
+                    self.dataController.imageForVenue($0) { index in
+                        self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
+                    }
+                }
+            }, onCompleted: { [unowned self] _ in
+                self.venuesManagerDidFinishLookingForVenues(self.venuesManager)
+            })
+            .addDisposableTo(disposeBag)
     }
     
     fileprivate let ExpandedTableViewCellSize:CGFloat = 300
@@ -75,23 +114,16 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         
         return NormalTableViewCellSize
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedCellIndexPath = indexPath
-        
-        tableView.reloadRows(at: [indexPath], with: .none)
-        previouslySelectedCellIndexPath = selectedCellIndexPath != previouslySelectedCellIndexPath ? selectedCellIndexPath : nil
-    }
 }
 
 //MARK: - VenuesManager delegates
-extension ShopsListViewController: VenuesManagerDelegate {
-    func didStartLookingForVenues() {
+extension ShopsListViewController: CSHVenuesManagerDelegate {
+    func venuesManagerDidStartLookingForVenues(_ manager: CSHVenuesManager) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        self.pulsatingButton.liftAnimation(view: view)
+        pulsatingButton.liftAnimation(view: view)
     }
     
-    func didFinishLookingForVenues() {
+    func venuesManagerDidFinishLookingForVenues(_ manager: CSHVenuesManager) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
         let date = Date().stringWithDateFormat("MMM d, h:mm a")
@@ -100,8 +132,8 @@ extension ShopsListViewController: VenuesManagerDelegate {
         let attrsDictionary = [NSForegroundColorAttributeName: UIColor.white]
         let attributedTitle = NSAttributedString(string: title, attributes: attrsDictionary)
         
-        self.progressBar.isHidden = true
-        self.pulsatingButton.dropAnimation(view: view) {
+        progressBar.isHidden = true
+        pulsatingButton.dropAnimation(view: view) {
             $0?.animate()
         }
 
@@ -111,17 +143,17 @@ extension ShopsListViewController: VenuesManagerDelegate {
         refreshControl.endRefreshing()
     }
     
-    func didFailToFindVenueWithError(_ error: NSError!) {
+    func venuesManager(_ manager:CSHVenuesManager, didFailToFindVenueWithError error: NSError!) {
         print("ERROR: \(error)")
     }
 
-    func didFindPhotoForWirelessVenue(_ venue: CSHVenue) {
+    func venuesManager(_ manager:CSHVenuesManager, didFindPhotoForWirelessVenue venue: CSHVenue) {
         dataController.imageForVenue(venue) { index in
             self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
         }
     }
 
-    func didFindWirelessVenue(_ venue: CSHVenue?) {
+    func venuesManager(_ manager:CSHVenuesManager, didFindWirelessVenue venue: CSHVenue?) {
         guard let venue = venue else { return }
         
         dataController.addVenue(venue) { index in

@@ -8,19 +8,37 @@
 
 import UIKit
 import CoreLocation
+import RxCocoa
+import RxSwift
 
-class CSLocationManager: NSObject, CLLocationManagerDelegate {
+
+class CSLocationManager: NSObject {
     
     typealias CompletionBlock_t = (_ location: CLLocation?, _ error: NSError?) -> Void
     
     fileprivate let locationManager: CLLocationManager
     fileprivate var completion:CompletionBlock_t?
     
-    func start(_ completion: CompletionBlock_t?) {
+    var locationDidUpdate: Observable<CLLocation?> {
+        return Observable.create { observer in
+            self.start { location, error in
+                    if let error = error, error.code > 0 {
+                        observer.on(.error(error))
+                        return
+                    }
         
+                    observer.on(.next(location))
+                    observer.on(.completed)
+                }
+    
+            return Disposables.create()
+        }
+    }
+    
+    fileprivate func start(_ completion: CompletionBlock_t?) {
         self.locationManager.delegate = self
         self.completion = completion
-        
+    
         if self.locationManager.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization)) {
             self.locationManager.requestWhenInUseAuthorization()
         }
@@ -29,7 +47,7 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func stop() {
+    fileprivate func stop() {
         self.locationManager.stopUpdatingLocation()
     }
     
@@ -44,9 +62,11 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
             self.locationManager.distanceFilter = 100.0;
         }
     }
-    
+}
+
+extension CSLocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         guard let completion = self.completion,
               let location = locations.last else { return }
         
@@ -60,7 +80,7 @@ class CSLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         guard let completion = self.completion else { return }
         
         completion(nil, error as NSError?)

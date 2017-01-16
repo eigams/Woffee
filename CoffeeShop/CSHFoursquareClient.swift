@@ -10,6 +10,8 @@ import Foundation
 import MapKit
 import Alamofire
 import AlamofireObjectMapper
+import RxCocoa
+import RxSwift
 
 
 private struct CSHFourquareRequest {
@@ -102,106 +104,88 @@ final class CSHFoursquareClient {
     
     internal required init() {}
     
-    fileprivate func sendRequestWithLocation(_ location: CLLocation, query: String, queryType: String, radius: String, completion: @escaping CSHVenuesCompletionBlock) {
-        
-        let request = CSHFourquareRequest(location: location, radius: radius, queryParameter: query)
-        let path = request.asString()
-        guard path != "" else { completion(nil, nil); return }
-        
-        Alamofire.request(path).responseObject{ (response: DataResponse<CSHFoursquareResponse>) in
-            guard let value = response.result.value,
-                  let items = value.response?.items else {
-                completion(nil, response.result.error)
-                return
-            }
-                        
-            let venues = items.flatMap{ return $0.venue }
-            completion(venues, nil)
-        }
-    }
-    
-    func venues(location: CLLocation, query: String, radius: String, completion: @escaping CSHVenuesCompletionBlock) {
-        sendRequestWithLocation(location, query: query, queryType: "query", radius: radius, completion: completion)
-    }
-    
-    func coffeeVenuesAtLocation(_ location: CLLocation, radius: String, completion: @escaping CSHVenuesCompletionBlock) {
-        sendRequestWithLocation(location, query: "coffee", queryType: "section", radius: radius, completion: completion)
-    }
-    
-    func foodVenuesAtLocation(_ location: CLLocation, radius: String, completion: @escaping CSHVenuesCompletionBlock) {
-        sendRequestWithLocation(location, query: "food", queryType: "section", radius: radius, completion: completion)
-    }
-    
-    func venues(location: CLLocation, queries: [String], radius: String, completion: @escaping CSHVenuesCompletionBlock) {
-        let downloadGroup = DispatchGroup()
-        
-        var sink:[[CSHVenue]] = []
-        
-        queries.forEach {
-            downloadGroup.enter()
+    fileprivate func venues(at location: CLLocation, query: String, queryType: String, radius: String) -> Observable<[CSHVenue]> {
+        return Observable.create { observer in
+            let request = CSHFourquareRequest(location: location, radius: radius, queryParameter: query)
+            let path = request.asString()
             
-            self.sendRequestWithLocation(location, query: $0, queryType: "query", radius: radius) { (venues, error) in
-                defer { downloadGroup.leave() }
-                
-                if let venues = venues {
-                    sink.append(venues)
+            let requestRef = Alamofire.request(path).responseObject{ (response: DataResponse<CSHFoursquareResponse>) in
+                if let value = response.result.value,
+                   let items = value.response?.items {
+                    
+                    observer.on(.next(items.flatMap{ $0.venue }))
+                    observer.on(.completed)
+                } else if let error = response.result.error {
+                    observer.onError(error)
                 }
             }
+            
+            return Disposables.create(with: { requestRef.cancel() })
         }
+    }
         
-        downloadGroup.notify(queue: DispatchQueue.main) {
-            guard sink.count > 0 else {
-                completion(nil, nil)
-                return
-            }
-            
-            let joined = sink.reduce([],{$0 + $1}).removeDuplicates()
-            
-            completion(joined, nil)
-        }
+    func coffeeVenues(at location: CLLocation, radius: String) -> Observable<[CSHVenue]> {
+        return venues(at: location, query: "coffee", queryType: "section", radius: radius)
+    }
+
+    func foodVenues(at location: CLLocation, radius: String) -> Observable<[CSHVenue]> {
+        return venues(at: location, query: "food", queryType: "section", radius: radius)
+    }
+    
+    fileprivate let disposeBag = DisposeBag()
+    func venues(at location: CLLocation, queries: [String], radius: String) -> Observable<[CSHVenue]> {
+        return Observable
+                .from(queries.map {
+                        self.venues(at: location, query: $0, queryType: "query", radius: radius)
+                })
+                .merge()
+                .reduce([CSHVenue](), accumulator: {
+                    var sink = $0
+                    sink.append(contentsOf: $1)
+                    return sink
+                })
     }
     
     typealias CSHFoursquareVenueTipsCompletion = (([String: [CSHVenueTip]]?, Error?) -> Void)
     typealias CSHFoursquareVenueTipResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenueTipResponseObject>
-    func venueTips(identifier: String, completion: @escaping CSHFoursquareVenueTipsCompletion) {
+    func venueTips(for venue: CSHVenue) -> Observable<[CSHVenue: [CSHVenueTip]]> {
+        guard let resourceRequest = CSHFourquareRequest.requestForResourceType(venue.identifier, resourceType: .tip) else { return Observable.just([:]) }
         
-        guard let resourceRequest = CSHFourquareRequest.requestForResourceType(identifier, resourceType: .tip) else {
-            completion(nil, nil)
-            return
-        }
-        
-        var result: [String: [CSHVenueTip]] = [:]
-        
-        Alamofire.request(resourceRequest).responseObject{ (response: DataResponse<CSHFoursquareVenueTipResponse>) in
-            
-            guard let value = response.result.value,
-                  let items = value.response?.tips?.items, items.count > 0 else {
-                    completion(nil, response.result.error)
-                    return
+        return Observable.create{ observer in
+            let requestRef = Alamofire.request(resourceRequest).responseObject{ (response: DataResponse<CSHFoursquareVenueTipResponse>) in
+                if let value = response.result.value,
+                   let items = value.response?.tips?.items {
+                    
+                    observer.on(.next([venue: items]))
+                    observer.on(.completed)
+                } else if let error = response.result.error {
+                    observer.onError(error)
+                }
             }
             
-            result[identifier] = items
-            completion(result, nil)
+            return Disposables.create(with: { requestRef.cancel() })
         }
     }
-
+    
     typealias CSHFoursquareVenuePhotosCompletion = (([String: [CSHVenuePhoto]]?, Error?) -> Void)
     typealias CSHFoursquareVenuePhotoResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>
-    func venuePhotos(identifier: String, completion: @escaping CSHFoursquareVenuePhotosCompletion) {
+    func venuePhotos(for venue: CSHVenue) -> Observable<[String: String]> {
+        guard let request = CSHFourquareRequest.requestForResourceType(venue.identifier, resourceType: .photo) else { return Observable.just([:]) }
         
-        guard let request = CSHFourquareRequest.requestForResourceType(identifier, resourceType: .photo) else { completion(nil, nil); return }
-        var result: [String: [CSHVenuePhoto]] = [:]
-        
-        Alamofire.request(request).responseObject{ (response: DataResponse<CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>>) in
-            
-            guard let value = response.result.value,
-                  let items = value.response?.photo?.items else {
-                    completion(nil, response.result.error)
-                    return
+        return Observable.create{ observer in
+            let requestRef = Alamofire.request(request).responseObject{ (response: DataResponse<CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>>) in
+                if let value = response.result.value,
+                    let items = value.response?.photo?.items {
+                    
+                    let photos = items.filter ({ $0.source?.name.range(of: "iOS") != nil })
+                    observer.on(.next([venue.identifier: photos.first?.url ?? ""]))
+                    observer.on(.completed)
+                } else if let error = response.result.error {
+                    observer.onError(error)
+                }
             }
             
-            result[identifier] = items.filter { $0.source?.name.range(of: "iOS") != nil }
-            completion(result, nil)
-        }
+            return Disposables.create(with: { requestRef.cancel() })
+        }        
     }
 }

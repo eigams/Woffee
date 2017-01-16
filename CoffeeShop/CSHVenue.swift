@@ -152,3 +152,17 @@ class CSHVenue: Mappable {
         price       <- map["price"]
     }
 }
+
+extension CSHVenue: Hashable {
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return identifier.characters.flatMap{Int(String($0))}.reduce(0, +)
+    }
+
+    public static func ==(_ lhs: CSHVenue, _ rhs: CSHVenue) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
