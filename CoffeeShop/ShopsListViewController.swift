@@ -13,6 +13,13 @@ import RxSwift
 
 class ShopsListViewController: UIViewController, UITableViewDelegate {
 
+    fileprivate struct Constants {
+        static let ExpandedTableViewCellSize:CGFloat = 300
+        static let NormalTableViewCellSize:CGFloat = 110
+        static let TableViewInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+        static let PushSegueIdentifier = "PushSegue"
+    }
+    
     fileprivate var locationManager: CSLocationManager!
 
     fileprivate var venues: NSMutableOrderedSet?
@@ -41,7 +48,7 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         
         locationManager = CSLocationManager()
-        tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+        tableView.contentInset = Constants.TableViewInsets
         
         progressBar.configure()
         
@@ -52,7 +59,7 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let shopsMapViewController = segue.destination as? ShopsMapViewController, segue.identifier == "PushSegue" else { return }
+        guard let shopsMapViewController = segue.destination as? ShopsMapViewController, segue.identifier == Constants.PushSegueIdentifier else { return }
 
         shopsMapViewController.annotations = self.dataController.annotations
         shopsMapViewController.location = self.location
@@ -75,55 +82,45 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
                 guard let location = location else { return Observable.just([]) }
                 self.location = location
                 
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
-                self.pulsatingButton.liftAnimation(view: self.view)
+                self.startLookingForVenues()
                 
                 self.venuesManager = CSHVenuesManager(location: location)
                 return self.venuesManager.lookForVenuesWithWIFI()
             })
             .flatMap({ venues -> Observable<[CSHVenue]> in
-                venues.forEach { 
-                    self.dataController.addVenue($0) { [unowned self] index in
-                        self.searchingMessageLabel.isHidden = true
-                        self.progressBar.animateInView(self.view, completion: nil)
-                        
-                        self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
-                    }
+                venues.forEach {
+                    self.didFindWirelessVenue($0)
                 }
                 
                 return self.venuesManager.lookForPhotos(of: venues)
             })
             .subscribe(onNext: { venues in
                 venues.forEach {
-                    self.dataController.imageForVenue($0) { index in
-                        self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
-                    }
+                    self.didFindPhotoForWirelessVenue($0)
                 }
             }, onCompleted: { [unowned self] _ in
-                self.venuesManagerDidFinishLookingForVenues(self.venuesManager)
+                self.finishLookingForVenues()
             })
             .addDisposableTo(disposeBag)
     }
     
-    fileprivate let ExpandedTableViewCellSize:CGFloat = 300
-    fileprivate let NormalTableViewCellSize:CGFloat = 110
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if let selected = selectedCellIndexPath, selected == indexPath, previouslySelectedCellIndexPath != selectedCellIndexPath {
-            return ExpandedTableViewCellSize
+            return Constants.ExpandedTableViewCellSize
         }
         
-        return NormalTableViewCellSize
+        return Constants.NormalTableViewCellSize
     }
 }
 
 //MARK: - VenuesManager delegates
-extension ShopsListViewController: CSHVenuesManagerDelegate {
-    func venuesManagerDidStartLookingForVenues(_ manager: CSHVenuesManager) {
+extension ShopsListViewController {
+    fileprivate func startLookingForVenues() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         pulsatingButton.liftAnimation(view: view)
     }
     
-    func venuesManagerDidFinishLookingForVenues(_ manager: CSHVenuesManager) {
+    fileprivate func finishLookingForVenues() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
         let date = Date().stringWithDateFormat("MMM d, h:mm a")
@@ -143,17 +140,17 @@ extension ShopsListViewController: CSHVenuesManagerDelegate {
         refreshControl.endRefreshing()
     }
     
-    func venuesManager(_ manager:CSHVenuesManager, didFailToFindVenueWithError error: NSError!) {
+    func didFailToFindVenueWithError(_ error: NSError!) {
         print("ERROR: \(error)")
     }
 
-    func venuesManager(_ manager:CSHVenuesManager, didFindPhotoForWirelessVenue venue: CSHVenue) {
+    func didFindPhotoForWirelessVenue(_ venue: CSHVenue) {
         dataController.imageForVenue(venue) { index in
             self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.fade)
         }
     }
 
-    func venuesManager(_ manager:CSHVenuesManager, didFindWirelessVenue venue: CSHVenue?) {
+    func didFindWirelessVenue(_ venue: CSHVenue?) {
         guard let venue = venue else { return }
         
         dataController.addVenue(venue) { index in
