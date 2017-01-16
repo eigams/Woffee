@@ -18,14 +18,6 @@ extension Array where Element: Hashable {
     }
 }
 
-protocol CSHVenuesManagerDelegate {
-    func venuesManager(_ manager: CSHVenuesManager, didFindWirelessVenue venue: CSHVenue?)
-    func venuesManager(_ manager: CSHVenuesManager, didFindPhotoForWirelessVenue venue: CSHVenue)
-    func venuesManager(_ manager: CSHVenuesManager, didFailToFindVenueWithError error: NSError!)
-    func venuesManagerDidStartLookingForVenues(_ manager: CSHVenuesManager)
-    func venuesManagerDidFinishLookingForVenues(_ manager: CSHVenuesManager)
-}
-
 // 1. get all venues of a certain type
 // 2. check for duplicates with the main pool of venues
 // 3. get all tips for non duplicate venues
@@ -39,10 +31,7 @@ class CSHVenuesManager: NSObject {
         static let defaultWifiEnabledVenueNames = ["starbucks", "caffe nero", "pizza express", "harris + hoole"]
     }
     
-    fileprivate var venues = [CSHVenue]()
     fileprivate let location: CLLocation!
-    
-    var delegate: CSHVenuesManagerDelegate?
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -68,7 +57,6 @@ class CSHVenuesManager: NSObject {
     }
     
     func lookForVenuesWithWIFI() -> Observable<[CSHVenue]> {
-        delegate?.venuesManagerDidStartLookingForVenues(self)
         
         let defaultWirelessVenues = CSHFoursquareClient.sharedInstance.venues(at: location, queries: Constants.defaultWifiEnabledVenueNames, radius: Constants.standardLookupRadius)
         let coffeeWirelessVenues = CSHFoursquareClient.sharedInstance.coffeeVenues(at: location, radius: Constants.standardLookupRadius)
