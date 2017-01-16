@@ -87,13 +87,13 @@ class CSHVenuesManager: NSObject {
                         CSHFoursquareClient.sharedInstance.venuePhotos(for: $0).flatMap { photo -> Observable<CSHVenue> in
                             guard let identifier = photo.keys.first,
                                 let url = photo.values.first else { return Observable.empty() }
-                        venues.updateVenue(identifier, withPhotoURL: url)
-                        if let venue = venues.venue(for: identifier) {
-                            return Observable.just(venue)
-                        }
+                                venues.updateVenue(identifier, withPhotoURL: url)
+                                if let venue = venues.venue(for: identifier) {
+                                    return Observable.just(venue)
+                                }
                             
-                        return Observable.empty()
-                    }
+                            return Observable.empty()
+                        }
                 })
         
         return Observable.from(result).merge().toArray()

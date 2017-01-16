@@ -22,8 +22,6 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     
     fileprivate var locationManager: CSLocationManager!
 
-    fileprivate var venues: NSMutableOrderedSet?
-    fileprivate var venuesImage: [String: Data]!
     fileprivate var location: CLLocation?
     
     @IBOutlet weak var tableView: UITableView!
@@ -61,8 +59,8 @@ class ShopsListViewController: UIViewController, UITableViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let shopsMapViewController = segue.destination as? ShopsMapViewController, segue.identifier == Constants.PushSegueIdentifier else { return }
 
-        shopsMapViewController.annotations = self.dataController.annotations
-        shopsMapViewController.location = self.location
+        shopsMapViewController.annotations = dataController.annotations
+        shopsMapViewController.location = location
     }
     
     fileprivate func setupTableViewObserver() {
