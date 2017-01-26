@@ -9,6 +9,11 @@
 import UIKit
 
 @IBDesignable class CSTableViewAnimation: NSObject {
+    fileprivate enum Constants {
+        static let DefaultDuration = 1.5
+        static let DefaultDelay = 0.05
+    }
+    
     @IBOutlet weak var owner: UITableView!
     
     @IBInspectable var duration: TimeInterval
@@ -17,8 +22,8 @@ import UIKit
     @IBInspectable var velocity: CGFloat
 
     override required init() {
-        self.duration = 1.5
-        self.delay = 0.05
+        self.duration = Constants.DefaultDuration
+        self.delay = Constants.DefaultDelay
         self.dampingRatio = 0.0
         self.velocity = 0.0
     }
@@ -31,7 +36,7 @@ import UIKit
     fileprivate func showCell(_ cell: UITableViewCell) {
         guard let row = owner.indexPath(for: cell)?.row else { return }
         
-        UIView.animate(withDuration: 1.5, delay: 0.05 * Double(row), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
+        UIView.animate(withDuration: Constants.DefaultDuration, delay: Constants.DefaultDelay * Double(row), usingSpringWithDamping: dampingRatio, initialSpringVelocity: velocity, options: [], animations: {
             cell.transform = CGAffineTransform(translationX: 0, y: 0);
             cell.alpha = 1.0
             }, completion: nil)

@@ -14,7 +14,7 @@ import RxCocoa
 import RxSwift
 
 
-private struct CSHFourquareRequest {
+private struct CSHFoursquareRequest {
     let location: CLLocation?
     let radius: String?
     let queryParameter: String?
@@ -71,7 +71,9 @@ private struct CSHFourquareRequest {
     }
     
     func asString() -> String {
-        let sink: [URLQueryItem] = location.map { _ in venues.map{ URLQueryItem(name: $0.0, value: $0.1) } } ?? venueResources.map{ URLQueryItem(name: $0.0, value: $0.1) }
+        let sink: [URLQueryItem] = location.map { _ in
+            venues.map{ URLQueryItem(name: $0.0, value: $0.1) } } ?? venueResources.map{ URLQueryItem(name: $0.0, value: $0.1)
+        }
         
         var components = URLComponents()
         components.queryItems = sink
@@ -81,20 +83,20 @@ private struct CSHFourquareRequest {
         
         return components.string ?? ""
     }
-    
-    static func requestForResourceType(_ identifier: String, resourceType: VenueResourceType) -> String? {
-        switch resourceType {
-            case .tip :
-                return CSHFourquareRequest(identifier: identifier).asString()
-            case .photo :
-                return CSHFourquareRequest(identifier: identifier, forPhotos: true).asString()
-        }
-    }
 }
 
-private enum VenueResourceType {
-    case tip
-    case photo
+private enum CSHVenueResourceType {
+    case tip(String)
+    case photo(String)
+    
+    var request: String? {
+        switch self {
+            case .tip(let identifier):
+                return CSHFoursquareRequest(identifier: identifier).asString()
+            case .photo(let identifier):
+                return CSHFoursquareRequest(identifier: identifier, forPhotos: true).asString()
+        }
+    }
 }
 
 typealias CSHVenuesCompletionBlock = ([CSHVenue]?, Error?) -> Void
@@ -106,7 +108,7 @@ final class CSHFoursquareClient {
     
     fileprivate func venues(at location: CLLocation, query: String, queryType: String, radius: String) -> Observable<[CSHVenue]> {
         return Observable.create { observer in
-            let request = CSHFourquareRequest(location: location, radius: radius, queryParameter: query)
+            let request = CSHFoursquareRequest(location: location, radius: radius, queryParameter: query)
             let path = request.asString()
             
             let requestRef = Alamofire.request(path).responseObject{ (response: DataResponse<CSHFoursquareResponse>) in
@@ -149,7 +151,7 @@ final class CSHFoursquareClient {
     typealias CSHFoursquareVenueTipsCompletion = (([String: [CSHVenueTip]]?, Error?) -> Void)
     typealias CSHFoursquareVenueTipResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenueTipResponseObject>
     func venueTips(for venue: CSHVenue) -> Observable<[CSHVenue: [CSHVenueTip]]> {
-        guard let resourceRequest = CSHFourquareRequest.requestForResourceType(venue.identifier, resourceType: .tip) else { return Observable.just([:]) }
+        guard let resourceRequest = CSHVenueResourceType.tip(venue.identifier).request else { return Observable.just([:]) }
         
         return Observable.create{ observer in
             let requestRef = Alamofire.request(resourceRequest).responseObject{ (response: DataResponse<CSHFoursquareVenueTipResponse>) in
@@ -170,15 +172,16 @@ final class CSHFoursquareClient {
     typealias CSHFoursquareVenuePhotosCompletion = (([String: [CSHVenuePhoto]]?, Error?) -> Void)
     typealias CSHFoursquareVenuePhotoResponse = CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>
     func venuePhotos(for venue: CSHVenue) -> Observable<[String: String]> {
-        guard let request = CSHFourquareRequest.requestForResourceType(venue.identifier, resourceType: .photo) else { return Observable.just([:]) }
+        guard let request = CSHVenueResourceType.photo(venue.identifier).request else { return Observable.just([:]) }
         
         return Observable.create{ observer in
             let requestRef = Alamofire.request(request).responseObject{ (response: DataResponse<CSHFoursquareVenueResourceResponse<CSHFoursquareVenuePhotoResponseObject>>) in
                 if let value = response.result.value,
                     let items = value.response?.photo?.items {
                     
-                    let photos = items.filter ({ $0.source?.name.range(of: "iOS") != nil })
-                    observer.on(.next([venue.identifier: photos.first?.url ?? ""]))
+                    if let photo = items.index (where: { $0.source?.name.range(of: "iOS") != nil }).map ({ items[$0] }) {
+                        observer.on(.next([venue.identifier: photo.url]))
+                    }
                     observer.on(.completed)
                 } else if let error = response.result.error {
                     observer.onError(error)

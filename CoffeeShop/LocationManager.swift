@@ -16,7 +16,7 @@ class CSLocationManager: NSObject {
     
     typealias CompletionBlock_t = (_ location: CLLocation?, _ error: NSError?) -> Void
     
-    fileprivate let locationManager: CLLocationManager
+    fileprivate let locationManager: CLLocationManager = CLLocationManager()
     fileprivate var completion:CompletionBlock_t?
     
     var locationDidUpdate: Observable<CLLocation?> {
@@ -36,24 +36,22 @@ class CSLocationManager: NSObject {
     }
     
     fileprivate func start(_ completion: CompletionBlock_t?) {
-        self.locationManager.delegate = self
+        locationManager.delegate = self
         self.completion = completion
     
-        if self.locationManager.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization)) {
-            self.locationManager.requestWhenInUseAuthorization()
+        if locationManager.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization)) {
+            locationManager.requestWhenInUseAuthorization()
         }
         else {
-            self.locationManager.startUpdatingLocation()
+            locationManager.startUpdatingLocation()
         }
     }
     
     fileprivate func stop() {
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
     
     override init() {
-        self.locationManager = CLLocationManager()
-        
         super.init()
         
         if CLLocationManager.locationServicesEnabled() {
@@ -67,23 +65,21 @@ class CSLocationManager: NSObject {
 extension CSLocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationManager.stopUpdatingLocation()
-        guard let completion = self.completion,
-              let location = locations.last else { return }
+        guard let location = locations.last else { return }
         
-        completion(location, nil)
+        completion?(location, nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-            self.locationManager.startUpdatingLocation()
+            locationManager.startUpdatingLocation()
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
-        guard let completion = self.completion else { return }
         
-        completion(nil, error as NSError?)
+        completion?(nil, error as NSError?)
     }
     
 }
